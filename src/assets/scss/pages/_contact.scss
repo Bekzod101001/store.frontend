@@ -1,0 +1,71 @@
+.contact {
+    &-info {
+        @include box;
+
+
+        h2 {
+            @include text-style-28(700, $black1);
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            @include text-style-24(700, $black1);
+            margin-bottom: 16px;
+        }
+
+
+
+        span {
+            @include text-style-20(500, #767676);
+            @include flex-center;
+            margin-bottom: 8px;
+
+            i {
+                color: $orange2;
+                margin-right: 6px;
+                font-size: 24px
+            }
+        }
+
+
+        a {
+            @include text-style-20(500, $black1);
+
+
+        }
+
+        iframe {
+            height: 340px;
+            width: 100%;
+            margin-top: 24px;
+        }
+
+        &-social {
+            @include flex-center;
+            margin-top: 16px;
+
+            a {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                font-size: 24px;
+                color: $orange2;
+                background-color: #F0F0F0;
+                @include flex-center-center;
+
+                @include devices(xl) {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 20px;
+
+                }
+
+                &:not(:last-child) {
+                    margin-right: 24px;
+                }
+            }
+        }
+
+    }
+
+}

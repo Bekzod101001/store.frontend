@@ -1,0 +1,65 @@
+.useful {
+    padding-bottom: 160px;
+
+    @include devices(xl) {
+        padding-bottom: 60px;
+    }
+
+    &-header {
+        margin-bottom: 24px;
+
+        h2 {
+            @include text-style-32(700, $black1);
+        }
+    }
+
+    &-body {
+        margin-bottom: 24px;
+
+        &-card {
+            padding: 16px;
+            display: block;
+            background: $white1;
+            border: 1px solid $black6;
+            border-radius: 4px;
+
+            img {
+                @include image;
+            }
+        }
+    }
+
+    &-footer {
+        @include flex-center-center;
+
+        i {
+            border: 1px solid $black6;
+            border-radius: 4px;
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+            width: 48px;
+            height: 48px;
+            font-size: 24px;
+            @include flex-center-center;
+            cursor: pointer;
+            background-color: $white1;
+            transition: all 0.3s ease-in-out;
+
+            @include devices(sm) {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+
+            &:not(:last-child) {
+                margin-right: 24px;
+            }
+
+            &:hover {
+                background-color: $orange2;
+                color: $white1;
+
+            }
+        }
+    }
+
+}

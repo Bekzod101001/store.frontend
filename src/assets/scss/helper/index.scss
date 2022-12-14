@@ -1,0 +1,54 @@
+@import 'mixin', 'variables', 'button', 'form';
+
+.dropdown-options {
+    background: #434343;
+    border-radius: 4px;
+    padding: 16px;
+
+    ul {
+        @include free-ul;
+
+        li {
+            @include flex-center;
+            @include text-style-18(400, $black1);
+            cursor: pointer;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+            }
+
+            span,
+            a {
+                @include text-style-18(500, $white1);
+                display: block;
+                padding: 12px 0;
+                padding-right: 12px;
+                cursor: pointer;
+                width: 100%;
+
+
+
+                &:hover {
+                    color: $orange2;
+                }
+            }
+
+            &:first-child {
+                span,
+                a {
+                    padding-top: 0;
+
+                }
+            }
+
+            &:last-child {
+                span,
+                a {
+                    padding-bottom: 0;
+
+                }
+            }
+
+        }
+    }
+}

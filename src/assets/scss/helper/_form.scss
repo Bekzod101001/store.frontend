@@ -1,0 +1,17 @@
+.ant-input {
+    height: 47px;
+    @include text-style-18(500, $black8);
+    @include devices(lg) {
+        height: 40px;
+    }
+    &:focus,
+    &:active,
+    &:hover {
+        border-color: $orange2;
+        box-shadow: 0 0 0 2px rgba(218, 153, 9, 0.20);
+    }
+    &::placeholder {
+    @include text-style-18(500, $black5);
+
+    }
+}

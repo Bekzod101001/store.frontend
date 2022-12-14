@@ -1,0 +1,57 @@
+.about {
+    padding-bottom: 160px;
+
+    @include devices(xl) {
+        padding-bottom: 60px;
+    }
+
+    &-wrapper {
+        background: $black6;
+        border-radius: 4px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+
+        @include devices(sm) {
+            padding: 16px
+        }
+
+        h2 {
+            @include text-style-32(700, $black1);
+            margin-bottom: 16px;
+        }
+
+        p {
+            @include text-style-20(400, $black1);
+            opacity: 0.8;
+            margin-bottom: 28px;
+
+            @include devices(sm) {
+                margin-bottom: 16px;
+            }
+
+           
+        }
+
+        button {
+            &.ant-btn {
+                background-color: $orange2;
+                padding: 10px 40px;
+                @include text-style-20(500, $white1);
+                border: none;
+            }
+        }
+
+        img {
+            height: 554px;
+            width: 554px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(50%, -50%);
+            opacity: 0.05;
+            z-index: -1;
+        }
+    }
+}

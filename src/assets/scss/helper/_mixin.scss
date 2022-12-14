@@ -1,0 +1,277 @@
+@mixin devices ($breakpoint) {
+
+  @if $breakpoint==xxl {
+    @media only screen and (max-width: 1752px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==xl {
+    @media only screen and (max-width: 1552px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==lg {
+    @media only screen and (max-width: 1199px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==md {
+    @media only screen and (max-width: 991px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==sm {
+    @media only screen and (max-width: 767px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==xs {
+    @media only screen and (max-width: 575px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==lg {
+    @media only screen and (max-width: 1199px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==md {
+    @media only screen and (max-width: 991px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==sm {
+    @media only screen and (max-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==xs {
+    @media only screen and (max-width: 575px) {
+      @content;
+    }
+  }
+}
+
+@mixin image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-center-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@mixin free-ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin splice($count) {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin text-style-14($weight, $color) {
+  font-weight: $weight;
+  font-size: 14px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+}
+
+
+@mixin text-style-16($weight, $color) {
+  font-weight: $weight;
+  font-size: 16px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+}
+
+@mixin text-style-18($weight, $color) {
+  font-weight: $weight;
+  font-size: 18px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 16px;
+    line-height: 120%;
+  }
+}
+
+@mixin text-style-20($weight, $color) {
+  font-weight: $weight;
+  font-size: 20px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 18px;
+    line-height: 120%;
+  }
+
+  @include devices(lg) {
+    font-size: 16px;
+  }
+}
+
+@mixin text-style-22($weight, $color) {
+  font-weight: $weight;
+  font-size: 22px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 20px;
+  }
+
+  @include devices(lg) {
+    font-size: 18px;
+  }
+}
+
+@mixin text-style-24($weight, $color) {
+  font-weight: $weight;
+  font-size: 24px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 20px;
+  }
+
+}
+
+@mixin text-style-28($weight, $color) {
+  font-weight: $weight;
+  font-size: 28px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(lg) {
+    font-size: 24px;
+  }
+
+  @include devices(md) {
+    font-size: 20px;
+  }
+}
+
+@mixin text-style-30($weight, $color) {
+  font-weight: $weight;
+  font-size: 30px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(lg) {
+    font-size: 26px;
+  }
+
+  @include devices(lg) {
+    font-size: 22px;
+  }
+}
+
+@mixin text-style-32($weight, $color) {
+  font-weight: $weight;
+  font-size: 32px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 28px;
+    line-height: 120%;
+  }
+
+  @include devices(lg) {
+    font-size: 24px;
+    line-height: 120%;
+  }
+
+  @include devices(md) {
+    font-size: 22px;
+  }
+
+  @include devices(xs) {
+    font-size: 20px;
+  }
+}
+
+@mixin text-style-40($weight, $color) {
+  font-weight: $weight;
+  font-size: 40px;
+  line-height: 150%;
+  color: $color;
+  margin-bottom: 0;
+
+  @include devices(xl) {
+    font-size: 32px;
+    line-height: 120%;
+  }
+
+  @include devices(lg) {
+    font-size: 28px;
+    line-height: 32px;
+  }
+  @include devices(md) {
+    font-size: 24px;
+    line-height: 30px;
+  }
+  @include devices(sm) {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+@mixin box($padding: 24px) {
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+  padding: $padding;
+  background-color: white;
+
+  @include devices(lg) {
+    padding: 16px;
+  }
+}

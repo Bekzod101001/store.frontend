@@ -1,0 +1,198 @@
+.footer {
+    background-color: $black2;
+    padding-top: 56px;
+    margin-top: auto;
+
+    @include devices(xs) {
+        padding-top: 32px;
+    }
+
+    &-logo {
+        @include devices(xs) {
+            @include flex-center-center;
+            flex-direction: column;
+        }
+
+        img {
+            height: 90px;
+            width: 90px;
+            margin-bottom: 24px;
+        }
+
+        span {
+            @include flex-center;
+            @include text-style-18(400, $white1);
+
+            i {
+                width: 32px;
+                height: 32px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 4px;
+                @include flex-center-center;
+                margin-right: 16px;
+                color: $white1;
+            }
+        }
+    }
+
+    &-menu {
+        ul {
+            @include free-ul;
+
+            li {
+                &:not(:last-child) {
+                    margin-bottom: 20px;
+                    @include devices(xs) {
+                        margin-bottom: 12px;
+                    }
+                }
+
+                a {
+                    @include text-style-20(400, $white1);
+                    opacity: 0.6;
+                    display: block;
+                    transition: all 0.3s ease-in-out;
+
+                    @include devices(xs) {
+                        width: max-content;
+                        margin: 0 auto;
+                    }
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    &-contact {
+        ul {
+            @include free-ul;
+
+            li {
+                &:not(:last-child) {
+                    margin-bottom: 20px;
+                    @include devices(xs) {
+                        margin-bottom: 12px;
+                    }
+                }
+
+                a {
+                    display: flex;
+                    align-items: center;
+
+                    @include devices(xs) {
+                        display: block;
+                        text-align: center;
+                    }
+
+                    i {
+                        color: $white1;
+                        margin-right: 8px;
+                        opacity: 0.8;
+                        transition: all 0.3s ease-in-out;
+                        font-size: 24px;
+
+                        @include devices(xs) {
+                            display: inline-block;
+                            font-size: 16px;
+                            line-height: 28px;
+                            margin-right: 2px;
+                        }
+                    }
+
+
+                    span {
+                        @include text-style-20(400, $white1);
+                        opacity: 0.6;
+                        transition: all 0.3s ease-in-out;
+
+                        @include devices(xs) {
+                            text-align: center;
+                            line-height: 18px;
+                        }
+                    }
+
+                    &:hover {
+
+                        span,
+                        i {
+                            opacity: 1;
+                        }
+
+                    }
+
+                }
+
+                &:nth-child(2) {
+                    a {
+                        .svg {
+                            svg {
+                                stroke: unset;
+                            }
+                        }
+                    }
+                }
+
+                &:last-child {
+                    display: flex;
+
+                    @include devices(xs) {
+                        justify-content: center;
+                    }
+
+                    a {
+
+
+                        width: 40px;
+                        height: 40px;
+                        background: rgba(255, 255, 255, 0.1);
+                        color: $white1;
+                        border-radius: 40px;
+                        font-size: 24px;
+                        margin-right: 0;
+                        opacity: 1;
+                        @include flex-center-center;
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover {
+                            background: $orange2;
+                        }
+
+                        &:not(:last-child) {
+                            margin-right: 24px;
+                        }
+
+
+                    }
+                }
+            }
+        }
+    }
+
+    &-bottom {
+        margin-top: 56px;
+        padding: 20px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        @include flex-center-center;
+
+        @include devices(lg) {
+            margin-top: 32px
+        }
+
+        @include devices(md) {
+            padding: 16px 0;
+            margin-top: 16px;
+        }
+
+        span {
+            @include text-style-18(400, $white1);
+            opacity: 0.4;
+
+            @include devices(sm) {
+                text-align: center;
+            }
+        }
+    }
+}

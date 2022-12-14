@@ -1,0 +1,41 @@
+.ant-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    // color: #003087;
+    padding: 12px 20px;
+    box-shadow: unset;
+    border-width: 1px;
+
+    @include devices(xl) {
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    @include devices(lg) {
+        padding: 8px 16px;
+    }
+    @include devices(xs) {
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    .svg {
+        // margin-right: 8px;
+
+        svg {
+            // stroke: $primary1;
+        }
+    }
+
+    &:focus,
+    &:hover {
+        border-color: $black1;
+        color: $black1;
+    }
+}

@@ -1,0 +1,72 @@
+.mark {
+    &-modal {
+        &-mark {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+
+            @include devices(lg) {
+                margin-bottom: 16px;
+            }
+
+            span {
+                @include text-style-20(600, $black3);
+                margin-right: 8px;
+            }
+
+        }
+
+        .ant-modal-header {
+            @include devices(lg) {
+                padding: 16px;
+            }
+        }
+
+        .ant-modal-title {
+            @include text-style-28(700, $black1);
+
+        }
+
+        .ant-modal-close-x {
+            i {
+                font-size: 24px;
+                color: $black1;
+            }
+        }
+
+        .ant-modal-body {
+            @include devices(lg) {
+                padding: 16px;
+            }
+        }
+
+        &-body {
+            .ant-form-item {
+                margin-bottom: 24px;
+
+                &-label {
+                    @include text-style-20(600, $black3);
+                    margin-bottom: 8px;
+
+                }
+
+                textarea {
+                    padding-top: 14px;
+                    min-height: 120px;
+                }
+            }
+
+            .ant-btn {
+                background: #DA9909;
+                border-radius: 4px;
+                padding: 16px 72px;
+                @include text-style-18(700, $white1);
+                line-height: 21px;
+
+                @include devices(lg) {
+                    padding: 12px 32px;
+                }
+            }
+        }
+    }
+}

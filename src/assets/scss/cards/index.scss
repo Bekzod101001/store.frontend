@@ -1,0 +1,693 @@
+@mixin increment-decrement {
+    justify-content: space-between;
+    padding: 12px;
+    @include flex-between;
+    background-color: $orange2;
+    color: white;
+    border: none;
+    padding: 12px;
+    flex: 1;
+    border-radius: 4px;
+
+    @include devices(lg) {
+        padding: 8px
+    }
+
+    span {
+        @include text-style-18(600, white);
+        line-height: 21px;
+    }
+
+    i {
+        font-size: 24px;
+        cursor: pointer;
+
+        @include devices(sm) {
+            font-size: 19px;
+        }
+    }
+}
+
+
+.pages.products-detail {
+    @include devices(sm) {
+        .swiper-slide {
+            width: 230px;
+            height: auto;
+        }
+
+
+    }
+
+    @include devices(md) {
+        .vertical.card {
+            .card {
+                &-action {
+                    flex-wrap: wrap;
+
+                    .ant-btn {
+                        width: 100%;
+                        margin: 0;
+
+                        &:first-child {
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+
+                &-info {
+                    span {
+                        flex-wrap: wrap;
+
+                        small {
+                            margin: 4px 0 0 0;
+                        }
+                    }
+
+                    h4 {
+                        display: block;
+
+                        i {
+                            display: inline-block;
+                            font-size: 16px;
+                            margin-right: 0;
+                        }
+                    }
+                }
+
+                &-image {
+                    height: 200px;
+                }
+            }
+        }
+    }
+
+}
+
+.pages.products {
+    .vertical.card {
+        .card {
+            &-action {
+                flex-wrap: wrap;
+
+                .ant-btn {
+                    width: 100%;
+                    margin: 0;
+
+                    &:first-child {
+                        margin-bottom: 8px;
+                    }
+                }
+            }
+
+            &-info {
+                span {
+                    flex-wrap: wrap;
+
+                    small {
+                        margin: 4px 0 0 0;
+                    }
+                }
+
+                h4 {
+                    display: block;
+
+                    i {
+                        display: inline-block;
+                        font-size: 16px;
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            &-image {
+                height: 200px;
+            }
+        }
+    }
+}
+
+.header {
+    .vertical.card {
+        background-color: transparent;
+        padding: 0;
+        border: none;
+
+        .card {
+            &-info {
+                margin: 0;
+
+                // span {
+                //     display: none;
+                // }
+                h3 {
+                    @include text-style-18(600, $black1);
+                    margin-bottom: 8px;
+
+
+                }
+
+                h4 {
+                    display: none;
+                }
+            }
+
+            &-image {
+                height: 250px;
+            }
+
+            &-action {
+                display: none;
+            }
+        }
+    }
+}
+
+.vertical.card {
+    padding: 16px;
+    background: $white1;
+    border: 1px solid $black6;
+    border-radius: 4px;
+    height: 100%;
+    @include flex-column;
+    position: relative;
+    cursor: pointer;
+
+    @include devices(sm) {
+        padding: 8px;
+    }
+
+    .card {
+        &-tags {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            @include flex-center;
+
+            @include devices(sm) {
+                left: 16px;
+                top: 16px;
+            }
+
+            span {
+                &:not(:last-child) {
+                    margin-right: 8px;
+
+                }
+
+                padding: 4px 6px;
+                @include text-style-16(700, $white1);
+                border-radius: 2px;
+                font-size: 14px;
+                line-height: 20px;
+
+                @include devices(xs) {
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+
+
+                // tags
+
+                &.discount {
+                    background: $gredient-orange;
+                }
+
+                &.popular {
+                    background: $gredient-blue;
+                }
+
+                &.new {
+                    background: $gredient-green;
+                }
+
+                // tags
+
+            }
+
+        }
+
+        &-image {
+            height: 300px;
+            margin-bottom: 16px;
+            border-radius: 2px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.05);
+
+            @include devices(xs) {
+                height: 150px;
+            }
+
+            img {
+                @include image;
+                object-fit: contain;
+            }
+        }
+
+        &-info {
+            margin-bottom: 16px;
+
+            h3 {
+                @include text-style-20(700, $black1);
+                margin-bottom: 8px;
+                @include splice(2);
+                min-height: 60px;
+
+                @include devices(xs) {
+                    font-size: 14px;
+                }
+            }
+
+            h4 {
+                @include text-style-16(400, $black1);
+                margin-bottom: 10px;
+                opacity: 0.6;
+                @include splice(2);
+                @include flex-center;
+
+                @include devices(xs) {
+                    font-size: 14px;
+                    line-height: 20px;
+                    display: inline-block;
+                    width: 100%;
+                }
+
+                i {
+                    margin-right: 4px;
+                    font-size: 20px;
+
+                    @include devices(xs) {
+                        display: inline-block;
+                        font-size: 14px;
+                        margin-right: 0;
+                    }
+
+                }
+
+            }
+
+            span {
+                @include text-style-20(700, $black1);
+                @include flex-center;
+
+                @include devices(xs) {
+                    font-size: 14px;
+                    display: inline-block
+                }
+
+                small {
+                    @include text-style-16(500, $red);
+                    margin-left: 12px;
+                    text-decoration: line-through;
+
+                    @include devices(xs) {
+                        display: block;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        &-action {
+            display: flex;
+            margin-top: auto;
+
+            @include devices(xs) {
+                flex-wrap: wrap;
+            }
+
+            button {
+
+
+                &.ant-btn {
+                    border: none;
+                    padding: 14px;
+
+                    @include devices(sm) {
+                        padding: 8px;
+                    }
+
+                    @include devices(xs) {
+                        width: 100%;
+                    }
+
+                    &:first-child {
+                        background-color: $black6;
+                        margin-right: 16px;
+
+                        @include devices(sm) {
+                            margin-right: 8px;
+                        }
+
+                        @include devices(xs) {
+                            margin-right: 0;
+                            margin-bottom: 8px;
+                        }
+                    }
+
+
+                    &:last-child {
+                        background-color: $orange2;
+                        color: $white1;
+                        flex: 1;
+                    }
+
+                }
+
+
+            }
+
+            &-universal {
+                @include increment-decrement;
+            }
+        }
+    }
+}
+
+.horizontal.card {
+    padding: 16px;
+    background: $white1;
+    border: 1px solid $black6;
+    border-radius: 4px;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    @include flex-center;
+
+    .card {
+        &-tags {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            @include flex-center;
+
+            span {
+                &:not(:last-child) {
+                    margin-right: 8px;
+
+                }
+
+                padding: 4px 6px;
+                @include text-style-16(700, $white1);
+                border-radius: 2px;
+
+
+                @include devices(xs) {
+                    font-size: 13px;
+                }
+
+                // tags
+
+                &.discount {
+                    background: $gredient-orange;
+                }
+
+                &.popular {
+                    background: $gredient-blue;
+                }
+
+                &.new {
+                    background: $gredient-green;
+                }
+
+                // tags
+
+            }
+
+        }
+
+        &-image {
+            max-width: 228px;
+            flex: 0 0 228px;
+            min-height: 228px;
+            border-radius: 2px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.05);
+            margin-right: 20px;
+
+            img {
+                @include image;
+                object-fit: contain;
+            }
+        }
+
+        &-info {
+            @include flex-column;
+            width: 100%;
+
+            h3 {
+                @include text-style-20(700, $black1);
+                margin-bottom: 8px;
+                @include splice(2);
+
+            }
+
+            h4 {
+                @include text-style-16(400, $black1);
+                margin-bottom: 10px;
+                opacity: 0.6;
+                @include splice(2);
+                @include flex-center;
+
+                i {
+                    margin-right: 4px;
+                    font-size: 20px
+                }
+
+            }
+
+            &>span {
+                @include text-style-20(700, $black1);
+                @include flex-center;
+
+                @include devices(md) {
+                    flex-wrap: wrap;
+
+
+                }
+
+                small {
+                    @include text-style-16(500, $red);
+                    margin-left: 12px;
+                    text-decoration: line-through;
+
+                    @include devices(md) {
+                        margin: 4px 0 0 0;
+                        width: 100%;
+                    }
+                }
+            }
+
+            &-action {
+                display: flex;
+                justify-content: flex-start;
+                margin-top: 20px;
+
+                button {
+
+
+                    &.ant-btn {
+                        border: none;
+
+                        &:first-child {
+                            background-color: $black6;
+                            margin-right: 16px;
+                            flex: 1;
+                        }
+
+                        &:last-child {
+                            background-color: $orange2;
+                            color: $white1;
+                            flex: 2;
+                        }
+                    }
+
+                }
+
+                &-universal {
+                    @include increment-decrement;
+                    flex: 2;
+                }
+            }
+        }
+    }
+}
+
+.shopping.card {
+    @include flex-center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(118, 118, 118, 0.2);
+
+    @include devices(xs) {
+        flex-wrap: wrap;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+
+    .ant-checkbox-wrapper {
+        margin-right: 16px;
+
+
+
+        @include devices(sm) {
+            margin-right: 8px;
+        }
+
+        @include devices(xs) {
+            order: 3;
+        }
+    }
+
+    .card {
+        &-image {
+            max-width: 120px;
+            flex: 0 0 120px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.05);
+            margin-right: 16px;
+            @include flex-center-center;
+
+            @include devices(lg) {
+                max-width: 80px;
+                flex: 0 0 80px;
+                height: 80px
+            }
+
+            @include devices(sm) {
+                margin-right: 8px;
+            }
+
+            @include devices(xs) {
+                margin-bottom: 8px;
+            }
+
+
+            img {
+                @include image;
+                object-fit: contain;
+            }
+        }
+
+        &-info {
+            flex: 2;
+            padding-right: 16px;
+
+            @include devices(sm) {
+                padding-right: 8px;
+                max-width: 150px
+            }
+
+            @include devices(xs) {
+                flex: unset;
+                width: calc(100% - 88px);
+                max-width: unset
+            }
+
+            h3 {
+                @include text-style-20(600, $black1);
+                margin-bottom: 10px;
+
+            }
+
+            .ant-btn {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                @include text-style-18(400, $red)
+            }
+        }
+
+        &-price {
+            flex: 1;
+            margin: 0 auto;
+            @include flex-column;
+            padding-right: 16px;
+
+
+            @include devices(sm) {
+                padding-right: 8px;
+            }
+
+            @include devices(xs) {
+                width: calc(100% - 124px);
+                flex: unset;
+                order: 4
+            }
+
+            span {
+                @include text-style-22(700, $black1);
+                bottom: 4px;
+
+                @include devices(sm) {
+                    font-size: 16px
+                }
+            }
+
+            small {
+                @include text-style-16(500, #767676);
+                @include flex-center;
+
+                @include devices(sm) {
+                    font-size: 14px;
+                }
+
+                b {
+                    @include text-style-16(600, $red);
+                    margin-left: 8px;
+
+                    @include devices(sm) {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+
+        &-action {
+            @include flex-between;
+            background: #F0F0F0;
+            border-radius: 4px;
+            padding: 12px;
+
+            @include devices(lg) {
+                padding: 8px;
+            }
+
+            @include devices(sm) {
+                order: 4;
+            }
+
+            .ant-btn {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+
+                i {
+                    font-size: 24px;
+                    color: $black1;
+
+                    @include devices(lg) {
+                        font-size: 18px;
+                    }
+                }
+            }
+
+            span {
+                margin: 0 36px;
+                width: 40px;
+                text-align: center;
+                @include text-style-18(700, $black1);
+
+                @include devices(xl) {
+                    margin: 0 16px;
+                }
+
+                @include devices(lg) {
+                    width: 32px;
+                    margin: 0 8px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,100 @@
+.shopping {
+
+    &-sidebar {
+        @include box;
+
+        .ant-btn {
+            background: #208866;
+            border-radius: 4px;
+            border: none;
+            width: 100%;
+            @include text-style-18(700, $white1);
+            line-height: 21px;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            @include free-ul;
+
+            li {
+                @include flex-center-center;
+
+                &:not(:last-child) {
+                    margin-bottom: 16px;
+                }
+
+                &>* {
+                    width: 50%;
+
+                    &:last-child {
+                        text-align: end
+                    }
+                }
+
+                b {
+                    @include text-style-24(600, $black1);
+                }
+
+                small,
+                span {
+                    @include text-style-18(600, #767676);
+                }
+
+                small {
+                    color: $orange2;
+                }
+            }
+        }
+    }
+
+
+    &-wrapper {
+        @include box;
+
+    }
+
+    &-outside {
+        .ant-row-flex {
+            &>div {
+                &:first-child {
+                    order: 1;
+
+                    @include devices(md) {
+                        order: 2;
+                    }
+                }
+
+                &:last-child {
+                    order: 2;
+
+                    @include devices(md) {
+                        order: 1;
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
+    }
+
+    &-header {
+        padding-bottom: 24px;
+        @include devices(lg) {
+            padding-bottom: 16px;
+        }
+
+        .ant-checkbox-wrapper {
+            margin: 0;
+            @include flex-center;
+            width: max-content;
+
+            span {
+                @include text-style-18(400, $black1);
+
+            }
+
+            input {
+                margin-right: 12px;
+            }
+        }
+    }
+}
