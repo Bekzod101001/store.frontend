@@ -120,7 +120,7 @@
               <li>
                 <small>Yili</small>
                 <i></i>
-                <span>2022 yil</span>
+                <span>{{ detail.year }} yil</span>
               </li>
               <li>
                 <small>Muqova</small>
@@ -407,14 +407,14 @@ export default {
     async getProduct () {
       this.loaded = false
       const {data} = await api.products.getSingle(this.$route.params.id, {
-        populate: 'images'
+        populate: ['images', 'category']
       })
       const images = strapiRetriever(data.data, 'images')
       this.detail = data.data.attributes
       this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
       console.log(this.detail)
       this.loaded = true
-    }
+    },
   },
   mounted() {
     this.getProduct()
