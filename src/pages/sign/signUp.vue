@@ -37,15 +37,6 @@
         />
       </div>
       <div class="form__row">
-        <app-input-password
-            v-model="newUser.confirmPassword"
-        >
-          <template #label>
-            Confirm Password
-          </template>
-        </app-input-password>
-      </div>
-      <div class="form__row">
         <a-checkbox
             v-model="newUser.agree"
         >
@@ -56,6 +47,7 @@
       <a-button
           block
           class="btn--bg btn--green sign__form__submit-btn"
+          :loading="isLoading"
       >
         Create account
       </a-button>
@@ -92,7 +84,19 @@ export default {
       confirmPassword: '',
       agree: false
     }
-  })
+  }),
+  methods: {
+    signUp() {
+
+      this.$store.dispatch('auth/signUp', this.newUser)
+        .then(() => {
+          this.$router.push({name: 'Home'})
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
+    }
+  }
 }
 </script>
 

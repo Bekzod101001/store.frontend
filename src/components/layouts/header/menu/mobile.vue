@@ -2,64 +2,11 @@
     <div class="menu-mobile">
         <div class="menu-mobile-wrapper">
             <div class="menu-mobile-register">
-                <h4>Ro‘yxatdan o‘ting</h4>
-                <p>Ro‘yxatdan o’tish orqali ko’proq <br> imkoniyatlardan foydalaning</p>
-                <a-button>Ro‘yxatdan o‘tish</a-button>
-            </div>
-            <div class="menu-mobile-filter">
-                <a-dropdown placement="bottomLeft">
-                    <a-button> <i class="icon-bars"></i> Barcha bo‘limlar
-                    </a-button>
-                    <div class="dropdown-options" slot="overlay">
-                        <ul>
-                            <li>
-                                <router-link to="/products">
-                                    Fiqhga oid
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Aqoid kitoblari
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Siyrat
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Sahobalar va tobeinlar
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Hadis kitoblari
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Duolar kitobi
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Ruhiy tarbiya
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Darsliklar
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/">
-                                    Barchasi
-                                </router-link>
-                            </li>
-                        </ul>
-                    </div>
-                </a-dropdown>
+                <h4>Avtorizatsiya</h4>
+                <a-row>
+                  <a-button>Ro‘yxatdan o‘tish</a-button>
+                  <a-button>Kirish</a-button>
+                </a-row>
             </div>
             <perfect-scrollbar class="menu-mobile-menu">
                 <ul>
