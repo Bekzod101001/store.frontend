@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const onRequest = (config) => {
-    // const accessToken = localStorage.getItem('accessToken')
-    // if (accessToken) config.headers.Authorization = accessToken
-    // config.headers.Accept = 'application/json'
+    const accessToken = localStorage.getItem('accessToken')
+    if (accessToken) config.headers.Authorization = accessToken
+    config.headers.Accept = 'application/json'
 
     return config
 }

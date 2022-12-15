@@ -4,18 +4,20 @@ const actions = {
   getAuthUser ({ commit }) {
     api.auth.get()
       .then((response) => {
-        commit('setUser', response.data)
+        commit('setUserInfo', response.data)
       });
   },
-  signIn ({ commit }, payload) {
-    api.auth.signIn(payload)
+  async signIn ({ commit }, payload) {
+    await api.auth.signIn(payload)
       .then((response) => {
+        localStorage.setItem('accessToken', response.data.jwt);
         commit('setUser', response.data.user)
       });
   },
-  signUp ({ commit }, payload) {
-    api.auth.signUp(payload)
+  async signUp ({ commit }, payload) {
+    await api.auth.signUp(payload)
       .then((response) => {
+        localStorage.setItem('accessToken', response.data.jwt);
         commit('setUser', response.data.user)
       });
    },
@@ -26,9 +28,9 @@ const state = () => ({
 })
 
 const mutations = {
-    setUser (state, payload) {
-      state.authUser = payload;
-    },
+  setUser (state, payload) {
+    state.authUser = payload;
+  },
 }
 
 export default {

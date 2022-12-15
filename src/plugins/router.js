@@ -59,6 +59,18 @@ const routes = [
         name: 'Sign Up',
         component: () => import('@/pages/sign/signUp.vue')
     },
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import('@/pages/account'),
+    routes: [
+      {
+        path: '/orders',
+        name: 'AccountOrders',
+        component: () => import('@/pages/account/orders.vue')
+      }
+    ]
+  },
 ]
 
 const router = new VueRouter({

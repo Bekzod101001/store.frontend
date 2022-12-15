@@ -581,10 +581,6 @@
         position: relative;
         z-index: 2;
 
-        @include devices(lg) {
-            display: none
-        }
-
         &-wrapper {
             padding: 0 8px;
             background: $black3;

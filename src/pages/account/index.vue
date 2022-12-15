@@ -8,7 +8,7 @@
       <form class="form sign__form">
         <div class="form__row">
           <app-input-email
-              v-model="credentials.identifier"
+              v-model="credentials.email"
           />
         </div>
         <div class="form__row">
@@ -16,18 +16,18 @@
               v-model="credentials.password"
           />
         </div>
-<!--        <div class="form__row">
+        <div class="form__row">
           <a-checkbox
               v-model="isRememberMeActive"
           >
             Remember me
           </a-checkbox>
           <button class="btn sign__form__forgot-btn">Forgot password?</button>
-        </div>-->
+        </div>
 
         <a-button
             block
-            class="btn--bg btn--orange sign__form__submit-btn"
+            class="btn--bg btn--green sign__form__submit-btn"
             :loading="isLoading"
             @click="signIn()"
         >
@@ -38,7 +38,7 @@
 
         <a-button
             block
-            class="btn--outlined"
+            class="btn--outlined btn--green sign__form__submit-btn"
             @click="$router.push({name: 'Sign Up'})"
         >
           Create account
@@ -57,22 +57,15 @@ export default {
   components: {AppInputPassword, AppInputEmail},
   data: () => ({
     credentials: {
-      identifier: '',
+      email: '',
       password: ''
     },
-    isLoading: false,
+
     isRememberMeActive: false
   }),
   methods: {
     signIn() {
-      this.isLoading = true;
       this.$store.dispatch('auth/signIn', this.credentials)
-        .then(() => {
-          this.$router.push({name: 'home'})
-        })
-        .finally(() => {
-          this.isLoading = false
-        })
     }
   }
 }

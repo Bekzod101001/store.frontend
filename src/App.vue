@@ -26,6 +26,7 @@ export default {
     setTimeout(() => {
       this.loadingHome = true;
     }, 0)
+    this.$store.dispatch('auth/getAuthUser');
   }
 
 }

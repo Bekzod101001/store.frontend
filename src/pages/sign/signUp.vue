@@ -6,8 +6,8 @@
     <form class="form sign__form">
       <div class="form__row">
         <app-input
-            v-model="newUser.firstName"
-            required
+          v-model="newUser.firstName"
+          required
         >
           <template #label>First Name</template>
         </app-input>
@@ -25,20 +25,21 @@
             v-model="newUser.email"
         />
       </div>
+
       <div class="form__row">
         <app-input-phone
-            v-model="newUser.phone"
-            required
+          v-model="newUser.phone"
+          required
         />
       </div>
       <div class="form__row">
         <app-input-password
-            v-model="newUser.password"
+          v-model="newUser.password"
         />
       </div>
       <div class="form__row">
         <a-checkbox
-            v-model="newUser.agree"
+          v-model="agree"
         >
           I agree with Privacy Policy
         </a-checkbox>
@@ -46,8 +47,10 @@
 
       <a-button
           block
-          class="btn--bg btn--green sign__form__submit-btn"
+          class="btn--bg sign__form__submit-btn"
+          :disabled="!agree"
           :loading="isLoading"
+          @click="signUp()"
       >
         Create account
       </a-button>
@@ -56,7 +59,7 @@
 
       <a-button
           block
-          class="btn--outlined btn--green sign__form__submit-btn"
+          class="btn--outlined"
           @click="$router.push({name: 'Sign In'})"
       >
         Sign in
@@ -75,22 +78,28 @@ export default {
   name: "signIn",
   components: {AppInputPhone, AppInput, AppInputEmail, AppInputPassword},
   data: () => ({
+    agree: false,
     newUser: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
-      agree: false
-    }
+      firstName: 'Bekobod',
+      lastName: 'Tolipjonov',
+      email: 'bekzod101001@gmail.com',
+      phone: 'blablabla',
+      password: 'blablabla'
+    },
+    isLoading: false
   }),
   methods: {
     signUp() {
-
+      this.isLoading = true;
+      this.newUser.username = this.newUser.email;
       this.$store.dispatch('auth/signUp', this.newUser)
         .then(() => {
-          this.$router.push({name: 'Home'})
+          this.$router.push({name: 'home'})
+        })
+        .catch((error) => {
+          if(error.response.data.error.message === 'Email or Username are already taken') {
+            this.$message.error('Email or Username are already taken')
+          }
         })
         .finally(() => {
           this.isLoading = false
