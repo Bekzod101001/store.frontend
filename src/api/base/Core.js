@@ -6,7 +6,11 @@ export class Core {
         this.url = url
     }
 
-    get(params) {
+    get (params) {
         return this._axios.get(this.url, {params})
+    }
+
+    getSingle (id, params) {
+        return this._axios.get(`${this.url}/${id}`, {params})
     }
 }

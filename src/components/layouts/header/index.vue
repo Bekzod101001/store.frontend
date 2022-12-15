@@ -180,10 +180,11 @@
       <div class="container">
         <div class="header-bottom-wrapper">
           <Menu
-              :list="list"
+              v-if="categories"
+              :list="categories"
               @onClickFull="onClickFull"
               :isActiveFull="isActiveFull"
-          ></Menu>
+          />
         </div>
       </div>
     </div>
@@ -203,6 +204,7 @@
 <script>
 import {mapGetters} from "vuex"
 import {sumFormatter} from "@/utils/helper";
+import api from "@/api";
 
 export default {
   components: {
@@ -213,6 +215,7 @@ export default {
   data: () => ({
     isActiveFull: false,
     isActiveMobile: false,
+    categories: []
   }),
   computed: {
     ...mapGetters("menu", ["list"]),
@@ -222,13 +225,33 @@ export default {
     onClickFull(val) {
       this.isActiveFull = val;
     },
+
     onClickMobile(val) {
       this.isActiveMobile = val;
       console.log(val)
     },
 
+    async getCategories () {
+      const {data} = await api.categories.get({
+        populate: 'categories'
+      })
+      this.categories = data.data.map(item => {
+        item = item.attributes
+        if(item.categories) {
+          item.categories = item.categories.data.map(category => {
+            category = category.attributes
+            return category
+          })
+        }
+        return item
+      })
+    },
+
     sumFormatter,
   },
+  mounted() {
+    this.getCategories()
+  }
 };
 </script>
 

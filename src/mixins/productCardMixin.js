@@ -11,13 +11,13 @@ export default {
         product: {
             amount: 0,
             type: '',
-            image: '',
-            title: '',
-            subTitle: '',
+            images: [],
+            name: '',
+            small_description: '',
             price: '',
             oldPrice: '',
             id: '',
-            discount: '',
+            discount_percent: '',
         }
     }),
     methods: {

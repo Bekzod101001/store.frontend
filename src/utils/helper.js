@@ -12,5 +12,11 @@ export function clearFormatNumber (val) {
 }
 
 export function strapiRetriever (obj, key) {
+    if(Array.isArray(obj.attributes[key].data)) {
+        return obj.attributes[key].data.map(item => {
+            item = item.attributes.url
+            return item
+        })
+    }
     return obj.attributes[key].data.attributes.url
 }
