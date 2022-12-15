@@ -46,10 +46,10 @@
             <div class="footer-contact">
               <ul>
                 <li>
-                  <a href="tel:+998951435550">
+                  <a :href="`tel:${clearFormatNumber(contacts.phone)}`">
                     <i class="icon-phone"> </i>
                     <span>
-                      +998 95 143-55-50
+                      {{ contacts.phone }}
                     </span>
                   </a>
                 </li>
@@ -89,7 +89,16 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+import {clearFormatNumber} from "@/utils/helper";
+
 export default {
+  computed: {
+    ...mapGetters('contacts', ['contacts'])
+  },
+  methods: {
+    clearFormatNumber
+  }
 };
 </script>
 

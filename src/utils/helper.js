@@ -5,6 +5,12 @@ export function sumFormatter (val) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function strapiLogoRetriever (obj) {
-    return obj.attributes.logo.data.attributes.url
+export function clearFormatNumber (val) {
+    return String(val)
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+}
+
+export function strapiRetriever (obj, key) {
+    return obj.attributes[key].data.attributes.url
 }

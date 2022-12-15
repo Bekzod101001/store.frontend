@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: 'App',
   components: {
@@ -22,7 +24,11 @@ export default {
       loadingHome: false
     }
   },
+  methods: {
+    ...mapActions('contacts', ["getContacts"])
+  },
   mounted() {
+    this.getContacts()
     setTimeout(() => {
       this.loadingHome = true;
     }, 0)
