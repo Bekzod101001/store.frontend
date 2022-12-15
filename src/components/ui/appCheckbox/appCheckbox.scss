@@ -1,0 +1,48 @@
+.app-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__input {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+
+    &:checked + .app-checkbox__label .app-checkbox__label__checker {
+      &:before{
+        opacity: 1;
+      }
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &__checker {
+      width: 18px;
+      height: 17px;
+      border: 1px solid #e1e1e1;
+      border-radius: 2px;
+      margin-right: 10px;
+
+      &:before {
+        position: absolute;
+        content: "";
+        top: 5px;
+        left: 4px;
+        height: 6px;
+        width: 10px;
+        border: 2px solid;
+        border-top: none;
+        border-right: none;
+        border-color: #191919;
+        transform: rotate(-45deg);
+        opacity: 0;
+        transition: opacity .3s;
+      }
+    }
+  }
+}

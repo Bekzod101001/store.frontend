@@ -49,6 +49,16 @@ const routes = [
         name: 'shopping',
         component: () => import('@/pages/shopping')
     },
+    {
+        path: '/sign-in',
+        name: 'Sign In',
+        component: () => import('@/pages/sign/signIn.vue')
+    },
+    {
+        path: '/sign-up',
+        name: 'Sign Up',
+        component: () => import('@/pages/sign/signUp.vue')
+    },
 ]
 
 const router = new VueRouter({

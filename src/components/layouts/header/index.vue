@@ -132,7 +132,11 @@
             </div>
           </div>
           <div class="header-middle-login">
-            <a-button>
+            <a-button
+                @click="$router.push({
+                  name: 'Sign In'
+                })"
+            >
               <i class="icon-user"></i>
               <span>Kirish</span>
             </a-button>

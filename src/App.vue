@@ -25,7 +25,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.loadingHome = true;
-    }, 3000)
+    }, 0)
   }
 
 }
