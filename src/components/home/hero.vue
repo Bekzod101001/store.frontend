@@ -51,7 +51,7 @@
           >
             <div class="hero-banner">
               <img
-                  src="@/assets/images/hero-banner.jpg"
+                  :src="featuredAd"
                   alt="banner"
               >
             </div>
@@ -90,7 +90,8 @@ export default {
         title: '',
         image: ''
       }
-    ]
+    ],
+    featuredAd: ''
   }),
   methods: {
     async getBanners () {
@@ -103,10 +104,18 @@ export default {
         item.image = process.env.VUE_APP_BASE_URL + image
         return item
       })
+    },
+
+    async getFeaturedAd () {
+      const {data} = await api.featuredAd.get({
+        populate: 'image'
+      })
+      this.featuredAd = process.env.VUE_APP_BASE_URL + strapiRetriever(data.data, 'image')
     }
   },
   mounted() {
     this.getBanners()
+    this.getFeaturedAd()
   }
 
 }
