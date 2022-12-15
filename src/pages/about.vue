@@ -18,48 +18,14 @@
                         </li>
                     </ul>
                 </div>
-                <div class="about-wrapper content">
+                <div
+                    v-if="aboutUs.data.attributes.full_text"
+                    class="about-wrapper content"
+                >
                     <h2>Biz haqimizda</h2>
-                    <p>
-                        Asaxiy uz Oʻzbekistonda amaldagi internet-doʻkonlardan birinchi ochilgani va eng yirigidir.
-                    </p>
-                    <p>
-                        Internet-doʻkon tizimida 23000 xildan ortiq mahsulotlar sotuvga qoʻyilgan. Bular orasida maishiy
-                        texnika vositalari, smartfonlar, gadjetlar, kompyuter va kompyuter jihozlari, idish-tovoqlar va
-                        boshqa mahsulotlar bor. Internet-doʻkon platformasida Oʻzbekistonda ilk marotaba onlayn muddatli
-                        toʻlov xizmati yoʻlga qoʻyilgan.
-                    </p>
-                    <p>
-                        2018-yilda kompaniya oʻzining yangi loyihasi “Asaxiy Books”ni boshlaydi va loyiha orqali
-                        Oʻzbekistonda kitobxonlik hamda kitob bozorini oʻzgartirishga erishadi. Loyiha doirasida
-                        internet
-                        orqali 5500 dan ortiq nomdagi kitoblar sotuvi yoʻlga qoʻyiladi, jahon adabiyotining bestseller
-                        asarlari tarjima qilinadi, kitoblarning elektron va audio formatda sotuvi yoʻlga qoʻyiladi.
-                    </p>
-                    <p>
-                        Loyiha bir necha marotaba hukumat tomonidan eʼtirof etiladi. Ular orasida “Tahsin” mukofoti,
-                        yozuvchi Javlon Jovliyevga berilgan “Kelajak bunyodkori” medali, loyiha asoschilariga berilgan
-                        “Mustaqillikning 30 yilligi” koʻkrak nishoni va “Shuhrat” medalini ajratib koʻrsatishimiz
-                        mumkin.
-                    </p>
-                    <p> Asaxiy bugungi kunda yuzdan ortiq xodim ishlaydigan, butun Oʻzbekistonga xizmat koʻrsatadigan
-                        yirik
-                        IT-kompaniya darajasida eʼtirof etiladi. Kompaniya har yili yuz minglab mijozlarga xizmat
-                        koʻrsatadi.</p>
-                    <ul>
-                        <li>
-                            "Asaxiy Books" MCHJ
-                        </li>
-                        <li>
-                            Ro'yxatdan o'tish raqami: 646439
-                        </li>
-                        <li>
-                            INN: 305829008
-                        </li>
-                        <li>
-                            MCHJ rahbari: Allayev Firuz Abdunasimovich
-                        </li>
-                    </ul>
+                    <vue-markdown>
+                      {{aboutUs.data.attributes.full_text}}
+                    </vue-markdown>
                 </div>
 
             </div>
@@ -68,10 +34,29 @@
 </template>
 
 <script>
+import api from "@/api";
+import VueMarkdown from "vue-markdown/src/VueMarkdown";
+
 export default {
-
-
-
+  components: {VueMarkdown},
+  data: () => ({
+    aboutUs: {
+      data: {
+        attributes: {
+          full_text: ''
+        }
+      }
+    }
+  }),
+  methods: {
+    async getAbout () {
+      const {data} = await api.about.get()
+      this.aboutUs = data
+    }
+  },
+  mounted() {
+    this.getAbout()
+  }
 }
 </script>
 

@@ -1,5 +1,10 @@
 <template>
-  <header class="header" data-aos="fade-down" data-aos-duration="300" data-aos-delay="500">
+  <header
+      class="header"
+      data-aos="fade-down"
+      data-aos-duration="300"
+      data-aos-delay="500"
+  >
     <div class="header-top">
       <div class="container">
         <div class="header-top-wrapper">
@@ -23,18 +28,30 @@
           <div class="header-top-lang">
             <a-dropdown placement="bottomRight">
               <a-button>
-                <img src="@/assets/images/uz.png" alt="flag">
+                <img
+                    src="@/assets/images/uz.png"
+                    alt="flag"
+                >
                 <span>O‘zbekcha</span>
                 <i class="icon-angle-down"></i>
               </a-button>
-              <div class="header-top-lang-options" slot="overlay">
+              <div
+                  class="header-top-lang-options"
+                  slot="overlay"
+              >
                 <ul>
                   <li>
-                    <img src="@/assets/images/en.png" alt="flag">
+                    <img
+                        src="@/assets/images/en.png"
+                        alt="flag"
+                    >
                     English
                   </li>
                   <li>
-                    <img src="@/assets/images/ru.png" alt="flag">
+                    <img
+                        src="@/assets/images/ru.png"
+                        alt="flag"
+                    >
                     Русский
                   </li>
                 </ul>
@@ -48,7 +65,10 @@
       <div class="container">
         <div class="header-middle-wrapper">
           <div class="header-middle-bars">
-            <a-button @click="onClickMobile(true)" :class="{ active: isActiveMobile }">
+            <a-button
+                @click="onClickMobile(true)"
+                :class="{ active: isActiveMobile }"
+            >
               <i>
                 <span></span>
                 <span></span>
@@ -58,14 +78,20 @@
           </div>
           <div class="header-middle-logo">
             <router-link to="/">
-              <img src="@/assets/images/logo.svg" alt="logo">
+              <img
+                  src="@/assets/images/logo.svg"
+                  alt="logo"
+              >
             </router-link>
           </div>
           <div class="header-middle-search">
             <a-dropdown placement="bottomLeft">
               <a-button class="header-middle-search-filter">Barchasi <i class="icon-angle-down"></i>
               </a-button>
-              <div class="dropdown-options" slot="overlay">
+              <div
+                  class="dropdown-options"
+                  slot="overlay"
+              >
                 <ul>
                   <li>
                     <router-link to="/products">
@@ -117,20 +143,26 @@
             </a-dropdown>
             <div class="header-middle-search-input">
               <i class="icon-search"></i>
-              <input type="text" placeholder="Mahsulotlar bo‘ylab izlash">
+              <input
+                  type="text"
+                  placeholder="Mahsulotlar bo‘ylab izlash"
+              >
             </div>
             <a-button class="header-middle-search-submit">Izlash</a-button>
           </div>
-          <div class="header-middle-shop" @click="$router.push('/shopping')">
+          <router-link
+              class="header-middle-shop"
+              :to="{name: 'shopping'}"
+          >
             <div class="header-middle-shop-count">
               <i class="icon-shop"></i>
-              <span>12</span>
+              <span>{{ totalProductsAmount }}</span>
             </div>
             <div class="header-middle-shop-info">
               <span>Savatcha</span>
-              <small>2.454.475 so‘m</small>
+              <small>{{ sumFormatter(totalSum) }} so‘m</small>
             </div>
-          </div>
+          </router-link>
           <div class="header-middle-login">
             <a-button
                 @click="$router.push({
@@ -147,18 +179,30 @@
     <div class="header-bottom">
       <div class="container">
         <div class="header-bottom-wrapper">
-          <Menu :list="list" @onClickFull="onClickFull" :isActiveFull="isActiveFull"></Menu>
+          <Menu
+              :list="list"
+              @onClickFull="onClickFull"
+              :isActiveFull="isActiveFull"
+          ></Menu>
         </div>
       </div>
     </div>
-    <FullMenu :class="{ active: isActiveFull }" :list="list"></FullMenu>
-    <MobileMenu :class="{ active: isActiveMobile }" :list="list" :onClickMobile="onClickMobile"></MobileMenu>
+    <FullMenu
+        :class="{ active: isActiveFull }"
+        :list="list"
+    ></FullMenu>
+    <MobileMenu
+        :class="{ active: isActiveMobile }"
+        :list="list"
+        :onClickMobile="onClickMobile"
+    ></MobileMenu>
     <!-- <div class="menu-full-layer" :class="{ active: isActiveFull }"></div> -->
   </header>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import {mapGetters} from "vuex"
+import {sumFormatter} from "@/utils/helper";
 
 export default {
   components: {
@@ -166,14 +210,13 @@ export default {
     FullMenu: () => import('@/components/layouts/header/menu/full.vue'),
     MobileMenu: () => import('@/components/layouts/header/menu/mobile.vue')
   },
-  data() {
-    return {
-      isActiveFull: false,
-      isActiveMobile: false,
-    }
-  },
+  data: () => ({
+    isActiveFull: false,
+    isActiveMobile: false,
+  }),
   computed: {
-    ...mapGetters("menu", ["list"])
+    ...mapGetters("menu", ["list"]),
+    ...mapGetters("basket", ["totalSum", "totalProductsAmount"])
   },
   methods: {
     onClickFull(val) {
@@ -182,7 +225,9 @@ export default {
     onClickMobile(val) {
       this.isActiveMobile = val;
       console.log(val)
-    }
+    },
+
+    sumFormatter,
   },
 };
 </script>

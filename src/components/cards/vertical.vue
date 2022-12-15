@@ -1,55 +1,78 @@
 <template>
-    <router-link :to="`/products/${info.id}`" class="card vertical">
-        <div class="card-tags">
-            <span v-if="info.discount" :class="{ discount: info.discount }">{{ info.discount }}</span>
-            <span v-if="info.type" :class="info.type">{{ info.type == 'popular' ? 'Mashxur' : info.type == 'new' ?
-                    'Yangi' : ''
-            }}</span>
-        </div>
-        <div class="card-image">
-            <img :src="info.image" :alt="info.title">
-        </div>
-        <div class="card-info">
-            <h3>{{ info.title }}</h3>
-            <h4>
-                <i class="icon-document"></i> {{ info.subTitle }}
-            </h4>
-            <span>
-                {{ info.price }}
-                <small v-if="info.oldPrice">{{ info.oldPrice }}</small>
+  <router-link
+      :to="`/products/${product.id}`"
+      class="card vertical"
+  >
+    <div class="card-tags">
+      <span
+          v-if="product.discount"
+          :class="{ discount: product.discount }"
+      >
+        {{ product.discount }}
+      </span>
+      <span
+          v-if="product.type"
+          :class="product.type"
+      >
+        {{ computedType }}
+      </span>
+    </div>
+    <div class="card-image">
+      <img
+          :src="product.image"
+          :alt="product.title"
+      />
+    </div>
+    <div class="card-info">
+      <h3>{{ product.title }}</h3>
+      <h4>
+        <i class="icon-document"></i> {{ product.subTitle }}
+      </h4>
+      <span>
+                {{ product.price }}
+                <small v-if="product.oldPrice">{{ product.oldPrice }}</small>
             </span>
-            <!-- small chegirma uchun. -->
-        </div>
-        <div class="card-action">
-            <a-button>Xarid</a-button>
-            <a-button @click.prevent="added_count++" v-if="(added_count == 0)">Savatga qo‘shish</a-button>
-            <button class="card-action-universal" v-else><i class="icon-minus" @click.prevent="added_count--"></i>
-               <span> {{ added_count }} </span><i class="icon-plus" @click.prevent="added_count++"></i></button>
-        </div>
-    </router-link>
+      <!-- small chegirma uchun. -->
+    </div>
+    <div class="card-action">
+      <a-button>Xarid</a-button>
+      <a-button
+          v-if="(!product.amount)"
+          @click.prevent="addToBasket()"
+      >
+        Savatga qo‘shish
+      </a-button>
+      <button
+          class="card-action-universal"
+          @click.prevent
+          v-else
+      >
+        <i
+            class="icon-minus"
+            @click.prevent="changeAmount('minus')"
+        />
+
+        <span> {{ product.amount }}</span>
+
+        <i
+            class="icon-plus"
+            @click.prevent="changeAmount('plus')"
+        />
+      </button>
+    </div>
+  </router-link>
 </template>
 
 <script>
+import productCardMixin from "@/mixins/productCardMixin";
+
 export default {
-    props: {
-        info: {
-            type: Object,
-            default() {
-                return {}
-            }
-        },
-
+  mixins: [productCardMixin],
+  computed: {
+    computedType() {
+      return this.product.type == 'popular' ? 'Mashxur' : this.product.type == 'new' ? 'Yangi' : ''
     },
-    data() {
-        return {
-            added_count: 0
-        }
-    },
-    methods: {
-      
-
-    }
-
+  }
 }
 </script>
 

@@ -46,11 +46,11 @@
         </app-input-password>
       </div>
       <div class="form__row">
-        <app-checkbox
+        <a-checkbox
             v-model="newUser.agree"
         >
-          <template #label>I agree with Privacy Policy</template>
-        </app-checkbox>
+          I agree with Privacy Policy
+        </a-checkbox>
       </div>
 
       <a-button
@@ -76,13 +76,12 @@
 <script>
 import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.vue";
 import AppInputEmail from "@/components/ui/appInputEmail/appInputEmail.vue";
-import AppCheckbox from "@/components/ui/appCheckbox/appCheckbox.vue";
 import AppInput from "@/components/ui/appInput/appInput.vue";
 import AppInputPhone from "@/components/ui/appInputPhone/appInputPhone.vue";
 
 export default {
   name: "signIn",
-  components: {AppInputPhone, AppInput, AppCheckbox, AppInputEmail, AppInputPassword},
+  components: {AppInputPhone, AppInput, AppInputEmail, AppInputPassword},
   data: () => ({
     newUser: {
       firstName: '',

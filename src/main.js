@@ -16,13 +16,14 @@ import "swiper/css/swiper.min.css";
 import '@/assets/fonts/Sf-pro-display/stylesheet.css';
 import '@/assets/fonts/icomoon/style.css';
 import '@/assets/scss/index.scss';
+
 // assets
 
 // registration
 Vue.use(Antd);
 Vue.use(PerfectScrollbar)
 Vue.use(VueAwesomeSwiper);
-// registration 
+// registration
 
 
 

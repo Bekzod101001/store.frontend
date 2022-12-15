@@ -54,4 +54,8 @@
             z-index: -1;
         }
     }
+
+    &__text {
+        white-space: pre-wrap;
+    }
 }

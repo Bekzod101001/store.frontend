@@ -1,5 +1,7 @@
 .home {
   position: relative;
   z-index: 1;
-  @import "hero", "products", "about", "useful";
+  @import "hero", "products", "useful";
 }
+
+@import "about";

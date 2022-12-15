@@ -17,11 +17,11 @@
           />
         </div>
         <div class="form__row">
-          <app-checkbox
+          <a-checkbox
               v-model="isRememberMeActive"
           >
-            <template #label>Remember me</template>
-          </app-checkbox>
+            Remember me
+          </a-checkbox>
           <button class="btn sign__form__forgot-btn">Forgot password?</button>
         </div>
 
@@ -49,11 +49,10 @@
 <script>
 import AppInputEmail from "@/components/ui/appInputEmail/appInputEmail.vue";
 import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.vue";
-import AppCheckbox from "@/components/ui/appCheckbox/appCheckbox.vue";
 
 export default {
   name: "signIn",
-  components: {AppCheckbox, AppInputPassword, AppInputEmail},
+  components: {AppInputPassword, AppInputEmail},
   data: () => ({
     credentials: {
       email: '',

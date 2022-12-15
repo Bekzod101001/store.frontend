@@ -70,19 +70,18 @@
                     }
                 }
 
-                button {
-                    &.ant-btn {
-                        background-color: $orange2;
-                        padding: 10px 40px;
-                        border: none;
+                .ant-btn {
+                    width: fit-content;
+                    background-color: $orange2;
+                    padding: 10px 40px;
+                    border: none;
 
-                        @include devices(md) {
-                            padding: 8px 24px;
-                        }
+                    @include devices(md) {
+                        padding: 8px 24px;
+                    }
 
-                        span {
-                            @include text-style-20(500, $white1)
-                        }
+                    span {
+                        @include text-style-20(500, $white1)
                     }
                 }
             }

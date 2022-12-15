@@ -5,8 +5,8 @@ const state = () => ({
             image: require('@/assets/images/product1.png'),
             title: "“Hadis va Hayot” toʻliq toʻplami (34 juz, 32d jild)",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "1 200 000 so‘m",
-            oldPrice: "1 600 000 so‘m",
+            price: "1 200 000",
+            oldPrice: "1 600 000",
             discount: "-20%"
         },
         {
@@ -14,7 +14,7 @@ const state = () => ({
             image: require('@/assets/images/product2.png'),
             title: "“Ijtimoiy odoblar”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "65 000 so‘m",
+            price: "65 000",
             type: "popular",
         },
         {
@@ -22,14 +22,14 @@ const state = () => ({
             image: require('@/assets/images/product3.png'),
             title: "“Alloh rasulidagi oʻrnak” jurnali",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "6 000 so‘m",
+            price: "6 000",
         },
         {
             id: 4,
             image: require('@/assets/images/product4.png'),
             title: "“Mufassal tajvid”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "30 000 so‘m",
+            price: "30 000",
             type: "new"
         },
         {
@@ -37,7 +37,7 @@ const state = () => ({
             image: require('@/assets/images/product5.png'),
             title: "“Kitobnoma”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "48 000 so‘m",
+            price: "48 000",
 
         },
         {
@@ -45,7 +45,7 @@ const state = () => ({
             image: require('@/assets/images/product2.png'),
             title: "“Ijtimoiy odoblar”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "65 000 so‘m",
+            price: "65 000",
             type: "popular",
         },
         {
@@ -53,7 +53,7 @@ const state = () => ({
             image: require('@/assets/images/product4.png'),
             title: "“Mufassal tajvid”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "30 000 so‘m",
+            price: "30 000",
             type: "new"
         },
         {
@@ -61,7 +61,7 @@ const state = () => ({
             image: require('@/assets/images/product5.png'),
             title: "“Kitobnoma”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "48 000 so‘m",
+            price: "48 000",
 
         },
         {
@@ -69,15 +69,15 @@ const state = () => ({
             image: require('@/assets/images/product3.png'),
             title: "“Alloh rasulidagi oʻrnak” jurnali",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "6 000 so‘m",
+            price: "6 000",
         },
         {
             id: 10,
             image: require('@/assets/images/product1.png'),
             title: "“Hadis va Hayot” toʻliq toʻplami (34 juz, 32d jild)",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "1 200 000 so‘m",
-            oldPrice: "1 600 000 so‘m",
+            price: "1 200 000",
+            oldPrice: "1 600 000",
             discount: "-20%"
         },
         {
@@ -85,7 +85,7 @@ const state = () => ({
             image: require('@/assets/images/product5.png'),
             title: "“Kitobnoma”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "48 000 so‘m",
+            price: "48 000",
 
         },
         {
@@ -93,15 +93,15 @@ const state = () => ({
             image: require('@/assets/images/product3.png'),
             title: "“Alloh rasulidagi oʻrnak” jurnali",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "6 000 so‘m",
+            price: "6 000",
         },
         {
             id: 13,
             image: require('@/assets/images/product1.png'),
             title: "“Hadis va Hayot” toʻliq toʻplami (34 juz, 32d jild)",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "1 200 000 so‘m",
-            oldPrice: "1 600 000 so‘m",
+            price: "1 200 000",
+            oldPrice: "1 600 000",
             discount: "-20%"
         },
         {
@@ -109,7 +109,7 @@ const state = () => ({
             image: require('@/assets/images/product4.png'),
             title: "“Mufassal tajvid”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "30 000 so‘m",
+            price: "30 000",
             type: "new"
         },
         {
@@ -117,7 +117,7 @@ const state = () => ({
             image: require('@/assets/images/product4.png'),
             title: "“Mufassal tajvid”",
             subTitle: "“Hilol” nashriyot manbasi",
-            price: "30 000 so‘m",
+            price: "30 000",
             type: "new"
         },
     ],
@@ -125,7 +125,14 @@ const state = () => ({
     }
 });
 const getters = {
-    list(state) {
+    list(state, getters, store) {
+        const productsInBasket = store.basket.products
+        productsInBasket.map(item => {
+            const foundItem = state.list.find(i => i.id === item.id)
+            if(foundItem) {
+                foundItem.amount = item.amount
+            }
+        })
         return state.list
     },
     shortList(state) {
@@ -133,9 +140,6 @@ const getters = {
     },
     recommendList(state) {
         return state.list.slice(0, 5)
-    },
-    shoppingList(state) {
-        return state.list.slice(0, 4)
     },
     detail(state) {
         return state.detail
