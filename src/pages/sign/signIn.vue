@@ -28,6 +28,8 @@
         <a-button
             block
             class="btn--bg btn--green sign__form__submit-btn"
+            :loading="isLoading"
+            @click="signIn()"
         >
           Sign in
         </a-button>
@@ -62,7 +64,9 @@ export default {
     isRememberMeActive: false
   }),
   methods: {
-
+    signIn() {
+      this.$store.dispatch('auth/signIn', this.credentials)
+    }
   }
 }
 </script>

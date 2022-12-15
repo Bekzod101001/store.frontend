@@ -1,16 +1,6 @@
 <template>
   <div class="header-bottom-menu">
     <ul>
-      <li>
-        <a-button @click="onClickFull" :class="{active: isActiveFull}">
-          <i>
-            <span></span>
-            <span></span>
-            <span></span>
-          </i>
-          Barcha bo‘limlar
-        </a-button>
-      </li>
       <Recursive v-for="item in list" :menu="item" :key="item.id"></Recursive>
       <li>
         <router-link to="/partners">Hamkorlar</router-link>
