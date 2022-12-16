@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <LoaderHome v-if="!loadingHome" />
+    <LoaderHome v-if="!loadingHome"/>
     <template v-else>
-      <Header />
-      <router-view></router-view>
-      <Footer />
+      <Header/>
+      <router-view />
+      <Footer/>
     </template>
   </div>
 </template>
@@ -25,10 +25,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions('contacts', ["getContacts"])
+    ...mapActions('about', ['getAbout']),
+    ...mapActions('contacts', ["getContacts"]),
+    ...mapActions('products', ['getProducts']),
+    ...mapActions('socialProfiles', ['getSocialProfiles'])
   },
   mounted() {
-    this.getContacts()
+    Promise.any([
+      this.getAbout(),
+      this.getContacts(),
+      this.getProducts(),
+      this.getSocialProfiles()
+    ])
+
     setTimeout(() => {
       this.loadingHome = true;
     }, 0)

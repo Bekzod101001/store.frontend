@@ -1,6 +1,7 @@
 <template>
   <app-input
       v-model="computedModelValue"
+      type="password"
       required
   >
     <template #label>

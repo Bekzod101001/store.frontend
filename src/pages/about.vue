@@ -19,12 +19,12 @@
                     </ul>
                 </div>
                 <div
-                    v-if="aboutUs.data.attributes.full_text"
+                    v-if="about.full_text"
                     class="about-wrapper content"
                 >
                     <h2>Biz haqimizda</h2>
                     <vue-markdown>
-                      {{aboutUs.data.attributes.full_text}}
+                      {{about.full_text}}
                     </vue-markdown>
                 </div>
 
@@ -34,28 +34,13 @@
 </template>
 
 <script>
-import api from "@/api";
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
+import {mapGetters} from "vuex";
 
 export default {
   components: {VueMarkdown},
-  data: () => ({
-    aboutUs: {
-      data: {
-        attributes: {
-          full_text: ''
-        }
-      }
-    }
-  }),
-  methods: {
-    async getAbout () {
-      const {data} = await api.about.get()
-      this.aboutUs = data
-    }
-  },
-  mounted() {
-    this.getAbout()
+  computed: {
+    ...mapGetters('about', ['about'])
   }
 }
 </script>

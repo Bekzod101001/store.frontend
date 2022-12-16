@@ -67,21 +67,15 @@
                                     </span>
                   <div class="contact-info-social">
                     <a
-                        href=""
-                        class="icon-youtube"
-                    ></a>
-                    <a
-                        href=""
-                        class="icon-instagram"
-                    ></a>
-                    <a
-                        href=""
-                        class="icon-telegram"
-                    ></a>
-                    <a
-                        href=""
-                        class="icon-facebook"
-                    ></a>
+                        v-for="(item, index) in socialProfiles"
+                        :key="index"
+                        :href="item.url"
+                    >
+                      <img
+                          :src="item.icon"
+                          alt=""
+                      >
+                    </a>
                   </div>
                 </a-col>
               </a-row>
@@ -140,7 +134,8 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters('contacts', ['contacts'])
+    ...mapGetters('contacts', ['contacts']),
+    ...mapGetters('socialProfiles', ['socialProfiles'])
   },
   methods: {
     async getBranches() {

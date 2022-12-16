@@ -17,14 +17,19 @@
         :id="randomID"
         :type="type"
         :required="required"
+        v-v-maska
+        :data-maska="maska"
         class="app-input__input"
     >
   </div>
 </template>
 
 <script>
+import {vMaska} from "maska";
+
 export default {
   name: "appInput",
+  directives: {vMaska},
   props: {
     value: [String, Number],
     type: {
@@ -34,6 +39,7 @@ export default {
         return ['text', 'email', 'number', 'search'].includes(str)
       }
     },
+    maska: String,
     required: {
       type: Boolean,
       default: false

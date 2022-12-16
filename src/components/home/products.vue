@@ -2,15 +2,31 @@
   <div class="products">
     <div class="container">
       <div class="products-wrapper">
-        <perfect-scrollbar class="products-header" data-aos="fade-down" data-aos-duration="300" data-aos-delay="600">
-          <a-button :class="onChangeTab(item)" v-for="item in tab.list" :key="item.id" @click="onClickTab(item)">
+        <perfect-scrollbar
+            class="products-header"
+            data-aos="fade-down"
+            data-aos-duration="300"
+            data-aos-delay="600"
+        >
+          <a-button
+              :class="onChangeTab(item)"
+              v-for="item in tab.list"
+              :key="item.id"
+              @click="onClickTab(item)"
+          >
             {{ item.title }}
           </a-button>
         </perfect-scrollbar>
         <div class="products-body">
-          <div class="products-body-col" v-for="(item, index) in products.data" :key="item.id" data-aos="flip-left"
-            data-aos-duration="300" :data-aos-delay="index * 100 + 500">
-            <ProductCard :info="item" />
+          <div
+              class="products-body-col"
+              v-for="(item, index) in products.data"
+              :key="item.id"
+              data-aos="flip-left"
+              data-aos-duration="300"
+              :data-aos-delay="index * 100 + 500"
+          >
+            <ProductCard :info="item"/>
           </div>
         </div>
       </div>
@@ -19,7 +35,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
+
 export default {
   components: {
     ProductCard: () => import('@/components/cards/vertical')
@@ -38,14 +55,6 @@ export default {
           },
           {
             id: 3,
-            title: "Eng ko'p qidirilgan"
-          },
-          {
-            id: 4,
-            title: "Eng ko'p sotib olingan"
-          },
-          {
-            id: 5,
             title: "Chegirmalar"
           },
         ],
@@ -60,9 +69,6 @@ export default {
     ...mapGetters("products", ["products"])
   },
   methods: {
-    ...mapActions('products', ['getProducts']),
-
-    // tab functions
     onClickTab(payload) {
       this.tab.active = payload;
     },
@@ -73,10 +79,6 @@ export default {
         return ''
       }
     }
-    // tab functions
-  },
-  mounted() {
-    this.getProducts()
   }
 };
 </script>

@@ -1,6 +1,7 @@
 <template>
   <app-input
-      v-model="computedModelValue"
+      v-model="formattedValue"
+      maska="+998 ## ### ## ##"
       required
   >
     <template #label>
@@ -18,14 +19,16 @@ export default {
   props: {
     value: String
   },
-  computed: {
-    computedModelValue: {
-      get() {
-        return this.value
-      },
-      set(newVal) {
-        this.$emit('input', newVal)
-      }
+  data: () => ({
+    formattedValue: ''
+  }),
+  mounted() {
+    this.formattedValue = this.value
+  },
+  watch: {
+    formattedValue(val) {
+      let formattedValueAsNumber = val.replace(/ /g, '').replace('+', '');
+      this.$emit('input', formattedValueAsNumber)
     }
   }
 }

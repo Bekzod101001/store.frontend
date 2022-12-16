@@ -58,4 +58,9 @@
     &__text {
         white-space: pre-wrap;
     }
+
+    &__full-text {
+        max-height: 280px;
+        overflow: hidden;
+    }
 }

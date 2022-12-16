@@ -14,11 +14,6 @@
               Amal bilan ko‘rsating
             </span>
           </div>
-          <div class="header-top-date">
-            <b>18:03</b>
-            <i></i>
-            <span>2022 yil 20 noyabr, Yakshanba</span>
-          </div>
           <div class="header-top-phone">
             <router-link to="/contact">
               <i class="icon-phone"></i>
@@ -86,56 +81,20 @@
           </div>
           <div class="header-middle-search">
             <a-dropdown placement="bottomLeft">
-              <a-button class="header-middle-search-filter">Barchasi <i class="icon-angle-down"></i>
+              <a-button class="header-middle-search-filter">
+                Barchasi <i class="icon-angle-down"/>
               </a-button>
               <div
                   class="dropdown-options"
                   slot="overlay"
               >
                 <ul>
-                  <li>
+                  <li
+                      v-for="(category, index) in computedCategoriesWithoutSub"
+                      :key="index"
+                  >
                     <router-link to="/products">
-                      Fiqhga oid
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Aqoid kitoblari
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Siyrat
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Sahobalar va tobeinlar
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Hadis kitoblari
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Duolar kitobi
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Ruhiy tarbiya
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Darsliklar
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/">
-                      Barchasi
+                      {{ category.name }}
                     </router-link>
                   </li>
                 </ul>
@@ -165,8 +124,8 @@
           </router-link>
           <div class="header-middle-login">
             <a-button
-              v-if="isLoggedIn"
-              @click="$router.push({
+                v-if="isLoggedIn"
+                @click="$router.push({
                 name: 'Account'
               })"
             >
@@ -175,8 +134,8 @@
             </a-button>
 
             <a-button
-              v-else
-              @click="$router.push({
+                v-else
+                @click="$router.push({
                 name: 'Sign In'
               })"
             >
@@ -192,7 +151,7 @@
         <div class="header-bottom-wrapper">
           <Menu
               v-if="categories"
-              :list="categories"
+              :list="computedCategoriesWithSub"
               @onClickFull="onClickFull"
               :isActiveFull="isActiveFull"
           />
@@ -200,16 +159,16 @@
       </div>
     </div>
     <MobileMenu
-      :class="{ active: isActiveMobile }"
-      :list="list"
-      :onClickMobile="onClickMobile"
+        :class="{ active: isActiveMobile }"
+        :list="list"
+        :onClickMobile="onClickMobile"
     />
     <!-- <div class="menu-full-layer" :class="{ active: isActiveFull }"></div> -->
   </header>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import {sumFormatter} from "@/utils/helper";
 import api from "@/api";
 
@@ -227,7 +186,15 @@ export default {
     ...mapState("auth", ["authUser"]),
     ...mapGetters("auth", ["isLoggedIn"]),
     ...mapGetters("menu", ["list"]),
-    ...mapGetters("basket", ["totalSum", "totalProductsAmount"])
+    ...mapGetters("basket", ["totalSum", "totalProductsAmount"]),
+
+    computedCategoriesWithSub() {
+      return this.categories.filter(category => category.categories.length)
+    },
+
+    computedCategoriesWithoutSub() {
+      return this.categories.filter(category => !category.categories.length)
+    }
   },
   methods: {
     onClickFull(val) {
@@ -236,10 +203,9 @@ export default {
 
     onClickMobile(val) {
       this.isActiveMobile = val;
-      console.log(val)
     },
 
-    async getCategories () {
+    async getCategories() {
       const {data} = await api.categories.get({
         populate: ['categories', 'category'],
         filters: {
@@ -252,7 +218,7 @@ export default {
       })
       this.categories = data.data.map(item => {
         item = item.attributes
-        if(item.categories) {
+        if (item.categories) {
           item.categories = item.categories.data.map(category => {
             category = category.attributes
             return category

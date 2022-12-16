@@ -49,8 +49,7 @@
                 height: 40px;
                 border-radius: 50%;
                 font-size: 24px;
-                color: $orange2;
-                background-color: #F0F0F0;
+                background-color: $orange2;
                 @include flex-center-center;
 
                 @include devices(xl) {
@@ -62,6 +61,10 @@
 
                 &:not(:last-child) {
                     margin-right: 24px;
+                }
+
+                img {
+                    width: 22px;
                 }
             }
         }

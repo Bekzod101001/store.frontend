@@ -7,6 +7,7 @@ class Auth extends Core {
   get () {
     return this._axios.get("/users/me");
   }
+
   signIn (payload) {
     return this._axios.post("/auth/local", payload);
   }

@@ -13,5 +13,6 @@ export default {
     products: new Core('/products'),
     delivery: new Core('/delivery'),
     offers: new Core('/terms-and-offer'),
-    featuredAd: new Core('/featured-ad')
+    featuredAd: new Core('/featured-ad'),
+    socialProfiles: new Core('/social-profiles')
 }

@@ -55,22 +55,15 @@
                 </li>
 
                 <li>
-                  <a href="https://goo.gl/maps/hAtMkd5uhMwatszE8" target="_blank">
-                    <i class="icon-pin"></i>
-                    <span>
-                      Toshkent shahar, Zarqaynar ko'chasi, 2A
-                      Mo'ljal: Xadra maydoni bekati
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="" class="icon-youtube">
-                  </a>
-                  <a href="" class="icon-instagram">
-                  </a>
-                  <a href="" class="icon-telegram">
-                  </a>
-                  <a href="" class="icon-facebook">
+                  <a
+                      v-for="(item, index) in socialProfiles"
+                      :key="index"
+                      :href="item.url"
+                  >
+                    <img
+                        :src="item.icon"
+                        alt=""
+                    >
                   </a>
                 </li>
               </ul>
@@ -79,7 +72,7 @@
         </a-row>
         <div class="footer-bottom">
           <span>
-            © 2022 Internet-do‘kon azonkitoblari.uz / Barcha huquqlar himoyalangan.
+            © {{ currentYear }} Internet-do‘kon azonkitoblari.uz / Barcha huquqlar himoyalangan.
           </span>
         </div>
       </div>
@@ -93,8 +86,12 @@ import {mapGetters} from "vuex";
 import {clearFormatNumber} from "@/utils/helper";
 
 export default {
+  data: () => ({
+    currentYear: new Date().getFullYear()
+  }),
   computed: {
-    ...mapGetters('contacts', ['contacts'])
+    ...mapGetters('contacts', ['contacts']),
+    ...mapGetters('socialProfiles', ['socialProfiles'])
   },
   methods: {
     clearFormatNumber

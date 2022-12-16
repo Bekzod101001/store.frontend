@@ -30,11 +30,12 @@
     </div>
     <div class="card-info">
       <h3>{{ product.name }}</h3>
-      <h4>
-        <i class="icon-document"></i> {{ product.category.data.attributes.name }}
+      <h4 v-if="product.category">
+        <i class="icon-document"></i>
+        {{ product.category.data.attributes.name }}
       </h4>
       <span>
-          {{ product.price }}
+          {{ sumFormatter(product.price) }}
           <small v-if="product.oldPrice">{{ product.oldPrice }}</small>
       </span>
       <!-- small chegirma uchun. -->
@@ -70,8 +71,12 @@
 
 <script>
 import productCardMixin from "@/mixins/productCardMixin";
+import {sumFormatter} from "@/utils/helper";
 
 export default {
+  methods: {
+    sumFormatter,
+  },
   mixins: [productCardMixin],
   computed: {
     computedType() {
