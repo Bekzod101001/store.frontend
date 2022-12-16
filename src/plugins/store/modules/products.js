@@ -13,7 +13,8 @@ const state = () => ({
 const actions = {
     async getProducts (context) {
         const {data} = await api.products.get({
-            populate: 'images'
+          populate: ['images', 'category']
+
         })
         context.commit('setProducts', data)
     }

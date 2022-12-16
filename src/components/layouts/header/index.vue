@@ -171,7 +171,17 @@
               })"
             >
               <i class="icon-user"></i>
-              <span>{{ authUser.name }}</span>
+              <span>{{ authUser.firstName }} </span>
+            </a-button>
+
+            <a-button
+              v-else
+              @click="$router.push({
+                name: 'Sign In'
+              })"
+            >
+              <i class="icon-user"></i>
+              <span>Kirish</span>
             </a-button>
           </div>
         </div>
@@ -189,10 +199,6 @@
         </div>
       </div>
     </div>
-    <FullMenu
-      :class="{ active: isActiveFull }"
-      :list="list"
-    />
     <MobileMenu
       :class="{ active: isActiveMobile }"
       :list="list"
@@ -235,7 +241,14 @@ export default {
 
     async getCategories () {
       const {data} = await api.categories.get({
-        populate: 'categories'
+        populate: ['categories', 'category'],
+        filters: {
+          category: {
+            id: {
+              "$null": true
+            }
+          }
+        }
       })
       this.categories = data.data.map(item => {
         item = item.attributes

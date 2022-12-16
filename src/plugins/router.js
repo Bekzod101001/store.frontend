@@ -63,7 +63,7 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: () => import('@/pages/account'),
-    routes: [
+    children: [
       {
         path: '/orders',
         name: 'AccountOrders',

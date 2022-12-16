@@ -1,7 +1,8 @@
 import {Core} from "@/api/base/Core";
+import Auth from '@/api/parts/auth.js';
 
 export default {
-    auth: new Core('/auth'),
+    auth: new Auth('/auth'),
     about: new Core('/about'),
     azonProjects: new Core('/azon-projects'),
     banners: new Core('/banners'),

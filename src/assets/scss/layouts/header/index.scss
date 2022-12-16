@@ -581,6 +581,10 @@
         position: relative;
         z-index: 2;
 
+        @include devices(md) {
+          display: none
+        }
+
         &-wrapper {
             padding: 0 8px;
             background: $black3;
@@ -1113,16 +1117,18 @@
                     margin-bottom: 12px;
                 }
 
-                .ant-btn {
+                &__btn {
                     padding: 10px 12px;
                     background: #DA9909;
                     border-radius: 2px;
                     font-weight: 700;
                     font-size: 12px;
                     line-height: 150%;
-                    color: #FFFFFF;
                     border: none;
-
+                    &--sign-in {
+                      background: #DA9909;
+                      color: #FFFFFF;
+                    }
                 }
             }
 

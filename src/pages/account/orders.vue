@@ -1,61 +1,60 @@
 <template>
-  <div class="pages sign sign-in">
-    <div class="container">
-      <h2 class="sign__title">
-        Login
-      </h2>
-
-      <form class="form sign__form">
-        <div class="form__row">
-          <app-input-email
-              v-model="credentials.email"
-          />
-        </div>
-        <div class="form__row">
-          <app-input-password
-              v-model="credentials.password"
-          />
-        </div>
-        <div class="form__row">
-          <a-checkbox
-              v-model="isRememberMeActive"
-          >
-            Remember me
-          </a-checkbox>
-          <button class="btn sign__form__forgot-btn">Forgot password?</button>
-        </div>
-
-        <a-button
-            block
-            class="btn--bg btn--green sign__form__submit-btn"
-            :loading="isLoading"
-            @click="signIn()"
-        >
-          Sign in
-        </a-button>
-
-        <p class="sign__form__text">Don't Have an Account?</p>
-
-        <a-button
-            block
-            class="btn--outlined btn--green sign__form__submit-btn"
-            @click="$router.push({name: 'Sign Up'})"
-        >
-          Create account
-        </a-button>
-      </form>
-    </div>
+  <div class="pages">
+    <a-table
+      :columns="columns"
+      :dataSource="dataSource"
+    >
+      <a-table-column key="name" title="name" data-index="name">
+        <template slot-scope="text, record">
+          <span>
+            <a>Action 一 {{ record.name }}</a>
+            <a-divider type="vertical" />
+            <a>Delete</a>
+          </span>
+        </template>
+      </a-table-column>
+    </a-table>
   </div>
 </template>
 
 <script>
-import AppInputEmail from "@/components/ui/appInputEmail/appInputEmail.vue";
-import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.vue";
 
 export default {
-  name: "signIn",
-  components: {AppInputPassword, AppInputEmail},
+  name: "accountOrders",
   data: () => ({
+    dataSource: [
+      {
+        key: '1',
+        name: 'Mike',
+        age: 32,
+        address: '10 Downing Street',
+      },
+      {
+        key: '2',
+        name: 'John',
+        age: 42,
+        address: '10 Downing Street',
+      },
+    ],
+
+    columns: [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+      },
+    ],
+
     credentials: {
       email: '',
       password: ''

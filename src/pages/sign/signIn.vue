@@ -70,6 +70,11 @@ export default {
         .then(() => {
           this.$router.push({name: 'home'})
         })
+        .catch((error) => {
+          if(error.response.data.error.message === 'Invalid identifier or password') {
+            this.$message.error('Invalid identifier or password')
+          }
+        })
         .finally(() => {
           this.isLoading = false
         })

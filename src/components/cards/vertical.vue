@@ -13,7 +13,7 @@
           v-if="product.discount_percent"
           :class="{ discount: product.discount_percent }"
       >
-        {{ product.discount_percent }}
+        {{ product.discount_percent }} %
       </span>
       <span
           v-if="product.type"
@@ -31,12 +31,12 @@
     <div class="card-info">
       <h3>{{ product.name }}</h3>
       <h4>
-        <i class="icon-document"></i> {{ product.small_description }}
+        <i class="icon-document"></i> {{ product.category.data.attributes.name }}
       </h4>
       <span>
-                {{ product.price }}
-                <small v-if="product.oldPrice">{{ product.oldPrice }}</small>
-            </span>
+          {{ product.price }}
+          <small v-if="product.oldPrice">{{ product.oldPrice }}</small>
+      </span>
       <!-- small chegirma uchun. -->
     </div>
     <div class="card-action">

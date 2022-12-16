@@ -2,7 +2,7 @@ import axios from "axios";
 
 const onRequest = (config) => {
     const accessToken = localStorage.getItem('accessToken')
-    if (accessToken) config.headers.Authorization = accessToken
+    if (accessToken) config.headers.Authorization = 'Bearer ' + accessToken
     config.headers.Accept = 'application/json'
 
     return config
@@ -29,7 +29,7 @@ export function setupInterceptorsTo(axiosInstance) {
 }
 
 const instance = axios.create({
-    baseURL: process.env.VUE_APP_API
+    baseURL: process.env.VUE_APP_BASE_URL + "/api"
 })
 
 export const axiosInstanceV1 = setupInterceptorsTo(instance)

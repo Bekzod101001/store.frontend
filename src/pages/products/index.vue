@@ -12,28 +12,17 @@
                         </li>
                         <li>
                             <i class="icon-angle-right"></i>
-                            <router-link to="/">
-                                Kitoblar
-                            </router-link>
-                        </li>
-                        <li>
-                            <i class="icon-angle-right"></i>
-
-                            <router-link to="/">
-                                Diniy
-                            </router-link>
-                        </li>
-                        <li>
-                            <i class="icon-angle-right"></i>
-                            <router-link to="/">
-                                Fiqhga oid
+                            <router-link :to="{
+                              name: 'products'
+                            }">
+                                Mahsulotlar
                             </router-link>
                         </li>
                     </ul>
                 </div>
                 <div class="pages-title">
                     <h2>
-                        Fiqhga oid
+                        Mahsulotlar
                         <span>(124)</span>
                     </h2>
                 </div>
@@ -45,33 +34,7 @@
                                     <i class="icon-angle-collapse-down"></i>
                                 </div>
                             </template>
-                            <a-collapse-panel key="1" :header="filter.menu.title">
-                                <ul>
-                                    <li v-for="(item, index) in filter.menu.child" :key="item.id + 'inside'">
-                                        <a-collapse v-model="activeKeysInside" :accordion="true"
-                                            expandIconPosition="right" v-if="item.child && item.child.length">
-                                            <template #expandIcon>
-                                                <div class="products-filter-arrow">
-                                                    <i class="icon-angle-collapse-down"></i>
-                                                </div>
-                                            </template>
-                                            <a-collapse-panel :key="'inside-' + (index + 1)" :header="item.title"
-                                                v-if="item.child && item.child.length">
-                                                <ul>
-                                                    <li v-for="itemInside in item.child"
-                                                        :key="itemInside.id + 'inner-inside'">
-                                                        <router-link to="/">
-                                                            {{ itemInside.title }}
-                                                        </router-link>
-                                                    </li>
-                                                </ul>
-                                            </a-collapse-panel>
-                                        </a-collapse>
-                                        <router-link v-else to="/">{{ item.title }}</router-link>
-                                    </li>
-                                </ul>
-                            </a-collapse-panel>
-                            <a-collapse-panel key="2" header="Narx">
+                            <a-collapse-panel key="1" header="Narx">
                                 <a-row type="flex" :gutter="[16, 16]">
                                     <a-col :sm="12" :xs="24">
                                         <a-input placeholder="0 dan"></a-input>
@@ -81,7 +44,7 @@
                                     </a-col>
                                 </a-row>
                             </a-collapse-panel>
-                            <a-collapse-panel key="3" header="Muallif">
+                            <a-collapse-panel key="2" header="Muallif">
                                 <div class="products-filter-checkbox">
                                     <a-checkbox>
                                         Imom Gʻazzoliy
@@ -100,94 +63,11 @@
                                     </a-checkbox>
                                 </div>
                             </a-collapse-panel>
-                            <a-collapse-panel key="4" header="Kitob tili">
-                                <div class="products-filter-checkbox">
-                                    <a-checkbox>
-                                        Oʻzbek
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Rus
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Igliz
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        arab
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Tojik
-                                    </a-checkbox>
-                                </div>
-                            </a-collapse-panel>
-                            <a-collapse-panel key="5" header="Muallif">
-                                <div class="products-filter-checkbox">
-                                    <a-checkbox>
-                                        2022
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        2021
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        2020
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        2019
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        2018
-                                    </a-checkbox>
-                                </div>
-                            </a-collapse-panel>
-                            <a-collapse-panel key="6" header="Azon kitoblari">
-                                <div class="products-filter-checkbox">
-                                    <a-checkbox>
-                                        Azon kitoblaris
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Imom Buxoriy Xalqaro markazi
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Sano-standart
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Gʻafur Gʻulom
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Sharq
-                                    </a-checkbox>
-                                </div>
-                            </a-collapse-panel>
-                            <a-collapse-panel key="7" header="Muqovasi">
-                                <div class="products-filter-checkbox">
-                                    <a-checkbox>
-                                        Yumshoq
-                                    </a-checkbox>
-                                    <a-checkbox>
-                                        Qattiq
-                                    </a-checkbox>
-                                </div>
-                            </a-collapse-panel>
                         </a-collapse>
                     </div>
                     <div class="products-list">
                         <div class="products-list-header">
                             <div class="products-list-header-filter">
-                                <a-dropdown placement="bottomCenter">
-                                    <a-button>Xolati bo‘yicha <i class="icon-angle-down"></i></a-button>
-                                    <div class="dropdown-options" slot="overlay">
-                                        <ul>
-                                            <li>
-                                                <span>Yangi</span>
-                                            </li>
-                                            <li>
-                                                <span>Mashxur</span>
-                                            </li>
-                                            <li>
-                                                <span>Eski</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </a-dropdown>
                                 <a-dropdown placement="bottomCenter">
                                     <a-button>Narxi bo‘yicha <i class="icon-angle-down"></i></a-button>
                                     <div class="dropdown-options" slot="overlay">
@@ -217,12 +97,6 @@
                                         </ul>
                                     </div>
                                 </a-dropdown>
-                            </div>
-                            <div class="products-list-header-layout">
-                                <i class="icon-layout1" @click="onClickLayout('vertical')"
-                                    :class="{ active: layout == 'vertical' }"></i>
-                                <i class="icon-layout2" @click="onClickLayout('horizontal')"
-                                    :class="{ active: layout == 'horizontal' }"></i>
                             </div>
                             <div class="products-list-header-count">
                                 <a-dropdown placement="bottomCenter">

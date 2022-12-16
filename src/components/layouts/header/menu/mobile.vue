@@ -3,10 +3,10 @@
         <div class="menu-mobile-wrapper">
             <div class="menu-mobile-register">
                 <h4>Avtorizatsiya</h4>
-                <a-row>
-                  <a-button>Ro‘yxatdan o‘tish</a-button>
-                  <a-button>Kirish</a-button>
-                </a-row>
+                <a-space>
+                  <a-button class="menu-mobile-register__btn menu-mobile-register__btn--sign-in">Ro‘yxatdan o‘tish</a-button>
+                  <a-button class="menu-mobile-register__btn">Kirish</a-button>
+                </a-space>
             </div>
             <perfect-scrollbar class="menu-mobile-menu">
                 <ul>

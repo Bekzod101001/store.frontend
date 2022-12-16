@@ -4,7 +4,7 @@ const actions = {
   getAuthUser ({ commit }) {
     api.auth.get()
       .then((response) => {
-        commit('setUserInfo', response.data)
+        commit('setUser', response.data)
       });
   },
   async signIn ({ commit }, payload) {
