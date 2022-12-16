@@ -40,6 +40,7 @@ const getters = {
         return state.detail
     }
 };
+
 const mutations = {
     setProducts(state, payload) {
         state.products = payload
@@ -53,7 +54,6 @@ const mutations = {
         })
     }
 }
-
 
 export default {
     namespaced: true,

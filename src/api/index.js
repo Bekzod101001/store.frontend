@@ -9,5 +9,8 @@ export default {
     contacts: new Core('/contact'),
     categories: new Core('/categories'),
     partners: new Core('/partners'),
-    products: new Core('/products')
+    products: new Core('/products'),
+    delivery: new Core('/delivery'),
+    offers: new Core('/terms-and-offer'),
+    featuredAd: new Core('/featured-ad')
 }
