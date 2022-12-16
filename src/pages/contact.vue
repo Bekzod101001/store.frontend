@@ -38,8 +38,8 @@
                                         <i class="icon-phone"></i>
                                         Bog‘lanish uchun:
                                     </span>
-                  <a href="tel:+998951435550">
-                    +998 95 143-55-50
+                  <a :href="`tel:${clearFormatNumber(contacts.phone)}`">
+                    {{ contacts.phone }}
                   </a>
                 </a-col>
                 <a-col
@@ -48,11 +48,11 @@
                     :sm="12"
                 >
                                     <span>
-                                        <i class="icon-phone"></i>
+                                        <i class="icon-phone"/>
                                         Hamkorlar uchun bog‘lanish:
                                     </span>
-                  <a href="tel:+998931335955">
-                    +998 93 133-59-55
+                  <a :href="`tel:${clearFormatNumber(contacts.partners_phone)}`">
+                    {{ contacts.partners_phone }}
                   </a>
                 </a-col>
 
@@ -90,57 +90,30 @@
           <a-col
               :md="12"
               :sm="24"
+              v-for="(branch, index) in branches"
+              :key="index"
           >
             <div class="contact-info">
               <h3>
-                Azon Kitoblari Xadra filiali
+                {{ branch.name }}
               </h3>
               <span>
                                 <i class="icon-pin"></i>
                                 Manzil:
                             </span>
               <a
-                  href="https://goo.gl/maps/58kCS4Vipt7Fw1Bf9"
+                  href="#/"
                   target="_blank"
               >
-                Toshkent shahar, Zarqaynar ko'chasi, 2A <br>
-                Mo'ljal: Xadra maydoni bekati;
+                {{ branch.address }}
               </a>
               <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.3727422749243!2d69.23911155114108!3d41.322507407875634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8badf2ad5ce5%3A0x1b714768928cd6c5!2sAzon%20Kitoblari!5e0!3m2!1sru!2s!4v1670040439441!5m2!1sru!2s"
+                  :src="branch.map_link"
                   style="border:0;"
                   allowfullscreen=""
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
               ></iframe>
-            </div>
-          </a-col>
-          <a-col
-              :md="12"
-              :sm="24"
-          >
-            <div class="contact-info">
-              <h3>
-                Azon Kitoblari Xadra filiali
-              </h3>
-              <span>
-                                <i class="icon-pin"></i>
-                                Manzil:
-                            </span>
-              <a
-                  href="https://goo.gl/maps/58kCS4Vipt7Fw1Bf9"
-                  target="_blank"
-              >
-                Toshkent shahar, Abdulla Qodiriy ko'chasi, 23 <br>
-                Mo'ljal: G'ofur G'ulom metrosi bekati
-              </a>
-              <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.3727422749243!2d69.23911155114108!3d41.322507407875634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8badf2ad5ce5%3A0x1b714768928cd6c5!2sAzon%20Kitoblari!5e0!3m2!1sru!2s!4v1670040439441!5m2!1sru!2s"
-                  style="border:0;"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-              />
             </div>
           </a-col>
         </a-row>
@@ -152,7 +125,37 @@
 </template>
 
 <script>
-export default {}
+import api from "@/api";
+import {mapGetters} from "vuex";
+import {clearFormatNumber} from "@/utils/helper";
+
+export default {
+  data: () => ({
+    branches: [
+      {
+        name: '',
+        address: '',
+        map_link: ''
+      }
+    ]
+  }),
+  computed: {
+    ...mapGetters('contacts', ['contacts'])
+  },
+  methods: {
+    async getBranches() {
+      const {data} = await api.branches.get()
+      this.branches = data.data.map(item => {
+        item = item.attributes
+        return item
+      })
+    },
+    clearFormatNumber,
+  },
+  mounted() {
+    this.getBranches()
+  }
+}
 </script>
 
 <style>

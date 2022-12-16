@@ -39,7 +39,7 @@
 
 <script>
 import api from "@/api";
-import {strapiLogoRetriever} from "@/utils/helper";
+import {strapiRetriever} from "@/utils/helper";
 
 export default {
   data() {
@@ -91,7 +91,7 @@ export default {
         populate: 'logo'
       })
       this.projects = data.data.map(project => {
-        project.image = process.env.VUE_APP_BASE_URL + strapiLogoRetriever(project)
+        project.image = process.env.VUE_APP_BASE_URL + strapiRetriever(project, 'logo')
         return project
       })
     }

@@ -1,16 +1,23 @@
 <template>
   <li>
-    <template v-if="menu.child && menu.child.length">
+    <template v-if="menu.categories && menu.categories.length">
       <span>
-        {{ menu.title }}
+        {{ menu.name }}
         <i class="icon-angle-right"></i>
       </span>
       <ul>
-        <Recursive v-for="item in menu.child" :menu="item" :key="item.title + ' ' +  item.id" />
+        <Recursive
+            v-for="item in menu.categories"
+            :menu="item"
+            :key="item.name + ' ' +  item.id"
+        />
       </ul>
     </template>
-    <router-link v-else to="/products">
-      {{ menu.title }}
+    <router-link
+        v-else
+        to="/products"
+    >
+      {{ menu.name }}
     </router-link>
   </li>
 </template>
@@ -32,13 +39,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+    lang="scss"
+    scoped
+>
 li {
   position: relative;
 }
 
-li>ul {
-  transform: translate(-24px, -3px);
+li > ul {
+  //transform: translate(-24px, -3px);
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease-in-out;
@@ -46,9 +56,9 @@ li>ul {
   // left: 0;
 }
 
-li:hover>ul {
+li:hover > ul {
   visibility: visible;
   opacity: 1;
-  transform: translate(-24px, -3px);
+  //transform: translate(-24px, -3px);
 }
 </style>

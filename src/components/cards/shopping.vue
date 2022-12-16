@@ -2,19 +2,19 @@
   <div class="card shopping">
     <div class="card-image">
       <img
-          :src="product.image"
-          :alt="product.title"
+          :src="product.images[0]"
+          :alt="product.name"
       >
     </div>
     <div class="card-info">
-      <h3>{{ product.title }}</h3>
+      <h3>{{ product.name }}</h3>
       <a-button>O'chirish</a-button>
     </div>
     <div class="card-price">
       <span>{{ product.price }}</span>
       <small v-if="product.oldPrice">
         {{ product.oldPrice }}
-        <b v-if="product.discount">{{ product.discount }}</b>
+        <b v-if="product.discount_percent">{{ product.discount_percent }}</b>
       </small>
     </div>
     <div class="card-action">

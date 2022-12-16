@@ -8,7 +8,7 @@
           </a-button>
         </perfect-scrollbar>
         <div class="products-body">
-          <div class="products-body-col" v-for="(item, index) in list" :key="item.id" data-aos="flip-left"
+          <div class="products-body-col" v-for="(item, index) in products.data" :key="item.id" data-aos="flip-left"
             data-aos-duration="300" :data-aos-delay="index * 100 + 500">
             <ProductCard :info="item" />
           </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 export default {
   components: {
     ProductCard: () => import('@/components/cards/vertical')
@@ -57,9 +57,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("products", ["list"])
+    ...mapGetters("products", ["products"])
   },
   methods: {
+    ...mapActions('products', ['getProducts']),
+
     // tab functions
     onClickTab(payload) {
       this.tab.active = payload;
@@ -72,6 +74,9 @@ export default {
       }
     }
     // tab functions
+  },
+  mounted() {
+    this.getProducts()
   }
 };
 </script>

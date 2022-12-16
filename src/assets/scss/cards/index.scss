@@ -48,10 +48,6 @@
                     .ant-btn {
                         width: 100%;
                         margin: 0;
-
-                        &:first-child {
-                            margin-bottom: 8px;
-                        }
                     }
                 }
 
@@ -93,10 +89,6 @@
                 .ant-btn {
                     width: 100%;
                     margin: 0;
-
-                    &:first-child {
-                        margin-bottom: 8px;
-                    }
                 }
             }
 
@@ -333,15 +325,14 @@
 
                     &:first-child {
                         background-color: $black6;
-                        margin-right: 16px;
 
                         @include devices(sm) {
-                            margin-right: 8px;
+                            //margin-right: 8px;
                         }
 
                         @include devices(xs) {
                             margin-right: 0;
-                            margin-bottom: 8px;
+                            //margin-bottom: 8px;
                         }
                     }
 

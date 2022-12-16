@@ -45,7 +45,7 @@ const mutations = {
             if(item.id !== id) return false;
             if(amount === 0) {
                 state.products.splice(index, 1)
-                this.state.products.list.map((product) => {
+                this.state.products.products.data.map((product) => {
                     if(product.id === id) product.amount = 0
                 })
             }

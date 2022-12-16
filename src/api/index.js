@@ -1,11 +1,13 @@
-import About from "@/api/parts/about";
-import AzonProjects from "@/api/parts/azonProjects";
-import Banners from "@/api/parts/banners";
-import Auth from '@/api/parts/auth.js';
+import {Core} from "@/api/base/Core";
 
 export default {
-    auth: new Auth('/auth'),
-    about: new About('/about'),
-    azonProjects: new AzonProjects('/azon-projects'),
-    banners: new Banners('/banners')
+    auth: new Core('/auth'),
+    about: new Core('/about'),
+    azonProjects: new Core('/azon-projects'),
+    banners: new Core('/banners'),
+    branches: new Core('/branches'),
+    contacts: new Core('/contact'),
+    categories: new Core('/categories'),
+    partners: new Core('/partners'),
+    products: new Core('/products')
 }

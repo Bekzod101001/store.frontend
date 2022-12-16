@@ -33,9 +33,14 @@ const mutations = {
   },
 }
 
+const getters = {
+  isLoggedIn: state => !!state.authUser,
+}
+
 export default {
   namespaced: true,
   actions,
   state,
-  mutations
+  mutations,
+  getters
 }

@@ -1,7 +1,11 @@
 <template>
   <div class="header-bottom-menu">
     <ul>
-      <Recursive v-for="item in list" :menu="item" :key="item.id"></Recursive>
+      <Recursive
+          v-for="item in list"
+          :menu="item"
+          :key="item.id"
+      />
       <li>
         <router-link to="/partners">Hamkorlar</router-link>
       </li>
@@ -38,6 +42,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+    lang="scss"
+    scoped
+>
 
 </style>

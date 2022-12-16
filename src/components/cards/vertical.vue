@@ -1,14 +1,19 @@
 <template>
   <router-link
-      :to="`/products/${product.id}`"
+      :to="{
+        name: 'productsId',
+        params: {
+          id: product.id
+        }
+      }"
       class="card vertical"
   >
     <div class="card-tags">
       <span
-          v-if="product.discount"
-          :class="{ discount: product.discount }"
+          v-if="product.discount_percent"
+          :class="{ discount: product.discount_percent }"
       >
-        {{ product.discount }}
+        {{ product.discount_percent }}
       </span>
       <span
           v-if="product.type"
@@ -19,14 +24,14 @@
     </div>
     <div class="card-image">
       <img
-          :src="product.image"
-          :alt="product.title"
+          :src="product.images[0]"
+          :alt="product.name"
       />
     </div>
     <div class="card-info">
-      <h3>{{ product.title }}</h3>
+      <h3>{{ product.name }}</h3>
       <h4>
-        <i class="icon-document"></i> {{ product.subTitle }}
+        <i class="icon-document"></i> {{ product.small_description }}
       </h4>
       <span>
                 {{ product.price }}
@@ -35,8 +40,8 @@
       <!-- small chegirma uchun. -->
     </div>
     <div class="card-action">
-      <a-button>Xarid</a-button>
       <a-button
+          block
           v-if="(!product.amount)"
           @click.prevent="addToBasket()"
       >

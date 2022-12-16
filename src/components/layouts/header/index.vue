@@ -165,12 +165,13 @@
           </router-link>
           <div class="header-middle-login">
             <a-button
-                @click="$router.push({
-                  name: 'Sign In'
-                })"
+              v-if="isLoggedIn"
+              @click="$router.push({
+                name: 'Account'
+              })"
             >
               <i class="icon-user"></i>
-              <span>Kirish</span>
+              <span>{{ authUser.name }}</span>
             </a-button>
           </div>
         </div>
@@ -180,41 +181,45 @@
       <div class="container">
         <div class="header-bottom-wrapper">
           <Menu
-              :list="list"
+              v-if="categories"
+              :list="categories"
               @onClickFull="onClickFull"
               :isActiveFull="isActiveFull"
-          ></Menu>
+          />
         </div>
       </div>
     </div>
     <FullMenu
-        :class="{ active: isActiveFull }"
-        :list="list"
-    ></FullMenu>
+      :class="{ active: isActiveFull }"
+      :list="list"
+    />
     <MobileMenu
-        :class="{ active: isActiveMobile }"
-        :list="list"
-        :onClickMobile="onClickMobile"
-    ></MobileMenu>
+      :class="{ active: isActiveMobile }"
+      :list="list"
+      :onClickMobile="onClickMobile"
+    />
     <!-- <div class="menu-full-layer" :class="{ active: isActiveFull }"></div> -->
   </header>
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import { mapGetters, mapState } from 'vuex'
 import {sumFormatter} from "@/utils/helper";
+import api from "@/api";
 
 export default {
   components: {
     Menu: () => import('@/components/layouts/header/menu'),
-    FullMenu: () => import('@/components/layouts/header/menu/full.vue'),
     MobileMenu: () => import('@/components/layouts/header/menu/mobile.vue')
   },
   data: () => ({
     isActiveFull: false,
     isActiveMobile: false,
+    categories: []
   }),
   computed: {
+    ...mapState("auth", ["authUser"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
     ...mapGetters("menu", ["list"]),
     ...mapGetters("basket", ["totalSum", "totalProductsAmount"])
   },
@@ -222,13 +227,33 @@ export default {
     onClickFull(val) {
       this.isActiveFull = val;
     },
+
     onClickMobile(val) {
       this.isActiveMobile = val;
       console.log(val)
     },
 
+    async getCategories () {
+      const {data} = await api.categories.get({
+        populate: 'categories'
+      })
+      this.categories = data.data.map(item => {
+        item = item.attributes
+        if(item.categories) {
+          item.categories = item.categories.data.map(category => {
+            category = category.attributes
+            return category
+          })
+        }
+        return item
+      })
+    },
+
     sumFormatter,
   },
+  mounted() {
+    this.getCategories()
+  }
 };
 </script>
 

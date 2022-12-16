@@ -29,10 +29,7 @@
                       </a-button>
                     </div>
                     <div class="hero-slider-item-image">
-                      <img
-                          src="@/assets/images/hero-slider1.png"
-                          alt="books"
-                      >
+                      <img :src="banner.image">
                     </div>
                   </div>
                 </swiper-slide>
@@ -67,6 +64,7 @@
 
 <script>
 import api from "@/api";
+import {strapiRetriever} from "@/utils/helper";
 
 export default {
   data: () => ({
@@ -89,15 +87,20 @@ export default {
       {
         btn_label: '',
         btn_url: '',
-        title: ''
+        title: '',
+        image: ''
       }
     ]
   }),
   methods: {
     async getBanners () {
-      const {data} = await api.banners.get()
+      const {data} = await api.banners.get({
+        populate: 'image'
+      })
       this.banners = data.data.map(item => {
+        const image = strapiRetriever(item, 'image')
         item = item.attributes
+        item.image = process.env.VUE_APP_BASE_URL + image
         return item
       })
     }
