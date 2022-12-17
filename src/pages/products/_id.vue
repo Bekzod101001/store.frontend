@@ -1,6 +1,7 @@
 <template>
   <div
       class="pages products-detail"
+      v-if="detail"
   >
     <div class="container">
       <div class="pages-wrapper">
@@ -165,7 +166,7 @@
                 </h2>
                 <ul>
                   <li
-                      v-for="(review, index) in reviews"
+                      v-for="(review, index) in detail.reviews"
                       :key="index"
                   >
                     <div class="products-detail-comment-left-header">
@@ -275,7 +276,7 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex';
 import api from "@/api";
-import {dateFormatter, strapiRetriever, sumFormatter} from "@/utils/helper";
+import {dateFormatter, strapiFileUrlRetriever, sumFormatter} from "@/utils/helper";
 
 export default {
   components: {
@@ -331,14 +332,6 @@ export default {
         amount: 0
       },
       activeImageIndex: 0,
-      reviews: [
-        {
-          name: 'Mansur_Alimovich',
-          createdAt: '',
-          rating: 2,
-          comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid debitis doloremque doloribus ea esse, fuga ipsa laudantium maxime neque odit quas quia recusandae rem sapiente tempore voluptatibus voluptatum! Quaerat, voluptate.'
-        }
-      ],
       newReview: {
         rating: 0,
         comment: ''
@@ -369,7 +362,7 @@ export default {
     async handleOk() {
       this.ModalText = 'The modal will be closed after two seconds';
       this.confirmLoading = true;
-      this.newReview.author = this.userID
+      this.newReview.user = String(this.userID)
       this.newReview.product = this.$route.params.id
       await api.reviews.post({data: this.newReview})
           .then(({data}) => {
@@ -410,33 +403,43 @@ export default {
     },
 
     async getProduct() {
-      const {data} = await api.products.getSingle(this.$route.params.id, {
+      await api.products.getSingle(this.$route.params.id, {
         populate: ['images', 'category', 'dynamic_properties', 'reviews']
-      })
-      Object.keys(data.data.attributes).forEach(key => {
-        this.detail[key] = data.data.attributes[key]
-      })
-      delete this.detail.attributes
+      }).then(({data}) => {
+        this.detail = {...this.detail, ...data.data.attributes}
+        this.detail.id = data.data.id
 
-      const images = strapiRetriever(data.data, 'images')
-      this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
-      this.detail.id = data.data.id
-      this.productsInBasket.filter(item => {
-        if(item.id === data.data.id) this.detail.amount = item.amount
-      })
+        const images = strapiFileUrlRetriever(data.data, 'images')
+        this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+        this.detail.id = data.data.id
 
-      if(this.detail.discount_percent) {
-        this.detail.oldPrice = JSON.parse(JSON.stringify(this.detail.price))
-        this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
-        this.detail.price = this.detail.oldPrice - this.detail.discount
-      }
+        this.productsInBasket.filter(item => {
+          if(item.id === data.data.id) this.detail.amount = item.amount
+        })
+
+        if(this.detail.discount_percent) {
+          this.detail.oldPrice = JSON.parse(JSON.stringify(this.detail.price))
+          this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
+          this.detail.price = this.detail.oldPrice - this.detail.discount
+        }
+
+        if(this.detail.reviews.data.length) {
+          this.detail.reviews = this.detail.reviews.data.map(item => {
+            item = {...item, ...item.attributes}
+            delete item.attributes
+            return item
+          })
+        }
+      })
     },
 
     dateFormatter
   },
   mounted() {
     this.setPreloader(true)
-    this.getProduct().finally(() => this.setPreloader(false))
+    this.getProduct().finally(() => {
+      this.setPreloader(false)
+    })
   }
 }
 </script>

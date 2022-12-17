@@ -3,10 +3,12 @@
     <LoaderHome v-show="isPreloaderActive"/>
     <template>
       <Header :categories="categories"/>
+
       <LoaderHome v-if="basicPreloader"/>
       <template v-else>
         <router-view />
       </template>
+
       <Footer/>
     </template>
   </div>

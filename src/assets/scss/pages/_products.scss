@@ -971,6 +971,7 @@
                     }
 
                     p {
+                        word-break: break-all;
                         @include text-style-18(500, #484848)
                     }
                 }

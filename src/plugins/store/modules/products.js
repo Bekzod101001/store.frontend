@@ -1,5 +1,5 @@
 import api from "@/api";
-import {strapiRetriever} from "@/utils/helper";
+import {strapiFileUrlRetriever} from "@/utils/helper";
 
 const state = () => ({
     products: {
@@ -27,7 +27,7 @@ const mutations = {
             Object.keys(item.attributes).forEach(key => {
                 item[key] = item.attributes[key]
             })
-            const images = strapiRetriever(item, 'images')
+            const images = strapiFileUrlRetriever(item, 'images')
             item.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
             delete item.attributes
 
