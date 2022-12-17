@@ -110,22 +110,6 @@
                     </ul>
                   </div>
                 </a-dropdown>
-                <a-dropdown placement="bottomCenter">
-                  <a-button>Alifbo bo‘yicha <i class="icon-angle-down"></i></a-button>
-                  <div
-                      class="dropdown-options"
-                      slot="overlay"
-                  >
-                    <ul>
-                      <li>
-                        <span>O'ngari</span>
-                      </li>
-                      <li>
-                        <span>Teskari</span>
-                      </li>
-                    </ul>
-                  </div>
-                </a-dropdown>
               </div>
               <div class="products-list-header-count">
                 <a-dropdown placement="bottomCenter">
@@ -189,10 +173,13 @@
                 </template>
               </a-row>
             </div>
+            <div class="pages-pagination products-list-pagination">
+              <Pagination
+                  :page="products.meta.pagination.page"
+                  :count="products.meta.pagination.pageCount"
+              />
+            </div>
           </div>
-        </div>
-        <div class="pages-pagination">
-          <Pagination/>
         </div>
       </div>
     </div>
@@ -208,103 +195,95 @@ export default {
     ProductCardHorizontal: () => import('@/components/cards/horizontal'),
     Pagination: () => import('@/components/custom/pagination')
   },
-  data() {
-    return {
-      layout: 'vertical',
-      activeKeys: [],
-      activeKeysInside: [],
-      filter: {
-        menu: {
-          id: 2,
-          title: "Kitoblar",
-          link: "/",
-          icon: 'menu2',
-          child: [
-            {
-              id: 1,
-              title: "Badiiy kitoblar",
-              link: "/"
-            },
-            {
-              id: 2,
-              title: `Diniy`,
-              link: "/",
-              child: [
-                {
-                  id: 1,
-                  title: "Fiqhga oid",
-                  link: "/"
-                },
-                {
-                  id: 2,
-                  title: `Aqoid kitoblari`,
-                  link: "/"
-                },
-                {
-                  id: 3,
-                  title: `Siyrat`,
-                  link: "/"
-                },
-                {
-                  id: 4,
-                  title: `Sahobalar va tobeinlar`,
-                  link: "/"
-                },
-                {
-                  id: 5,
-                  title: `Hadis kitoblari`,
-                  link: "/"
-                },
-                {
-                  id: 6,
-                  title: `Duolar kitobi`,
-                  link: "/"
-                },
-                {
-                  id: 7,
-                  title: `Ruhiy tarbiya`,
-                  link: "/"
-                },
-                {
-                  id: 8,
-                  title: `Darsliklar`,
-                  link: "/"
-                },
+  data: () => ({
+    layout: 'vertical',
+    activeKeys: [],
+    activeKeysInside: [],
+    filter: {
+      menu: {
+        id: 2,
+        title: "Kitoblar",
+        link: "/",
+        icon: 'menu2',
+        child: [
+          {
+            id: 1,
+            title: "Badiiy kitoblar",
+            link: "/"
+          },
+          {
+            id: 2,
+            title: `Diniy`,
+            link: "/",
+            child: [
+              {
+                id: 1,
+                title: "Fiqhga oid",
+                link: "/"
+              },
+              {
+                id: 2,
+                title: `Aqoid kitoblari`,
+                link: "/"
+              },
+              {
+                id: 3,
+                title: `Siyrat`,
+                link: "/"
+              },
+              {
+                id: 4,
+                title: `Sahobalar va tobeinlar`,
+                link: "/"
+              },
+              {
+                id: 5,
+                title: `Hadis kitoblari`,
+                link: "/"
+              },
+              {
+                id: 6,
+                title: `Duolar kitobi`,
+                link: "/"
+              },
+              {
+                id: 7,
+                title: `Ruhiy tarbiya`,
+                link: "/"
+              },
+              {
+                id: 8,
+                title: `Darsliklar`,
+                link: "/"
+              },
 
-              ]
-            },
-            {
-              id: 3,
-              title: `Biznes va marketing`,
-              link: "/"
-            },
-            {
-              id: 4,
-              title: `Bolalar uchun`,
-              link: "/"
-            },
-            {
-              id: 5,
-              title: `Biznes va marketing`,
-              link: "/"
-            },
-            {
-              id: 6,
-              title: `Xorijiy tildagi kitoblar`,
-              link: "/"
-            },
+            ]
+          },
+          {
+            id: 3,
+            title: `Biznes va marketing`,
+            link: "/"
+          },
+          {
+            id: 4,
+            title: `Bolalar uchun`,
+            link: "/"
+          },
+          {
+            id: 5,
+            title: `Biznes va marketing`,
+            link: "/"
+          },
+          {
+            id: 6,
+            title: `Xorijiy tildagi kitoblar`,
+            link: "/"
+          },
 
-          ]
-        },
-      }
+        ]
+      },
     }
-
-  },
-  methods: {
-    onClickLayout(payload) {
-      this.layout = payload
-    },
-  },
+  }),
   computed: {
     ...mapGetters("products", ["products"])
   }

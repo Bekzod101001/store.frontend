@@ -1,5 +1,5 @@
 const state = () => ({
-    isPreloaderActive: true
+    isPreloaderActive: false
 })
 
 const getters = {

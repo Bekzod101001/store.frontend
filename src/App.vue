@@ -1,9 +1,12 @@
 <template>
   <div class="wrapper">
-    <LoaderHome v-if="isPreloaderActive"/>
-    <template v-else>
-      <Header/>
-      <router-view />
+    <LoaderHome v-show="isPreloaderActive"/>
+    <template>
+      <Header :categories="categories"/>
+      <LoaderHome v-if="basicPreloader"/>
+      <template v-else>
+        <router-view />
+      </template>
       <Footer/>
     </template>
   </div>
@@ -11,6 +14,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import api from "@/api";
 
 export default {
   name: 'App',
@@ -19,6 +23,10 @@ export default {
     Header: () => import('@/components/layouts/header'),
     Footer: () => import('@/components/layouts/footer'),
   },
+  data: () => ({
+    basicPreloader: false,
+    categories: []
+  }),
   computed: {
     ...mapGetters('preloader', ['isPreloaderActive'])
   },
@@ -28,19 +36,43 @@ export default {
     ...mapActions('products', ['getProducts']),
     ...mapActions('socialProfiles', ['getSocialProfiles']),
     ...mapActions('auth', ['getAuthUser']),
-    ...mapMutations('preloader', ['setPreloader'])
+    ...mapMutations('preloader', ['setPreloader']),
+
+    async getCategories() {
+      const {data} = await api.categories.get({
+        populate: ['categories', 'category'],
+        filters: {
+          category: {
+            id: {
+              "$null": true
+            }
+          }
+        }
+      })
+      this.categories = data.data.map(item => {
+        item = item.attributes
+        if (item.categories) {
+          item.categories = item.categories.data.map(category => {
+            category = category.attributes
+            return category
+          })
+        }
+        return item
+      })
+    },
   },
   mounted() {
+    this.basicPreloader = true
     Promise.all([
       this.getAbout(),
       this.getContacts(),
       this.getProducts(),
       this.getSocialProfiles(),
-      this.getAuthUser()
-    ])
-        .finally(() => {
-          this.setPreloader(false)
-        })
+      this.getAuthUser(),
+      this.getCategories()
+    ]).finally(() => {
+      this.basicPreloader = false
+    })
   }
 
 }

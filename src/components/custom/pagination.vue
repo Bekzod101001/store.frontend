@@ -1,91 +1,104 @@
 <template>
-    <div class="pagination">
-        <template v-if="count">
-            <button :disabled="!currentPage || (currentPage == 1)" @click="prev" class="pagination-item">
-                <i class="icon-angle-pagination-right"></i>
-            </button>
-            <template v-for="item in allPages">
-                <button :key="item" @click="clickBtn(item)" :disabled="currentPage == item" class="pagination-item"
-                    :class="{ active: currentPage == item }"
-                    v-if="item == 1 || item == allPages || (+currentPage - 1 <= item && +currentPage + 1 >= item)">{{
-                            item
-                    }}</button>
-                <button :key="item + '1'" class="pagination-item" disabled="true"
-                    v-else-if="(currentPage + 1 < item && currentPage + 2 >= item) || (currentPage - 1 > item && currentPage - 2 <= item)">...</button>
-            </template>
-            <button :disabled="!currentPage || currentPage >= allPages" @click="next" class="pagination-item">
-                <i class="icon-angle-pagination-left"></i>
-            </button>
-        </template>
-    </div>
+  <div class="pagination">
+    <template v-if="count">
+      <button
+          :disabled="!currentPage || (currentPage == 1)"
+          @click="prev"
+          class="pagination-item"
+      >
+        <i class="icon-angle-pagination-right"/>
+      </button>
+      <template v-for="item in allPages">
+        <button
+            v-if="item == 1 || item == allPages || (+currentPage - 1 <= item && +currentPage + 1 >= item)"
+            :key="item"
+            :disabled="currentPage == item"
+            :class="['pagination-item', {active: currentPage == item} ]"
+            @click="clickBtn(item)"
+        >
+          {{item }}
+        </button>
+        <button
+            v-else-if="(currentPage + 1 < item && currentPage + 2 >= item) || (currentPage - 1 > item && currentPage - 2 <= item)"
+            class="pagination-item"
+            disabled
+            :key="item + '1'"
+        >
+          ...
+        </button>
+      </template>
+      <button
+          :disabled="!currentPage || currentPage >= allPages"
+          class="pagination-item"
+          @click="next"
+      >
+        <i class="icon-angle-pagination-left" />
+      </button>
+    </template>
+  </div>
 </template>
-  
+
 <script>
 export default {
-    props: {
-        count: {
-            type: [String, Number],
-            default() {
-                return 5
-            }
-        },
-        limit: {
-            type: [String, Number],
-            default() {
-                return 1
-            }
-        },
-        page: {
-            type: [String, Number],
-            default() {
-                return 1
-            }
-        },
-        countLimit: {
-            type: Boolean,
-            default: true
-        }
+  props: {
+    count: {
+      type: [String, Number],
+      default() {
+        return 5
+      }
     },
-    data() {
-        return {
-            currentPage: 1,
-            limits: ['10', '15', '20'],
-            currentLimit: '10',
-        }
+    limit: {
+      type: [String, Number],
+      default() {
+        return 1
+      }
     },
-    computed: {
-        allPages() {
-            return Math.ceil(this.count / this.limit)
-        }
+    page: {
+      type: [String, Number],
+      default() {
+        return 1
+      }
     },
-    mounted() {
-        this.currentPage = this.page
-        this.currentLimit = this.limit + ''
-    },
-    methods: {
-        changeLimit(val) {
-            this.currentLimit = val;
-            this.$emit('onChangeLimit', this.currentLimit);
-            this.currentPage = 1;
-        },
-        next() {
-            this.currentPage++
-            (this.currentPage <= this.allPages) && this.$emit('paginate', this.currentPage)
-        },
-        prev() {
-            this.currentPage--
-            (this.currentPage <= this.allPages) && this.$emit('paginate', this.currentPage)
-        },
-        clickBtn(arg) {
-            if (arg <= this.allPages) {
-                this.currentPage = arg
-                this.$emit('paginate', arg)
-            }
-        }
+    countLimit: {
+      type: Boolean,
+      default: true
     }
+  },
+  data() {
+    return {
+      currentPage: 1,
+      limits: ['10', '15', '20'],
+      currentLimit: '10',
+    }
+  },
+  computed: {
+    allPages() {
+      return Math.ceil(this.count / this.limit)
+    }
+  },
+  mounted() {
+    this.currentPage = this.page
+    this.currentLimit = this.limit + ''
+  },
+  methods: {
+    next() {
+      this.currentPage++
+      (this.currentPage <= this.allPages) && this.$emit('paginate', this.currentPage)
+    },
+    prev() {
+      this.currentPage--
+      (this.currentPage <= this.allPages) && this.$emit('paginate', this.currentPage)
+    },
+    clickBtn(arg) {
+      if (arg <= this.allPages) {
+        this.currentPage = arg
+        this.$emit('paginate', arg)
+      }
+    }
+  }
 }
 </script>
-  
+
 <style scoped>
 
 </style>

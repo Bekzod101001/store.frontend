@@ -33,6 +33,7 @@
 <script>
 import api from "@/api";
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
+import {mapMutations} from "vuex";
 
 export default {
   components: {VueMarkdown},
@@ -40,13 +41,18 @@ export default {
     delivery: ''
   }),
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+
     async getDelivery() {
       const {data} = await api.delivery.get()
       this.delivery = data.data.attributes.text
     }
   },
   mounted() {
-    this.getDelivery()
+    this.setPreloader(true)
+    this.getDelivery().finally(() => {
+      this.setPreloader(false)
+    })
   }
 }
 </script>

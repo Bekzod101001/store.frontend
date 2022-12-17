@@ -120,7 +120,7 @@
 
 <script>
 import api from "@/api";
-import {mapGetters} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 import {clearFormatNumber} from "@/utils/helper";
 
 export default {
@@ -138,6 +138,8 @@ export default {
     ...mapGetters('socialProfiles', ['socialProfiles'])
   },
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+
     async getBranches() {
       const {data} = await api.branches.get()
       this.branches = data.data.map(item => {
@@ -148,7 +150,8 @@ export default {
     clearFormatNumber,
   },
   mounted() {
-    this.getBranches()
+    this.setPreloader(true)
+    this.getBranches().finally(() => this.setPreloader(false))
   }
 }
 </script>

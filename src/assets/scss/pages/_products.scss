@@ -159,6 +159,8 @@
             }
 
             &-count {
+                margin-left: auto;
+
                 @include devices(xs) {
                     width: 100%;
                 }
@@ -183,6 +185,10 @@
                     }
                 }
             }
+        }
+
+        &-body {
+            margin-bottom: 30px;
         }
     }
 
@@ -640,7 +646,7 @@
                         margin-bottom: 12px;
                     }
 
-                    &>span {
+                    & > span {
                         @include text-style-18(600, $green1);
                         @include flex-center;
                         margin-bottom: 20px;
@@ -648,6 +654,11 @@
                         i {
                             margin-right: 10px;
                             font-size: 20px;
+                        }
+
+                        &.red {
+                            @include text-style-18(600, $red);
+                            margin-bottom: 20px;
                         }
                     }
 
@@ -667,7 +678,14 @@
                         }
                     }
 
-
+                    > small {
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 150%;
+                        color: #E42911;
+                        margin-bottom: 0;
+                        text-decoration: line-through;
+                    }
 
                     .ant-btn {
                         width: 100%;
@@ -948,8 +966,6 @@
                 }
 
                 &-body {
-                    padding-left: 84px;
-
                     @include devices(md) {
                         padding-left: 0
                     }

@@ -63,10 +63,22 @@
 </template>
 
 <script>
-import api from "@/api";
-import {strapiRetriever} from "@/utils/helper";
 
 export default {
+  props: {
+    banners: {
+      type: Array,
+      default: () => [
+        {
+          btn_label: '',
+          btn_url: '',
+          title: '',
+          image: ''
+        }
+      ]
+    },
+    featuredAd: String
+  },
   data: () => ({
     sliderOptions: {
       pagination: {
@@ -82,42 +94,8 @@ export default {
       //     delay: 2500,
       //     disableOnInteraction: false
       // },
-    },
-    banners: [
-      {
-        btn_label: '',
-        btn_url: '',
-        title: '',
-        image: ''
-      }
-    ],
-    featuredAd: ''
-  }),
-  methods: {
-    async getBanners () {
-      const {data} = await api.banners.get({
-        populate: 'image'
-      })
-      this.banners = data.data.map(item => {
-        const image = strapiRetriever(item, 'image')
-        item = item.attributes
-        item.image = process.env.VUE_APP_BASE_URL + image
-        return item
-      })
-    },
-
-    async getFeaturedAd () {
-      const {data} = await api.featuredAd.get({
-        populate: 'image'
-      })
-      this.featuredAd = process.env.VUE_APP_BASE_URL + strapiRetriever(data.data, 'image')
     }
-  },
-  mounted() {
-    this.getBanners()
-    this.getFeaturedAd()
-  }
-
+  })
 }
 </script>
 

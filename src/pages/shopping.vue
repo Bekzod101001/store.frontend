@@ -60,7 +60,14 @@
                   </li>
                   <li>
                     <span>Chegirma:</span>
-                    <small>-{{ sumFormatter(totalSale) }} UZS</small>
+                    <small>
+                      <template v-if="totalSale">
+                        -{{ sumFormatter(totalSale) }}
+                      </template>
+                      <template v-else>
+                        0
+                      </template>
+                      UZS</small>
                   </li>
                   <li>
                     <span>Mahsulotlar soni:</span>
@@ -93,8 +100,7 @@ export default {
   },
   methods: {
     sumFormatter,
-  },
-  watch: {}
+  }
 }
 </script>
 

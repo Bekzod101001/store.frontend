@@ -1,6 +1,5 @@
 <template>
   <div
-      v-if="loaded"
       class="pages products-detail"
   >
     <div class="container">
@@ -44,8 +43,8 @@
           <h2>{{ detail.title }}</h2>
           <div class="products-detail-header-bottom">
             <div class="products-detail-header-bottom-mark">
-              <Mark :mark="3"></Mark>
-              <span>{{ (detail.mark || '3.0') }}</span>
+              <Mark :value="3"/>
+              <span>{{ detail.mark }}</span>
             </div>
             <div class="products-detail-header-bottom-comment">
               <i class="icon-comment"/>
@@ -79,16 +78,20 @@
           </div>
           <div class="products-detail-body-info">
             <div class="products-detail-body-info-header">
-              <b>{{ sumFormatter(detail.price) }}</b>
-              <span><i class="icon-shop"/> {{ computedStock }}</span>
+              <small>{{ sumFormatter(detail.oldPrice) }} {{ $t('sum') }}</small>
+              <b>{{ sumFormatter(detail.price) }} {{ $t('sum') }}</b>
+              <span :class="{'red': !detail.in_stock}">
+                <i class="icon-shop"/>
+                {{ computedStock }}
+              </span>
               <a-row
                   type="flex"
                   :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]"
               >
                 <a-col span="24">
                   <a-button
-                      @click="added_count++"
-                      v-if="(added_count == 0)"
+                      @click="addToBasket"
+                      v-if="(detail.amount === 0)"
                   >
                     {{ $t('button.addCart') }}
                   </a-button>
@@ -98,44 +101,27 @@
                   >
                     <i
                         class="icon-minus"
-                        @click.prevent="added_count--"
+                        @click.prevent="changeAmount('minus')"
                     />
 
-                    <span> {{ added_count }} </span>
+                    <span> {{ detail.amount }} </span>
 
                     <i
                         class="icon-plus"
-                        @click.prevent="added_count++"
+                        @click.prevent="changeAmount('plus')"
                     />
                   </button>
                 </a-col>
               </a-row>
             </div>
             <ul>
-              <li>
-                <small>{{ $t('title.publisher') }}</small>
+              <li
+                  v-for="property in detail.dynamic_properties"
+                  :key="property.id"
+              >
+                <small>{{ property.key }}</small>
                 <i></i>
-                <span>“Hilol nashriyot” matbaasi</span>
-              </li>
-              <li>
-                <small>{{ $t('title.author') }}</small>
-                <i></i>
-                <span>{{ detail.author }}</span>
-              </li>
-              <li>
-                <small>Yili</small>
-                <i></i>
-                <span>{{ detail.year }} yil</span>
-              </li>
-              <li>
-                <small>Muqova</small>
-                <i></i>
-                <span>{{ detail.binding }}</span>
-              </li>
-              <li>
-                <small>Sahifa</small>
-                <i></i>
-                <span>{{ detail.pages_amount }} bet</span>
+                <span>{{ property.value }}</span>
               </li>
             </ul>
             <h3>Kitob haqida</h3>
@@ -178,55 +164,17 @@
                   Mahsulot haqida izohlar
                 </h2>
                 <ul>
-                  <li>
+                  <li
+                      v-for="(review, index) in reviews"
+                      :key="index"
+                  >
                     <div class="products-detail-comment-left-header">
-                      <div class="products-detail-comment-left-header-avatar">
-                        <img
-                            src=""
-                            alt=""
-                            v-if="false"
-                        >
-                        <span>M</span>
-                      </div>
-                      <h3>Mansur_Alimovich</h3>
-                      <span>24.04.2022</span>
-                      <Mark></Mark>
+                      <h3>{{ review.name }}</h3>
+                      <span>{{ dateFormatter(review.createdAt) }}</span>
+                      <Mark :value="review.rating"/>
                     </div>
                     <div class="products-detail-comment-left-body">
-                      <p>Performance go value-added asserts your beforehand standup quick plan
-                        should. Opportunity ideal create box is businesses manage comms in.
-                        Procrastinating keywords then picture market pretend eco-system revision
-                        pivot feelers. Cadence cross-pollination window message agile. It policy
-                        can't economy incompetent stakeholders game able sky sop. Tomorrow
-                        criticality field do believe timepoint savvy. <br>
-                        Me baseline options ui identify please manage way engagement not
-                        productize event win cross-pollination.</p>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="products-detail-comment-left-header">
-                      <div class="products-detail-comment-left-header-avatar">
-                        <img
-                            src=""
-                            alt=""
-                            v-if="false"
-                        >
-                        <span>S</span>
-                      </div>
-                      <h3>Sanobar2001</h3>
-                      <span>24.04.2022</span>
-                      <Mark></Mark>
-                    </div>
-                    <div class="products-detail-comment-left-body">
-                      <p>At prioritize model angel effects re-inventing. Cross close die spaces
-                        production. Manage due dogpile win-win-win at picture. Ideal
-                        contribution keep no-brainer vec that's issues stop meeting low-hanging.
-                        Diligence we've will first-order after now. <br>
-                        Third offline playing ladder circle flesh player-coach view build or.
-                        Breakout hours air that stakeholder also our globalize no. Air inclusion
-                        that's manage engagement skulls ladder team didn't. Money masking got
-                        speed dogpile feature yet. Decisions run accountable idea people
-                        incentivization in market.</p>
+                      <p>{{ review.comment }}</p>
                     </div>
                   </li>
                 </ul>
@@ -308,12 +256,15 @@
       <div class="mark-modal-body">
         <div class="mark-modal-mark">
           <span>Umumiy baho:</span>
-          <Mark :mark="0"/>
+          <Mark
+              v-model="newReview.rating"
+          />
         </div>
         <a-form-item label="Izoh:">
-          <a-textarea placeholder="Izoh qoldiring">
-
-          </a-textarea>
+          <a-textarea
+              v-model="newReview.comment"
+              placeholder="Izoh qoldiring"
+          />
         </a-form-item>
         <a-button @click="handleOk">Yuborish</a-button>
       </div>
@@ -322,9 +273,9 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import api from "@/api";
-import {strapiRetriever, sumFormatter} from "@/utils/helper";
+import {dateFormatter, strapiRetriever, sumFormatter} from "@/utils/helper";
 
 export default {
   components: {
@@ -376,19 +327,37 @@ export default {
           },
         }
       },
-      detail: {},
+      detail: {
+        amount: 0
+      },
       activeImageIndex: 0,
-      loaded: false
+      reviews: [
+        {
+          name: 'Mansur_Alimovich',
+          createdAt: '',
+          rating: 2,
+          comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid debitis doloremque doloribus ea esse, fuga ipsa laudantium maxime neque odit quas quia recusandae rem sapiente tempore voluptatibus voluptatum! Quaerat, voluptate.'
+        }
+      ],
+      newReview: {
+        rating: 0,
+        comment: ''
+      }
     }
   },
   computed: {
     ...mapGetters("products", ["recommendList"]),
+    ...mapGetters('basket', ['productsInBasket']),
+    ...mapGetters('auth', ['userID']),
 
     computedStock() {
       return this.detail.in_stock ? 'Sotuvda mavjud' : 'Sotuvda mavjud emas'
     }
   },
   methods: {
+    ...mapMutations('basket', ['setProduct', 'setAmount']),
+    ...mapMutations('preloader', ['setPreloader']),
+
     sumFormatter,
 
     onClickTab(index) {
@@ -397,32 +366,77 @@ export default {
     showModal() {
       this.visible = true;
     },
-    handleOk() {
+    async handleOk() {
       this.ModalText = 'The modal will be closed after two seconds';
       this.confirmLoading = true;
-      setTimeout(() => {
-        this.visible = false;
-        this.confirmLoading = false;
-      }, 2000);
+      this.newReview.author = this.userID
+      this.newReview.product = this.$route.params.id
+      await api.reviews.post({data: this.newReview})
+          .then(({data}) => {
+            Object.keys(data.data.attributes).forEach(key => {
+              data[key] = data.data.attributes[key]
+            })
+            delete data.data
+            data.name = 'Ваш отзыв'
+
+            this.reviews.unshift(data)
+          })
+          .finally(() => {
+            this.visible = false;
+            this.confirmLoading = false;
+          })
     },
     handleCancel() {
       this.visible = false;
     },
 
-    async getProduct() {
-      this.loaded = false
-      const {data} = await api.products.getSingle(this.$route.params.id, {
-        populate: ['images', 'category']
-      })
-      const images = strapiRetriever(data.data, 'images')
-      this.detail = data.data.attributes
-      this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
-      console.log(this.detail)
-      this.loaded = true
+    addToBasket() {
+      if(!this.detail.amount) this.detail.amount++
+      this.setProduct(this.detail)
     },
+
+    changeAmount (operation) {
+      if (operation === 'minus') {
+        if(this.detail.amount) this.detail.amount--
+      }
+      else if (operation === 'plus') {
+        this.detail.amount++
+      }
+
+      this.setAmount({
+        id: this.detail.id,
+        amount: this.detail.amount
+      })
+    },
+
+    async getProduct() {
+      const {data} = await api.products.getSingle(this.$route.params.id, {
+        populate: ['images', 'category', 'dynamic_properties', 'reviews']
+      })
+      Object.keys(data.data.attributes).forEach(key => {
+        this.detail[key] = data.data.attributes[key]
+      })
+      delete this.detail.attributes
+
+      const images = strapiRetriever(data.data, 'images')
+      this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+      this.detail.id = data.data.id
+      this.productsInBasket.filter(item => {
+        if(item.id === data.data.id) this.detail.amount = item.amount
+      })
+
+      if(this.detail.discount_percent) {
+        this.detail.oldPrice = JSON.parse(JSON.stringify(this.detail.price))
+        this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
+        this.detail.price = this.detail.oldPrice - this.detail.discount
+      }
+    },
+
+    dateFormatter
   },
   mounted() {
-    this.getProduct()
+    this.setPreloader(true)
+    this.getProduct().finally(() => this.setPreloader(false))
   }
 }
 </script>

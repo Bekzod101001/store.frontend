@@ -118,7 +118,8 @@ export default {
     }
   },
   mounted() {
-    this.getPartners()
+    this.setPreloader(true)
+    this.getPartners().finally(() => this.setPreloader(false))
   }
 }
 </script>

@@ -46,7 +46,8 @@ export default {
     }
   },
   mounted() {
-    this.getTermsAndOffer()
+    this.setPreloader(true)
+    this.getTermsAndOffer().finally(() => this.setPreloader(false))
   }
 }
 </script>

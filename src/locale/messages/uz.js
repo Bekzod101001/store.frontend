@@ -15,6 +15,7 @@ const uz = {
         publisher: 'Nashriyot',
         author: 'Muallif',
         year: 'Yil'
-    }
+    },
+    sum: "so'm",
 }
 export default uz

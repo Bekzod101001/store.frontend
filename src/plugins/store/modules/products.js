@@ -20,6 +20,28 @@ const actions = {
     }
 }
 
+const mutations = {
+    setProducts(state, payload) {
+        state.products = payload
+        state.products.data = state.products.data.map(item => {
+            Object.keys(item.attributes).forEach(key => {
+                item[key] = item.attributes[key]
+            })
+            const images = strapiRetriever(item, 'images')
+            item.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+            delete item.attributes
+
+            if(item.discount_percent) {
+                item.oldPrice = JSON.parse(JSON.stringify(item.price))
+                item.discount = item.oldPrice / 100 * item.discount_percent
+                item.price = item.oldPrice - item.discount
+            }
+
+            return item
+        })
+    }
+}
+
 const getters = {
     products(state, getters, store) {
         const productsInBasket = store.basket.products
@@ -41,20 +63,6 @@ const getters = {
         return state.detail
     }
 };
-
-const mutations = {
-    setProducts(state, payload) {
-        state.products = payload
-        state.products.data = state.products.data.map(item => {
-            const images = strapiRetriever(item, 'images')
-            const id = item.id
-            item = item.attributes
-            item.id = id
-            item.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
-            return item
-        })
-    }
-}
 
 export default {
     namespaced: true,

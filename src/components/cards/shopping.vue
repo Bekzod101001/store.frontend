@@ -7,17 +7,32 @@
       >
     </div>
     <div class="card-info">
-      <h3>{{ product.name }}</h3>
-      <a-button>O'chirish</a-button>
+      <router-link :to="{
+          name: 'productsId',
+          params: {
+            id: product.id
+          }
+        }"
+      >
+        <h3>{{ product.name }}</h3>
+      </router-link>
+      <a-button
+          @click.prevent="deleteProductFromBasket"
+      >
+        O'chirish
+      </a-button>
     </div>
     <div class="card-price">
-      <span>{{ product.price }}</span>
+      <span>{{ sumFormatter(product.price) }} {{ $t('sum') }}</span>
       <small v-if="product.oldPrice">
-        {{ product.oldPrice }}
-        <b v-if="product.discount_percent">{{ product.discount_percent }}</b>
+        <s>{{ sumFormatter(product.oldPrice) }} {{ $t('sum') }}</s>
+        <b v-if="product.discount_percent">{{ product.discount_percent }}%</b>
       </small>
     </div>
-    <div class="card-action">
+    <div
+        class="card-action"
+        @click.prevent
+    >
       <a-button @click="changeAmount('minus')">
         <i class="icon-minus"/>
       </a-button>
@@ -33,9 +48,20 @@
 
 <script>
 import productCardMixin from "@/mixins/productCardMixin";
+import {mapMutations} from "vuex";
+import {sumFormatter} from "@/utils/helper";
 
 export default {
   mixins: [productCardMixin],
+  methods: {
+    ...mapMutations('basket', ['setAmount']),
+
+    sumFormatter,
+
+    deleteProductFromBasket() {
+      this.setAmount({id: this.product.id, amount: 0})
+    }
+  }
 }
 </script>
 

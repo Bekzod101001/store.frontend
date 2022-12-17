@@ -173,7 +173,6 @@
 <script>
 import {mapGetters, mapState} from 'vuex'
 import {sumFormatter} from "@/utils/helper";
-import api from "@/api";
 import i18n from "@/i18n";
 
 export default {
@@ -181,10 +180,12 @@ export default {
     Menu: () => import('@/components/layouts/header/menu'),
     MobileMenu: () => import('@/components/layouts/header/menu/mobile.vue')
   },
+  props: {
+    categories: Array
+  },
   data: () => ({
     isActiveFull: false,
     isActiveMobile: false,
-    categories: [],
     langs: {
       uz: {
         label: 'O‘zbekcha',
@@ -224,29 +225,6 @@ export default {
       this.isActiveMobile = val;
     },
 
-    async getCategories() {
-      const {data} = await api.categories.get({
-        populate: ['categories', 'category'],
-        filters: {
-          category: {
-            id: {
-              "$null": true
-            }
-          }
-        }
-      })
-      this.categories = data.data.map(item => {
-        item = item.attributes
-        if (item.categories) {
-          item.categories = item.categories.data.map(category => {
-            category = category.attributes
-            return category
-          })
-        }
-        return item
-      })
-    },
-
     changeLang (key) {
       this.activeLang = key
       i18n.locale = key
@@ -254,9 +232,6 @@ export default {
     },
 
     sumFormatter,
-  },
-  mounted() {
-    this.getCategories()
   }
 };
 </script>

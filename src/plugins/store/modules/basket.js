@@ -1,6 +1,6 @@
 const state = () => ({
-    totalSum: 45235,
-    totalSale: 250000,
+    totalSum: 0,
+    totalSale: 0,
     products: JSON.parse(localStorage.getItem('basketProducts')) ?? []
 })
 
@@ -19,6 +19,13 @@ const getters = {
     },
 
     totalSale(state) {
+        let total = 0
+        state.products.map(item => {
+            if(!item.discount) return
+            total += item.discount * item.amount
+        })
+
+        state.totalSale = total
         return state.totalSale
     },
     productsInBasket(state) {
@@ -41,8 +48,8 @@ const mutations = {
     },
 
     setAmount(state, {id, amount}) {
-        state.products.find((item, index) => {
-            if(item.id !== id) return false;
+        state.products.filter((item, index) => {
+            if(item.id !== id) return
             if(amount === 0) {
                 state.products.splice(index, 1)
                 this.state.products.products.data.map((product) => {

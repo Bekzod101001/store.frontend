@@ -1,23 +1,40 @@
 <template>
   <div class="pages">
-    <a-table
-        :columns="columns"
-        :dataSource="dataSource"
-    >
-      <a-table-column
-          key="name"
-          title="name"
-          data-index="name"
+    <div class="orders__row">
+      <div
+          v-for="(order, index) in orders"
+          :key="index"
+          class="orders__item"
       >
-        <template slot-scope="text, record">
+        <div class="orders__item__details">
+          <h3 class="orders__item__details__title">Информация о заказе</h3>
+          <p>
+            <strong>Время создания:</strong>
+            {{ new Date() }}
+          </p>
+        </div>
+        <a-table
+            :columns="columns"
+            :dataSource="order.items"
+            :pagination="false"
+            class="orders__table"
+        >
+          <a-table-column
+              key="name"
+              title="name"
+              data-index="name"
+          >
+            <template slot-scope="text, record">
           <span>
             <a>{{ $t('title.action') }} 一 {{ record.name }}</a>
             <a-divider type="vertical"/>
             <a>{{ $t('button.delete') }}</a>
           </span>
-        </template>
-      </a-table-column>
-    </a-table>
+            </template>
+          </a-table-column>
+        </a-table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,19 +43,23 @@
 export default {
   name: "accountOrders",
   data: () => ({
-    dataSource: [
+    orders: [
       {
-        key: '1',
-        name: 'Mike',
-        age: 32,
-        address: '10 Downing Street',
-      },
-      {
-        key: '2',
-        name: 'John',
-        age: 42,
-        address: '10 Downing Street',
-      },
+        items: [
+          {
+            key: '1',
+            name: 'Mike',
+            age: 32,
+            address: '10 Downing Street',
+          },
+          {
+            key: '2',
+            name: 'John',
+            age: 42,
+            address: '10 Downing Street',
+          },
+        ]
+      }
     ],
     credentials: {
       email: '',

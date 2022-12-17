@@ -26,8 +26,6 @@ Vue.use(PerfectScrollbar)
 Vue.use(VueAwesomeSwiper);
 // registration
 
-
-
 Vue.config.productionTip = false
 
 new Vue({

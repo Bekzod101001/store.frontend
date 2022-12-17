@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import api from "@/api";
-import {strapiRetriever} from "@/utils/helper";
-
 export default {
+  props: {
+    projects: Array
+  },
   data() {
     return {
       usefulOptions: {
@@ -79,25 +79,8 @@ export default {
             spaceBetween: 16
           },
         }
-      },
-      projects: []
+      }
     }
-  },
-  computed: {
-  },
-  methods: {
-    async getAzonProjects () {
-      const {data} = await api.azonProjects.get({
-        populate: 'logo'
-      })
-      this.projects = data.data.map(project => {
-        project.image = process.env.VUE_APP_BASE_URL + strapiRetriever(project, 'logo')
-        return project
-      })
-    }
-  },
-  mounted() {
-    this.getAzonProjects()
   }
 }
 </script>

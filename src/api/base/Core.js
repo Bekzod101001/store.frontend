@@ -13,4 +13,8 @@ export class Core {
     getSingle (id, params) {
         return this._axios.get(`${this.url}/${id}`, {params})
     }
+
+    post (body) {
+        return this._axios.post(this.url, body)
+    }
 }

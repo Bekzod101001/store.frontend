@@ -1,5 +1,6 @@
 import {Core} from "@/api/base/Core";
 import Auth from '@/api/parts/auth.js';
+import Reviews from "@/api/parts/reviews";
 
 export default {
     auth: new Auth('/auth'),
@@ -14,5 +15,6 @@ export default {
     delivery: new Core('/delivery'),
     offers: new Core('/terms-and-offer'),
     featuredAd: new Core('/featured-ad'),
-    socialProfiles: new Core('/social-profiles')
+    socialProfiles: new Core('/social-profiles'),
+    reviews: new Reviews('/reviews')
 }
