@@ -48,8 +48,8 @@
               <span>{{ (detail.mark || '3.0') }}</span>
             </div>
             <div class="products-detail-header-bottom-comment">
-              <i class="icon-comment"></i>
-              <span>32 ta izoh</span>
+              <i class="icon-comment"/>
+              <span>{{ $t('title.commentsCount', {num: 32}) }}</span>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
           <div class="products-detail-body-info">
             <div class="products-detail-body-info-header">
               <b>{{ sumFormatter(detail.price) }}</b>
-              <span><i class="icon-shop"></i> {{ computedStock }}</span>
+              <span><i class="icon-shop"/> {{ computedStock }}</span>
               <a-row
                   type="flex"
                   :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]"
@@ -89,33 +89,38 @@
                   <a-button
                       @click="added_count++"
                       v-if="(added_count == 0)"
-                  >Savatga
-                    qo‘shish
+                  >
+                    {{ $t('button.addCart') }}
                   </a-button>
                   <button
                       class="btn-calculating"
                       v-else
-                  ><i
-                      class="icon-minus"
-                      @click.prevent="added_count--"
-                  ></i>
-                    <span> {{ added_count }} </span><i
+                  >
+                    <i
+                        class="icon-minus"
+                        @click.prevent="added_count--"
+                    />
+
+                    <span> {{ added_count }} </span>
+
+                    <i
                         class="icon-plus"
                         @click.prevent="added_count++"
-                    ></i></button>
+                    />
+                  </button>
                 </a-col>
               </a-row>
             </div>
             <ul>
               <li>
-                <small>Nashriyot</small>
+                <small>{{ $t('title.publisher') }}</small>
                 <i></i>
                 <span>“Hilol nashriyot” matbaasi</span>
               </li>
               <li>
-                <small>Muallif</small>
+                <small>{{ $t('title.author') }}</small>
                 <i></i>
-                <span>{{detail.author}}</span>
+                <span>{{ detail.author }}</span>
               </li>
               <li>
                 <small>Yili</small>
@@ -125,7 +130,7 @@
               <li>
                 <small>Muqova</small>
                 <i></i>
-                <span>{{detail.binding}}</span>
+                <span>{{ detail.binding }}</span>
               </li>
               <li>
                 <small>Sahifa</small>
@@ -134,7 +139,7 @@
               </li>
             </ul>
             <h3>Kitob haqida</h3>
-            <p>{{detail.small_description}}</p>
+            <p>{{ detail.small_description }}</p>
           </div>
         </div>
         <div class="products-detail-recommend">
@@ -155,7 +160,7 @@
         </div>
         <div class="products-detail-about">
           <h2>Tavsif</h2>
-          <p>{{detail.description}}</p>
+          <p>{{ detail.description }}</p>
         </div>
         <div class="products-detail-comment">
           <a-row
@@ -379,7 +384,7 @@ export default {
   computed: {
     ...mapGetters("products", ["recommendList"]),
 
-    computedStock () {
+    computedStock() {
       return this.detail.in_stock ? 'Sotuvda mavjud' : 'Sotuvda mavjud emas'
     }
   },
@@ -404,7 +409,7 @@ export default {
       this.visible = false;
     },
 
-    async getProduct () {
+    async getProduct() {
       this.loaded = false
       const {data} = await api.products.getSingle(this.$route.params.id, {
         populate: ['images', 'category']

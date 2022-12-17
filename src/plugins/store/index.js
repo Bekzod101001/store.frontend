@@ -9,6 +9,7 @@ import contacts from "@/plugins/store/modules/contacts";
 import auth from '@/plugins/store/modules/auth.js';
 import about from "@/plugins/store/modules/about";
 import socialProfiles from "@/plugins/store/modules/socialProfiles";
+import preloader from "@/plugins/store/modules/preloader";
 
 // plugins
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
         basket,
         contacts,
         about,
-        socialProfiles
+        socialProfiles,
+        preloader
     }
 })
 export default store

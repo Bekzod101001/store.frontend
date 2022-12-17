@@ -24,10 +24,12 @@
             <a-dropdown placement="bottomRight">
               <a-button>
                 <img
-                    src="@/assets/images/uz.png"
+                    :src="langs[activeLang].img"
                     alt="flag"
                 >
-                <span>O‘zbekcha</span>
+                <span>
+                  {{ langs[activeLang].label }}
+                </span>
                 <i class="icon-angle-down"></i>
               </a-button>
               <div
@@ -35,20 +37,21 @@
                   slot="overlay"
               >
                 <ul>
-                  <li>
-                    <img
-                        src="@/assets/images/en.png"
-                        alt="flag"
+                  <template
+                      v-for="(lang, key) in langs"
+                  >
+                    <li
+                        v-if="activeLang !== key"
+                        :key="key"
+                        @click="changeLang(key)"
                     >
-                    English
-                  </li>
-                  <li>
-                    <img
-                        src="@/assets/images/ru.png"
-                        alt="flag"
-                    >
-                    Русский
-                  </li>
+                      <img
+                          :src="lang.img"
+                          alt="flag"
+                      >
+                      {{ lang.label }}
+                    </li>
+                  </template>
                 </ul>
               </div>
             </a-dropdown>
@@ -171,6 +174,7 @@
 import {mapGetters, mapState} from 'vuex'
 import {sumFormatter} from "@/utils/helper";
 import api from "@/api";
+import i18n from "@/i18n";
 
 export default {
   components: {
@@ -180,7 +184,22 @@ export default {
   data: () => ({
     isActiveFull: false,
     isActiveMobile: false,
-    categories: []
+    categories: [],
+    langs: {
+      uz: {
+        label: 'O‘zbekcha',
+        img: require('@/assets/images/uz.png')
+      },
+      ru: {
+        label: 'Русский',
+        img: require('@/assets/images/ru.png')
+      },
+      en: {
+        label: 'English',
+        img: require('@/assets/images/en.png')
+      }
+    },
+    activeLang: localStorage.getItem('lang')
   }),
   computed: {
     ...mapState("auth", ["authUser"]),
@@ -226,6 +245,12 @@ export default {
         }
         return item
       })
+    },
+
+    changeLang (key) {
+      this.activeLang = key
+      i18n.locale = key
+      localStorage.setItem('lang', key)
     },
 
     sumFormatter,

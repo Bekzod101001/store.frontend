@@ -1,15 +1,19 @@
 <template>
   <div class="pages">
     <a-table
-      :columns="columns"
-      :dataSource="dataSource"
+        :columns="columns"
+        :dataSource="dataSource"
     >
-      <a-table-column key="name" title="name" data-index="name">
+      <a-table-column
+          key="name"
+          title="name"
+          data-index="name"
+      >
         <template slot-scope="text, record">
           <span>
-            <a>Action 一 {{ record.name }}</a>
-            <a-divider type="vertical" />
-            <a>Delete</a>
+            <a>{{ $t('title.action') }} 一 {{ record.name }}</a>
+            <a-divider type="vertical"/>
+            <a>{{ $t('button.delete') }}</a>
           </span>
         </template>
       </a-table-column>
@@ -36,32 +40,33 @@ export default {
         address: '10 Downing Street',
       },
     ],
-
-    columns: [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-      },
-    ],
-
     credentials: {
       email: '',
       password: ''
     },
-
     isRememberMeActive: false
   }),
+  computed: {
+    columns() {
+      return [
+        {
+          title: this.$t('title.name'),
+          dataIndex: 'name',
+          key: 'name',
+        },
+        {
+          title: this.$t('title.age'),
+          dataIndex: 'age',
+          key: 'age',
+        },
+        {
+          title: this.$t('title.address'),
+          dataIndex: 'address',
+          key: 'address',
+        },
+      ]
+    }
+  },
   methods: {
     signIn() {
       this.$store.dispatch('auth/signIn', this.credentials)

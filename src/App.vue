@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <LoaderHome v-if="!loadingHome"/>
+    <LoaderHome v-if="isPreloaderActive"/>
     <template v-else>
       <Header/>
       <router-view />
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'App',
@@ -19,29 +19,28 @@ export default {
     Header: () => import('@/components/layouts/header'),
     Footer: () => import('@/components/layouts/footer'),
   },
-  data() {
-    return {
-      loadingHome: false
-    }
+  computed: {
+    ...mapGetters('preloader', ['isPreloaderActive'])
   },
   methods: {
     ...mapActions('about', ['getAbout']),
     ...mapActions('contacts', ["getContacts"]),
     ...mapActions('products', ['getProducts']),
-    ...mapActions('socialProfiles', ['getSocialProfiles'])
+    ...mapActions('socialProfiles', ['getSocialProfiles']),
+    ...mapActions('auth', ['getAuthUser']),
+    ...mapMutations('preloader', ['setPreloader'])
   },
   mounted() {
-    Promise.any([
+    Promise.all([
       this.getAbout(),
       this.getContacts(),
       this.getProducts(),
-      this.getSocialProfiles()
+      this.getSocialProfiles(),
+      this.getAuthUser()
     ])
-
-    setTimeout(() => {
-      this.loadingHome = true;
-    }, 0)
-    this.$store.dispatch('auth/getAuthUser');
+        .finally(() => {
+          this.setPreloader(false)
+        })
   }
 
 }

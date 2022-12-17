@@ -2,7 +2,7 @@
   <div class="pages sign sign-in">
     <div class="container">
       <h2 class="sign__title">
-        Account
+        {{ $t('title.account') }}
       </h2>
       <a-row>
         <a-col :lg="6">
@@ -13,13 +13,13 @@
             })"
             >
               <a-icon type="orders" />
-              Orders
+              {{ $t('title.orders') }}
             </a-menu-item>
             <a-menu-item
               @click="logout()"
             >
               <a-icon type="logout" />
-              Log out
+              {{ $t('title.logout') }}
             </a-menu-item>
           </a-menu>
 

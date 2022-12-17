@@ -16,6 +16,7 @@ import "swiper/css/swiper.min.css";
 import '@/assets/fonts/Sf-pro-display/stylesheet.css';
 import '@/assets/fonts/icomoon/style.css';
 import '@/assets/scss/index.scss';
+import i18n from "@/i18n";
 
 // assets
 
@@ -32,5 +33,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App),
 }).$mount('#app')
