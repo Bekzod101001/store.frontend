@@ -206,7 +206,6 @@ export default {
     ...mapGetters("menu", ["list"]),
     ...mapGetters("basket", ["totalSum", "totalProductsAmount"]),
     ...mapGetters('about', ['about']),
-    ...mapMutations('preloader', ['setPreloader']),
 
     computedCategoriesWithSub() {
       return this.categories.filter(category => category.categories.length)
@@ -217,6 +216,8 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+    
     onClickFull(val) {
       this.isActiveFull = val;
     },
@@ -226,12 +227,11 @@ export default {
     },
 
     changeLang(key) {
-      location.reload()
-      this.setPreloader(false)
-
+      this.setPreloader(true)
       this.activeLang = key
       i18n.locale = key
       localStorage.setItem('lang', key)
+      location.reload()
     },
 
     sumFormatter,
