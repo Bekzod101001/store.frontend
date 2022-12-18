@@ -37,6 +37,7 @@
               <div class="shopping-sidebar">
                 <a-button
                     v-if="isLoggedIn"
+                    :loading="isOrderLoading"
                     @click="makeOrder"
                 >
                   {{ $t('shopping.order') }}
@@ -72,7 +73,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import { sumFormatter } from "@/utils/helper";
 import api from "@/api";
 
@@ -80,11 +81,16 @@ export default {
   components: {
     Card: () => import("@/components/cards/shopping")
   },
+  data: () => ({
+    isOrderLoading: false
+  }),
   computed: {
     ...mapGetters("basket", ["totalSum", "totalSale", "totalProductsAmount", "productsInBasket"]),
     ...mapGetters('auth', ['isLoggedIn', 'userID'])
   },
   methods: {
+    ...mapMutations('basket', ['clearBasket']),
+
     sumFormatter,
 
     async makeOrder () {
@@ -100,14 +106,26 @@ export default {
         return item
       })
 
-      await api.order.post({
-        data: {
-          users_permissions_user: this.userID,
-          comment: '',
-          total_price: this.totalSum,
-          Cart
-        }
-      })
+      this.isOrderLoading = true
+      try {
+        await api.order.post({
+          data: {
+            users_permissions_user: this.userID,
+            comment: '',
+            total_price: this.totalSum,
+            Cart
+          }
+        })
+
+        this.clearBasket()
+        this.isOrderLoading = false
+        this.$message.success('Ваш заказ успешно принят')
+        this.$router.push({name: 'AccountOrders'})
+      }
+      catch (e) {
+        console.log(e)
+        this.$message.error(e.message)
+      }
 
     }
   }

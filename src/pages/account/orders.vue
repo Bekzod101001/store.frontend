@@ -10,7 +10,7 @@
           <h3 class="orders__item__details__title">{{ $t('order.detail.title') }}</h3>
           <p>
             <strong>{{ $t('order.detail.created') }}:</strong>
-            {{ new Date() }}
+            {{ dateFormatter(new Date()) }}
           </p>
         </div>
         <a-table
@@ -40,6 +40,10 @@
 
 <script>
 
+import api from "@/api";
+import {mapGetters} from "vuex";
+import {dateFormatter} from "@/utils/helper";
+
 export default {
   name: "accountOrders",
   data: () => ({
@@ -68,6 +72,8 @@ export default {
     isRememberMeActive: false
   }),
   computed: {
+    ...mapGetters('auth', ['userID']),
+
     columns() {
       return [
         {
@@ -89,9 +95,27 @@ export default {
     }
   },
   methods: {
+    dateFormatter,
+
     signIn() {
       this.$store.dispatch('auth/signIn', this.credentials)
+    },
+
+    async getOrders () {
+      await api.order.get({
+        populate: 'product',
+        filters: {
+          user: {
+            id: {
+              $eq: this.userID
+            }
+          }
+        }
+      })
     }
+  },
+  mounted() {
+    this.getOrders()
   }
 }
 </script>
