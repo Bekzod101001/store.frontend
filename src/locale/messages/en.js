@@ -91,10 +91,10 @@ const en = {
       about: "About Us",
       delivery: "Delivery",
       offer: "Offer",
-      partners: "Sponsors",
+      partners: "Partners",
       basket: "Basket",
       partnerShop: "Partner Stores",
-      connect: "Contact",
+      connect: "Get in touch",
     },
     contact: {
       info: "Contact",

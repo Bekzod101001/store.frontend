@@ -60,6 +60,13 @@ const mutations = {
 
         })
         localStorage.setItem('basketProducts', JSON.stringify(state.products))
+    },
+
+    clearBasket(state) {
+        state.products.length = 0
+        state.totalSum = 0
+        state.totalSale = 0
+        localStorage.removeItem('basketProducts')
     }
 }
 
