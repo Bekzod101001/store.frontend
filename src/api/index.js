@@ -16,5 +16,6 @@ export default {
     offers: new Core('/terms-and-offer'),
     featuredAd: new Core('/featured-ad'),
     socialProfiles: new Core('/social-profiles'),
-    reviews: new Reviews('/reviews')
+    reviews: new Reviews('/reviews'),
+    order: new Core('/orders')
 }

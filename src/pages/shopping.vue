@@ -35,7 +35,10 @@
             </a-col>
             <a-col :lg="6" :md="12" :sm="12" :xs="24">
               <div class="shopping-sidebar">
-                <a-button v-if="isLoggedIn">
+                <a-button
+                    v-if="isLoggedIn"
+                    @click="makeOrder"
+                >
                   {{ $t('shopping.order') }}
                 </a-button>
                 <ul>
@@ -71,6 +74,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { sumFormatter } from "@/utils/helper";
+import api from "@/api";
 
 export default {
   components: {
@@ -78,10 +82,34 @@ export default {
   },
   computed: {
     ...mapGetters("basket", ["totalSum", "totalSale", "totalProductsAmount", "productsInBasket"]),
-    ...mapGetters('auth', ['isLoggedIn'])
+    ...mapGetters('auth', ['isLoggedIn', 'userID'])
   },
   methods: {
     sumFormatter,
+
+    async makeOrder () {
+      const Cart = this.productsInBasket.map(item => {
+        item = {
+          product: {
+            data: {
+              id: item.id
+            }
+          },
+          amount: item.amount
+        }
+        return item
+      })
+
+      await api.order.post({
+        data: {
+          users_permissions_user: this.userID,
+          comment: '',
+          total_price: this.totalSum,
+          Cart
+        }
+      })
+
+    }
   }
 }
 </script>

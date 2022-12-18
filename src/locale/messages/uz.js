@@ -70,7 +70,6 @@ const uz = {
       to: "gacha",
       byPrice: "Narxi bo‘yicha",
       high: "Qimmat",
-      middle: "O’rtancha",
       low: "Arzon",
     },
     button: {

@@ -78,9 +78,6 @@
                         <span>{{ $t('products.filter.high') }}</span>
                       </li>
                       <li>
-                        <span>{{ $t('products.filter.middle') }}</span>
-                      </li>
-                      <li>
                         <span>{{ $t('products.filter.low') }}</span>
                       </li>
                     </ul>
