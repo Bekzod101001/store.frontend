@@ -64,7 +64,7 @@
                 </li>
 
                 <li>
-                  <router-link to="/contact">{{ $t('navigation.partnerShop') }}</router-link>
+                  <router-link to="/contact">{{ $t('navigation.connect') }}</router-link>
                 </li>
               </ul>
             </div>

@@ -217,7 +217,7 @@ export default {
   },
   methods: {
     ...mapMutations('preloader', ['setPreloader']),
-    
+
     onClickFull(val) {
       this.isActiveFull = val;
     },
