@@ -6,7 +6,7 @@
 
       <LoaderHome v-if="basicPreloader"/>
       <template v-else>
-        <router-view />
+        <router-view :key="$route.fullPath"/>
       </template>
 
       <Footer/>

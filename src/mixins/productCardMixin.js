@@ -43,9 +43,7 @@ export default {
         }
     },
     mounted() {
-        Object.keys(this.info).forEach(key => {
-            this.product[key] = this.info[key]
-        })
+        this.product = {...this.product, ...this.info}
         if(!Object.keys(this.product).includes('amount')) {
             this.product.amount = 0
         }

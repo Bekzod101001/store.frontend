@@ -26,7 +26,7 @@
               data-aos-duration="300"
               :data-aos-delay="index * 100 + 500"
           >
-            <ProductCard :info="item"/>
+            <ProductCard :info="item" />
           </div>
         </div>
       </div>
@@ -36,11 +36,10 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import vertical from "@/components/cards/vertical.vue";
 
 export default {
-  components: {
-    ProductCard: () => import('@/components/cards/vertical')
-  },
+  components: {ProductCard: vertical},
   data() {
     return {
       tab: {

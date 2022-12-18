@@ -24,7 +24,7 @@
         </svg>
       </li>
       <li
-          v-for="item in (5 - value)"
+          v-for="item in (5 - +value)"
           :key="item + value"
           @click="changeValue(item + value)"
       >
