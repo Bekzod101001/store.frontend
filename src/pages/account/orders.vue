@@ -103,7 +103,7 @@ export default {
 
     async getOrders () {
       await api.order.get({
-        populate: 'product',
+        populate: 'carts.product',
         filters: {
           user: {
             id: {

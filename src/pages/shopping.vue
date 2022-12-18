@@ -110,10 +110,14 @@ export default {
       try {
         await api.order.post({
           data: {
-            users_permissions_user: this.userID,
             comment: '',
             total_price: this.totalSum,
-            Cart
+            Cart,
+            user: {
+              data: {
+                id: this.userID,
+              }
+            },
           }
         })
 
