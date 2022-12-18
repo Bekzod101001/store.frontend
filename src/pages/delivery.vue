@@ -7,19 +7,19 @@
             <li>
               <i class="icon-home"></i>
               <router-link to="/">
-                Bosh sahifa
+                {{ $t('navigation.main') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
               <router-link to="/">
-                Yetkazib berish
+                {{ $t('navigation.delivery') }}
               </router-link>
             </li>
           </ul>
         </div>
         <div class="delivery-wrapper content">
-          <h2>Yetkazib berish</h2>
+          <h2>{{ $t('navigation.delivery') }}</h2>
           <vue-markdown v-if="delivery">
             {{delivery}}
           </vue-markdown>

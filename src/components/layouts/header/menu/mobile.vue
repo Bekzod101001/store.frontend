@@ -2,10 +2,11 @@
     <div class="menu-mobile">
         <div class="menu-mobile-wrapper">
             <div class="menu-mobile-register">
-                <h4>Avtorizatsiya</h4>
+                <h4>{{ $t('signUp.auth') }}</h4>
                 <a-space>
-                  <a-button class="menu-mobile-register__btn menu-mobile-register__btn--sign-in">Ro‘yxatdan o‘tish</a-button>
-                  <a-button class="menu-mobile-register__btn">Kirish</a-button>
+                    <a-button class="menu-mobile-register__btn menu-mobile-register__btn--sign-in">{{ $t('signUp.title')
+                    }}</a-button>
+                    <a-button class="menu-mobile-register__btn">{{ $t('button.enter') }}</a-button>
                 </a-space>
             </div>
             <perfect-scrollbar class="menu-mobile-menu">

@@ -21,7 +21,7 @@
             <!-- small chegirma uchun. -->
             <div class="card-info-action">
                 <a-button>Xarid</a-button>
-                <a-button v-if="(added_count == 0)" @click="added_count++">Savatga qo‘shish</a-button>
+                <a-button v-if="(added_count == 0)" @click="added_count++"> {{ $t('card.addBasket') }}</a-button>
                 <button class="card-info-action-universal" v-else><i class="icon-minus" @click.prevent="added_count--"></i>
                     <span> {{ added_count }} </span><i class="icon-plus" @click.prevent="added_count++"></i></button>
             </div>

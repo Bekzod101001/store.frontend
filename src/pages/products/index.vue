@@ -7,67 +7,46 @@
             <li>
               <i class="icon-home"></i>
               <router-link to="/">
-                Bosh sahifa
+                {{ $t('products.menus.main') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
-              <router-link
-                  :to="{
-                              name: 'products'
-                            }"
-              >
-                Mahsulotlar
+              <router-link :to="{
+                name: 'products'
+              }">
+                {{ $t('products.menus.product') }}
               </router-link>
             </li>
           </ul>
         </div>
         <div class="pages-title">
           <h2>
-            Mahsulotlar
+            {{ $t('products.title') }}
             <span>(124)</span>
           </h2>
         </div>
         <div class="products-wrapper">
           <div class="products-filter">
-            <a-collapse
-                v-model="activeKeys"
-                expandIconPosition="right"
-                :accordion="true"
-            >
+            <a-collapse v-model="activeKeys" expandIconPosition="right" :accordion="true">
               <template #expandIcon>
                 <div class="products-filter-arrow">
                   <i class="icon-angle-collapse-down"></i>
                 </div>
               </template>
-              <a-collapse-panel
-                  key="1"
-                  header="Narx"
-              >
-                <a-row
-                    type="flex"
-                    :gutter="[16, 16]"
-                >
-                  <a-col
-                      :sm="24"
-                      :xs="24"
-                  >
-                    <label for="">От</label>
-                    <a-input/>
+              <a-collapse-panel key="1" header="Narx">
+                <a-row type="flex" :gutter="[16, 16]">
+                  <a-col :sm="24" :xs="24">
+                    <label for="">{{ $t('products.filter.from') }}</label>
+                    <a-input />
                   </a-col>
-                  <a-col
-                      :sm="24"
-                      :xs="24"
-                  >
-                    <label for="">До</label>
-                    <a-input/>
+                  <a-col :sm="24" :xs="24">
+                    <label for="">{{ $t('products.filter.to') }}</label>
+                    <a-input />
                   </a-col>
                 </a-row>
               </a-collapse-panel>
-              <a-collapse-panel
-                  key="2"
-                  header="Muallif"
-              >
+              <a-collapse-panel key="2" header="Muallif">
                 <div class="products-filter-checkbox">
                   <a-checkbox>
                     Imom Gʻazzoliy
@@ -92,20 +71,17 @@
             <div class="products-list-header">
               <div class="products-list-header-filter">
                 <a-dropdown placement="bottomCenter">
-                  <a-button>Narxi bo‘yicha <i class="icon-angle-down"></i></a-button>
-                  <div
-                      class="dropdown-options"
-                      slot="overlay"
-                  >
+                  <a-button>{{ $t('products.filter.byPrice') }}<i class="icon-angle-down"></i></a-button>
+                  <div class="dropdown-options" slot="overlay">
                     <ul>
                       <li>
-                        <span>Qimmat</span>
+                        <span>{{ $t('products.filter.high') }}</span>
                       </li>
                       <li>
-                        <span>O'rtancha</span>
+                        <span>{{ $t('products.filter.middle') }}</span>
                       </li>
                       <li>
-                        <span>Arzon</span>
+                        <span>{{ $t('products.filter.low') }}</span>
                       </li>
                     </ul>
                   </div>
@@ -117,10 +93,7 @@
                     <span>20</span>
                     <i class="icon-angle-down"></i>
                   </a-button>
-                  <div
-                      class="dropdown-options"
-                      slot="overlay"
-                  >
+                  <div class="dropdown-options" slot="overlay">
                     <ul>
                       <li>
                         <span>10</span>
@@ -135,7 +108,7 @@
                         <span>40</span>
                       </li>
                       <li>
-                        <span>Barchasi</span>
+                        <span>{{ $t('products.button.amount') }}</span>
                       </li>
                     </ul>
                   </div>
@@ -143,41 +116,21 @@
               </div>
             </div>
             <div class="products-list-body">
-              <a-row
-                  type="flex"
-                  :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]"
-              >
+              <a-row type="flex" :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]">
                 <template v-if="layout == 'vertical'">
-                  <a-col
-                      v-for="item in products.data"
-                      :key="item.id"
-                      :xxl="6"
-                      :xl="8"
-                      :md="12"
-                      :sm="12"
-                      :xs="24"
-                  >
-                    <ProductCardVertical :info="item"/>
+                  <a-col v-for="item in products.data" :key="item.id" :xxl="6" :xl="8" :md="12" :sm="12" :xs="24">
+                    <ProductCardVertical :info="item" />
                   </a-col>
                 </template>
                 <template v-else>
-                  <a-col
-                      v-for="item in products.data"
-                      :key="item.id"
-                      :xxl="12"
-                      :xs="24"
-                      :sm="24"
-                  >
-                    <ProductCardHorizontal :info="item"/>
+                  <a-col v-for="item in products.data" :key="item.id" :xxl="12" :xs="24" :sm="24">
+                    <ProductCardHorizontal :info="item" />
                   </a-col>
                 </template>
               </a-row>
             </div>
             <div class="pages-pagination products-list-pagination">
-              <Pagination
-                  :page="products.meta.pagination.page"
-                  :count="products.meta.pagination.pageCount"
-              />
+              <Pagination :page="products.meta.pagination.page" :count="products.meta.pagination.pageCount" />
             </div>
           </div>
         </div>
@@ -187,7 +140,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -195,95 +148,97 @@ export default {
     ProductCardHorizontal: () => import('@/components/cards/horizontal'),
     Pagination: () => import('@/components/custom/pagination')
   },
-  data: () => ({
-    layout: 'vertical',
-    activeKeys: [],
-    activeKeysInside: [],
-    filter: {
-      menu: {
-        id: 2,
-        title: "Kitoblar",
-        link: "/",
-        icon: 'menu2',
-        child: [
-          {
-            id: 1,
-            title: "Badiiy kitoblar",
-            link: "/"
-          },
-          {
-            id: 2,
-            title: `Diniy`,
-            link: "/",
-            child: [
-              {
-                id: 1,
-                title: "Fiqhga oid",
-                link: "/"
-              },
-              {
-                id: 2,
-                title: `Aqoid kitoblari`,
-                link: "/"
-              },
-              {
-                id: 3,
-                title: `Siyrat`,
-                link: "/"
-              },
-              {
-                id: 4,
-                title: `Sahobalar va tobeinlar`,
-                link: "/"
-              },
-              {
-                id: 5,
-                title: `Hadis kitoblari`,
-                link: "/"
-              },
-              {
-                id: 6,
-                title: `Duolar kitobi`,
-                link: "/"
-              },
-              {
-                id: 7,
-                title: `Ruhiy tarbiya`,
-                link: "/"
-              },
-              {
-                id: 8,
-                title: `Darsliklar`,
-                link: "/"
-              },
+  data() {
+    return {
+      layout: 'vertical',
+      activeKeys: [],
+      activeKeysInside: [],
+      filter: {
+        menu: {
+          id: 2,
+          title: this.$t('products.menus.books'),
+          link: "/",
+          icon: 'menu2',
+          child: [
+            {
+              id: 1,
+              title: this.$t('products.menus.artist'),
+              link: "/"
+            },
+            {
+              id: 2,
+              title: this.$t('products.menus.religion'),
+              link: "/",
+              child: [
+                {
+                  id: 1,
+                  title: this.$t('products.menus.fiqh'),
+                  link: "/"
+                },
+                {
+                  id: 2,
+                  title: this.$t('products.menus.aqeed'),
+                  link: "/"
+                },
+                {
+                  id: 3,
+                  title: this.$t('products.menus.siyrat'),
+                  link: "/"
+                },
+                {
+                  id: 4,
+                  title: this.$t('products.menus.companions'),
+                  link: "/"
+                },
+                {
+                  id: 5,
+                  title: this.$t('products.menus.hadith'),
+                  link: "/"
+                },
+                {
+                  id: 6,
+                  title: this.$t('products.menus.dua'),
+                  link: "/"
+                },
+                {
+                  id: 7,
+                  title: this.$t('products.menus.mental'),
+                  link: "/"
+                },
+                {
+                  id: 8,
+                  title: this.$t('products.menus.class'),
+                  link: "/"
+                },
 
-            ]
-          },
-          {
-            id: 3,
-            title: `Biznes va marketing`,
-            link: "/"
-          },
-          {
-            id: 4,
-            title: `Bolalar uchun`,
-            link: "/"
-          },
-          {
-            id: 5,
-            title: `Biznes va marketing`,
-            link: "/"
-          },
-          {
-            id: 6,
-            title: `Xorijiy tildagi kitoblar`,
-            link: "/"
-          },
+              ]
+            },
+            {
+              id: 3,
+              title: this.$t('products.menus.business'),
+              link: "/"
+            },
+            {
+              id: 4,
+              title: this.$t('products.menus.kids'),
+              link: "/"
+            },
+            {
+              id: 5,
+              title: this.$t('products.menus.business'),
+              link: "/"
+            },
+            {
+              id: 6,
+              title: this.$t('products.menus.foreign'),
+              link: "/"
+            },
 
-        ]
-      },
+          ]
+        },
+      }
     }
-  }),
+  },
   computed: {
     ...mapGetters("products", ["products"])
   }

@@ -1,32 +1,20 @@
 <template>
-  <router-link
-      :to="{
-        name: 'productsId',
-        params: {
-          id: product.id
-        }
-      }"
-      class="card vertical"
-  >
+  <router-link :to="{
+    name: 'productsId',
+    params: {
+      id: product.id
+    }
+  }" class="card vertical">
     <div class="card-tags">
-      <span
-          v-if="product.discount_percent"
-          :class="{ discount: product.discount_percent }"
-      >
+      <span v-if="product.discount_percent" :class="{ discount: product.discount_percent }">
         {{ product.discount_percent }} %
       </span>
-      <span
-          v-if="product.type"
-          :class="product.type"
-      >
+      <span v-if="product.type" :class="product.type">
         {{ computedType }}
       </span>
     </div>
     <div class="card-image">
-      <img
-          :src="product.images[0]"
-          :alt="product.name"
-      />
+      <img :src="product.images[0]" :alt="product.name" />
     </div>
     <div class="card-info">
       <h3>{{ product.name }}</h3>
@@ -35,35 +23,21 @@
         {{ product.category.data.attributes.name }}
       </h4>
       <span>
-          {{ sumFormatter(product.price) }} {{ $t('sum') }}
-          <small v-if="product.oldPrice">{{ product.oldPrice }} {{ $t('sum') }}</small>
+        {{ sumFormatter(product.price) }} {{ $t('sum') }}
+        <small v-if="product.oldPrice">{{ product.oldPrice }} {{ $t('sum') }}</small>
       </span>
       <!-- small chegirma uchun. -->
     </div>
     <div class="card-action">
-      <a-button
-          block
-          v-if="(!product.amount)"
-          @click.prevent="addToBasket()"
-      >
-        Savatga qo‘shish
+      <a-button block v-if="(!product.amount)" @click.prevent="addToBasket()">
+        {{ $t('card.addBasket') }}
       </a-button>
-      <button
-          class="card-action-universal"
-          @click.prevent
-          v-else
-      >
-        <i
-            class="icon-minus"
-            @click.prevent="changeAmount('minus')"
-        />
+      <button class="card-action-universal" @click.prevent v-else>
+        <i class="icon-minus" @click.prevent="changeAmount('minus')" />
 
         <span> {{ product.amount }}</span>
 
-        <i
-            class="icon-plus"
-            @click.prevent="changeAmount('plus')"
-        />
+        <i class="icon-plus" @click.prevent="changeAmount('plus')" />
       </button>
     </div>
   </router-link>
@@ -71,7 +45,7 @@
 
 <script>
 import productCardMixin from "@/mixins/productCardMixin";
-import {sumFormatter} from "@/utils/helper";
+import { sumFormatter } from "@/utils/helper";
 
 export default {
   methods: {

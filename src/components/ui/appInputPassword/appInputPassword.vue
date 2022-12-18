@@ -1,13 +1,9 @@
 <template>
-  <app-input
-      v-model="computedModelValue"
-      type="password"
-      required
-  >
+  <app-input v-model="computedModelValue" type="password" required>
     <template #label>
-      <slot name="label"/>
+      <slot name="label" />
       <template v-if="!$slots.label">
-        Password
+        {{ $t('home.password') }}
       </template>
     </template>
   </app-input>
@@ -18,7 +14,7 @@ import AppInput from "@/components/ui/appInput/appInput.vue";
 
 export default {
   name: "appInputPassword",
-  components: {AppInput},
+  components: { AppInput },
   props: {
     value: String
   },

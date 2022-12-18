@@ -7,24 +7,21 @@
                         <li>
                             <i class="icon-home"></i>
                             <router-link to="/">
-                                Bosh sahifa
+                                {{ $t('navigation.main') }}
                             </router-link>
                         </li>
                         <li>
                             <i class="icon-angle-right"></i>
                             <router-link to="/">
-                                Biz haqimizda
+                                {{ $t('navigation.about') }}
                             </router-link>
                         </li>
                     </ul>
                 </div>
-                <div
-                    v-if="about.full_text"
-                    class="about-wrapper content"
-                >
-                    <h2>Biz haqimizda</h2>
+                <div v-if="about.full_text" class="about-wrapper content">
+                    <h2>{{ $t('navigation.about') }}</h2>
                     <vue-markdown>
-                      {{about.full_text}}
+                        {{ about.full_text }}
                     </vue-markdown>
                 </div>
 
@@ -35,13 +32,13 @@
 
 <script>
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
-  components: {VueMarkdown},
-  computed: {
-    ...mapGetters('about', ['about'])
-  }
+    components: { VueMarkdown },
+    computed: {
+        ...mapGetters('about', ['about'])
+    }
 }
 </script>
 

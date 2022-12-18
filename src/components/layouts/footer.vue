@@ -8,7 +8,7 @@
               <img src="@/assets/images/logo-2.svg" alt="logo">
               <span>
                 <i class="icon-branch"></i>
-                Amal bilan ko‘rsating
+                {{ $t('home.action') }}
               </span>
             </div>
           </a-col>
@@ -16,15 +16,15 @@
             <div class="footer-menu">
               <ul>
                 <li>
-                  <router-link to="/about">Biz haqimizda</router-link>
+                  <router-link to="/about">{{ $t('navigation.about') }}</router-link>
                 </li>
 
                 <li>
-                  <router-link to="/delivery">Yetkazib berish</router-link>
+                  <router-link to="/delivery">{{ $t('navigation.delivery') }}</router-link>
                 </li>
 
                 <li>
-                  <router-link to="/offerta">Oferta</router-link>
+                  <router-link to="/offerta">{{ $t('navigation.offer') }}</router-link>
                 </li>
               </ul>
             </div>
@@ -33,11 +33,11 @@
             <div class="footer-menu">
               <ul>
                 <li>
-                  <router-link to="/partners">Hamkor do‘konlar</router-link>
+                  <router-link to="/partners">{{ $t('navigation.partnerShop') }}</router-link>
                 </li>
 
                 <li>
-                  <router-link to="/contact">Bog‘lanish</router-link>
+                  <router-link to="/contact">{{ $t('navigation.partnerShop') }}</router-link>
                 </li>
               </ul>
             </div>
@@ -55,15 +55,8 @@
                 </li>
 
                 <li>
-                  <a
-                      v-for="(item, index) in socialProfiles"
-                      :key="index"
-                      :href="item.url"
-                  >
-                    <img
-                        :src="item.icon"
-                        alt=""
-                    >
+                  <a v-for="(item, index) in socialProfiles" :key="index" :href="item.url">
+                    <img :src="item.icon" alt="">
                   </a>
                 </li>
               </ul>
@@ -72,7 +65,7 @@
         </a-row>
         <div class="footer-bottom">
           <span>
-            © {{ currentYear }} Internet-do‘kon azonkitoblari.uz / Barcha huquqlar himoyalangan.
+            © {{ currentYear }} {{ $t('home.rights') }}.
           </span>
         </div>
       </div>
@@ -82,8 +75,8 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import {clearFormatNumber} from "@/utils/helper";
+import { mapGetters } from "vuex";
+import { clearFormatNumber } from "@/utils/helper";
 
 export default {
   data: () => ({

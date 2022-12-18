@@ -1,7 +1,5 @@
 <template>
-  <div
-      class="pages products-detail"
-  >
+  <div class="pages products-detail">
     <div class="container">
       <div class="pages-wrapper">
         <div class="pages-breadcrumbs">
@@ -9,26 +7,26 @@
             <li>
               <i class="icon-home"></i>
               <router-link to="/">
-                Bosh sahifa
+                {{ $t('products.menus.main') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
               <router-link to="/">
-                Kitoblar
+                {{ $t('products.menus.books') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
 
               <router-link to="/">
-                Diniy
+                {{ $t('products.menus.religion') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
               <router-link to="/">
-                Fiqhga oid
+                {{ $t('products.menus.fiqh') }}
               </router-link>
             </li>
             <li>
@@ -43,12 +41,12 @@
           <h2>{{ detail.title }}</h2>
           <div class="products-detail-header-bottom">
             <div class="products-detail-header-bottom-mark">
-              <Mark :value="3"/>
+              <Mark :value="3" />
               <span>{{ detail.mark }}</span>
             </div>
             <div class="products-detail-header-bottom-comment">
-              <i class="icon-comment"/>
-              <span>{{ $t('title.commentsCount', {num: 32}) }}</span>
+              <i class="icon-comment" />
+              <span>{{ $t('title.commentsCount', { num: 32 }) }}</span>
             </div>
           </div>
         </div>
@@ -56,91 +54,59 @@
           <div class="products-detail-body-tab">
             <div class="products-detail-body-tab-items">
               <ul v-if="detail.images">
-                <li
-                    v-for="(image, index) in detail.images"
-                    :key="index"
-                    @click="onClickTab(index)"
-                >
-                  <img
-                      :src="image"
-                      :alt="detail.title"
-                  >
+                <li v-for="(image, index) in detail.images" :key="index" @click="onClickTab(index)">
+                  <img :src="image" :alt="detail.title">
                 </li>
               </ul>
             </div>
             <div class="products-detail-body-tab-image">
-              <img
-                  v-if="detail.images"
-                  :src="detail.images[activeImageIndex]"
-                  :alt="detail.title"
-              >
+              <img v-if="detail.images" :src="detail.images[activeImageIndex]" :alt="detail.title">
             </div>
           </div>
           <div class="products-detail-body-info">
             <div class="products-detail-body-info-header">
               <small>{{ sumFormatter(detail.oldPrice) }} {{ $t('sum') }}</small>
               <b>{{ sumFormatter(detail.price) }} {{ $t('sum') }}</b>
-              <span :class="{'red': !detail.in_stock}">
-                <i class="icon-shop"/>
+              <span :class="{ 'red': !detail.in_stock }">
+                <i class="icon-shop" />
                 {{ computedStock }}
               </span>
-              <a-row
-                  type="flex"
-                  :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]"
-              >
+              <a-row type="flex" :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]">
                 <a-col span="24">
-                  <a-button
-                      @click="addToBasket"
-                      v-if="(detail.amount === 0)"
-                  >
+                  <a-button @click="addToBasket" v-if="(detail.amount === 0)">
                     {{ $t('button.addCart') }}
                   </a-button>
-                  <button
-                      class="btn-calculating"
-                      v-else
-                  >
-                    <i
-                        class="icon-minus"
-                        @click.prevent="changeAmount('minus')"
-                    />
+                  <button class="btn-calculating" v-else>
+                    <i class="icon-minus" @click.prevent="changeAmount('minus')" />
 
                     <span> {{ detail.amount }} </span>
 
-                    <i
-                        class="icon-plus"
-                        @click.prevent="changeAmount('plus')"
-                    />
+                    <i class="icon-plus" @click.prevent="changeAmount('plus')" />
                   </button>
                 </a-col>
               </a-row>
             </div>
             <ul>
-              <li
-                  v-for="property in detail.dynamic_properties"
-                  :key="property.id"
-              >
+              <li v-for="property in detail.dynamic_properties" :key="property.id">
                 <small>{{ property.key }}</small>
                 <i></i>
                 <span>{{ property.value }}</span>
               </li>
             </ul>
-            <h3>Kitob haqida</h3>
+            <h3>{{ $t('products.detail.title') }}</h3>
             <p>{{ detail.small_description }}</p>
           </div>
         </div>
         <div class="products-detail-recommend">
-          <h2>Tavsiya etiladi</h2>
+          <h2>{{ $t('products.detail.recomend') }}</h2>
           <!-- <div class="products-detail-recommend-row">
               <div class="products-detail-recommend-col" v-for="(item, index) in recommendList" :key="item.id"
                   data-aos="flip-left" data-aos-duration="300" :data-aos-delay="index * 100 + 500">
               </div>
           </div> -->
           <swiper :options="recommendOptions">
-            <swiper-slide
-                v-for="item in recommendList"
-                :key="item.id"
-            >
-              <ProductCard :info="item"/>
+            <swiper-slide v-for="item in recommendList" :key="item.id">
+              <ProductCard :info="item" />
             </swiper-slide>
           </swiper>
         </div>
@@ -149,29 +115,18 @@
           <p>{{ detail.description }}</p>
         </div>
         <div class="products-detail-comment">
-          <a-row
-              type="flex"
-              :gutter="[{ xl: 24, sm: 16, xs: 16 }, { lg: 0, sm: 16, xs: 16 }]"
-          >
-            <a-col
-                :xl="18"
-                :lg="16"
-                :sm="24"
-                :xs="24"
-            >
+          <a-row type="flex" :gutter="[{ xl: 24, sm: 16, xs: 16 }, { lg: 0, sm: 16, xs: 16 }]">
+            <a-col :xl="18" :lg="16" :sm="24" :xs="24">
               <div class="products-detail-comment-left">
                 <h2>
-                  Mahsulot haqida izohlar
+                  {{ $t('products.detail.comment') }}
                 </h2>
                 <ul>
-                  <li
-                      v-for="(review, index) in reviews"
-                      :key="index"
-                  >
+                  <li v-for="(review, index) in reviews" :key="index">
                     <div class="products-detail-comment-left-header">
                       <h3>{{ review.name }}</h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
-                      <Mark :value="review.rating"/>
+                      <Mark :value="review.rating" />
                     </div>
                     <div class="products-detail-comment-left-body">
                       <p>{{ review.comment }}</p>
@@ -180,27 +135,22 @@
                 </ul>
               </div>
             </a-col>
-            <a-col
-                :xl="6"
-                :lg="8"
-                :xs="24"
-                :sm="24"
-            >
+            <a-col :xl="6" :lg="8" :xs="24" :sm="24">
               <div class="products-detail-comment-right">
                 <div class="products-detail-comment-right-header">
-                  <Mark :mark="4"/>
+                  <Mark :mark="4" />
                   <span>4/5</span>
                 </div>
                 <ul>
                   <li>
-                    <small>5 yulduz</small>
+                    <small>5 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span style="width: 100%"></span>
                     </i>
                     <small>41</small>
                   </li>
                   <li>
-                    <small>4 yulduz</small>
+                    <small>4 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span></span>
 
@@ -208,7 +158,7 @@
                     <small>0</small>
                   </li>
                   <li>
-                    <small>3 yulduz</small>
+                    <small>3 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span></span>
 
@@ -216,7 +166,7 @@
                     <small>0</small>
                   </li>
                   <li>
-                    <small>2 yulduz</small>
+                    <small>2 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span></span>
 
@@ -224,7 +174,7 @@
                     <small>0</small>
                   </li>
                   <li>
-                    <small>1 yulduz</small>
+                    <small>1 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span></span>
 
@@ -234,7 +184,7 @@
                 </ul>
                 <a-button @click="showModal">
                   <i class="icon-comment"></i>
-                  Izoh qoldirish
+                  {{ $t('products.detail.commenting') }}
                 </a-button>
               </div>
             </a-col>
@@ -242,40 +192,29 @@
         </div>
       </div>
     </div>
-    <a-modal
-        class="mark-modal"
-        title="Izoh qoldirish"
-        :visible="visible"
-        :confirm-loading="confirmLoading"
-        :footer="null"
-        @cancel="handleCancel"
-    >
+    <a-modal class="mark-modal" title="Izoh qoldirish" :visible="visible" :confirm-loading="confirmLoading"
+      :footer="null" @cancel="handleCancel">
       <template #closeIcon>
         <i class="icon-close"></i>
       </template>
       <div class="mark-modal-body">
         <div class="mark-modal-mark">
-          <span>Umumiy baho:</span>
-          <Mark
-              v-model="newReview.rating"
-          />
+          <span>{{$t('products.detail.rating')}}:</span>
+          <Mark v-model="newReview.rating" />
         </div>
         <a-form-item label="Izoh:">
-          <a-textarea
-              v-model="newReview.comment"
-              placeholder="Izoh qoldiring"
-          />
+          <a-textarea v-model="newReview.comment" placeholder="Izoh qoldiring" />
         </a-form-item>
-        <a-button @click="handleOk">Yuborish</a-button>
+        <a-button @click="handleOk">{{$t('products.detail.sending')}}</a-button>
       </div>
     </a-modal>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import api from "@/api";
-import {dateFormatter, strapiRetriever, sumFormatter} from "@/utils/helper";
+import { dateFormatter, strapiRetriever, sumFormatter } from "@/utils/helper";
 
 export default {
   components: {
@@ -371,33 +310,33 @@ export default {
       this.confirmLoading = true;
       this.newReview.author = this.userID
       this.newReview.product = this.$route.params.id
-      await api.reviews.post({data: this.newReview})
-          .then(({data}) => {
-            Object.keys(data.data.attributes).forEach(key => {
-              data[key] = data.data.attributes[key]
-            })
-            delete data.data
-            data.name = 'Ваш отзыв'
+      await api.reviews.post({ data: this.newReview })
+        .then(({ data }) => {
+          Object.keys(data.data.attributes).forEach(key => {
+            data[key] = data.data.attributes[key]
+          })
+          delete data.data
+          data.name = 'Ваш отзыв'
 
-            this.reviews.unshift(data)
-          })
-          .finally(() => {
-            this.visible = false;
-            this.confirmLoading = false;
-          })
+          this.reviews.unshift(data)
+        })
+        .finally(() => {
+          this.visible = false;
+          this.confirmLoading = false;
+        })
     },
     handleCancel() {
       this.visible = false;
     },
 
     addToBasket() {
-      if(!this.detail.amount) this.detail.amount++
+      if (!this.detail.amount) this.detail.amount++
       this.setProduct(this.detail)
     },
 
-    changeAmount (operation) {
+    changeAmount(operation) {
       if (operation === 'minus') {
-        if(this.detail.amount) this.detail.amount--
+        if (this.detail.amount) this.detail.amount--
       }
       else if (operation === 'plus') {
         this.detail.amount++
@@ -410,7 +349,7 @@ export default {
     },
 
     async getProduct() {
-      const {data} = await api.products.getSingle(this.$route.params.id, {
+      const { data } = await api.products.getSingle(this.$route.params.id, {
         populate: ['images', 'category', 'dynamic_properties', 'reviews']
       })
       Object.keys(data.data.attributes).forEach(key => {
@@ -422,10 +361,10 @@ export default {
       this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
       this.detail.id = data.data.id
       this.productsInBasket.filter(item => {
-        if(item.id === data.data.id) this.detail.amount = item.amount
+        if (item.id === data.data.id) this.detail.amount = item.amount
       })
 
-      if(this.detail.discount_percent) {
+      if (this.detail.discount_percent) {
         this.detail.oldPrice = JSON.parse(JSON.stringify(this.detail.price))
         this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
         this.detail.price = this.detail.oldPrice - this.detail.discount

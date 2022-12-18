@@ -7,16 +7,12 @@
 
       <form class="form sign__form">
         <div class="form__row">
-          <app-input-email
-              v-model="credentials.identifier"
-          />
+          <app-input-email v-model="credentials.identifier" />
         </div>
         <div class="form__row">
-          <app-input-password
-              v-model="credentials.password"
-          />
+          <app-input-password v-model="credentials.password" />
         </div>
-<!--        <div class="form__row">
+        <!--        <div class="form__row">
           <a-checkbox
               v-model="isRememberMeActive"
           >
@@ -25,23 +21,14 @@
           <button class="btn sign__form__forgot-btn">Forgot password?</button>
         </div>-->
 
-        <a-button
-            block
-            class="btn--bg btn--orange sign__form__submit-btn"
-            :loading="isLoading"
-            @click="signIn()"
-        >
-          Sign in
+        <a-button block class="btn--bg btn--orange sign__form__submit-btn" :loading="isLoading" @click="signIn()">
+          {{$t('signIn.button.login')}}
         </a-button>
 
-        <p class="sign__form__text">Don't Have an Account?</p>
+        <p class="sign__form__text">{{ $t('signIn.text') }}?</p>
 
-        <a-button
-            block
-            class="btn--outlined"
-            @click="$router.push({name: 'Sign Up'})"
-        >
-          Create account
+        <a-button block class="btn--outlined" @click="$router.push({ name: 'Sign Up' })">
+          {{$t('signIn.button.create')}}
         </a-button>
       </form>
     </div>
@@ -54,7 +41,7 @@ import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.
 
 export default {
   name: "signIn",
-  components: {AppInputPassword, AppInputEmail},
+  components: { AppInputPassword, AppInputEmail },
   data: () => ({
     credentials: {
       identifier: '',
@@ -68,10 +55,10 @@ export default {
       this.isLoading = true;
       this.$store.dispatch('auth/signIn', this.credentials)
         .then(() => {
-          this.$router.push({name: 'home'})
+          this.$router.push({ name: 'home' })
         })
         .catch((error) => {
-          if(error.response.data.error.message === 'Invalid identifier or password') {
+          if (error.response.data.error.message === 'Invalid identifier or password') {
             this.$message.error('Invalid identifier or password')
           }
         })

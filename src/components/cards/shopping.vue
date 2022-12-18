@@ -19,7 +19,7 @@
       <a-button
           @click.prevent="deleteProductFromBasket"
       >
-        O'chirish
+      {{ $t('card.delete') }}
       </a-button>
     </div>
     <div class="card-price">

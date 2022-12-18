@@ -7,9 +7,9 @@
           class="orders__item"
       >
         <div class="orders__item__details">
-          <h3 class="orders__item__details__title">Информация о заказе</h3>
+          <h3 class="orders__item__details__title">{{ $t('order.detail.title') }}</h3>
           <p>
-            <strong>Время создания:</strong>
+            <strong>{{ $t('order.detail.created') }}:</strong>
             {{ new Date() }}
           </p>
         </div>

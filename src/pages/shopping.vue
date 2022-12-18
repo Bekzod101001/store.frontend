@@ -7,59 +7,42 @@
             <li>
               <i class="icon-home"></i>
               <router-link to="/">
-                Bosh sahifa
+                {{ $t('navigation.main') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
               <router-link to="/">
-                Savatcha
+                {{ $t('navigation.basket') }}
               </router-link>
             </li>
           </ul>
         </div>
         <div class="pages-title">
           <h2>
-            Savatcha
+            {{ $t('navigation.main') }}
             <span>({{ totalProductsAmount }})</span>
           </h2>
         </div>
         <div class="shopping-outside">
-          <a-row
-              type="flex"
-              :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]"
-          >
-            <a-col
-                :lg="18"
-                :md="24"
-                :sm="24"
-                :xs="24"
-            >
+          <a-row type="flex" :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]">
+            <a-col :lg="18" :md="24" :sm="24" :xs="24">
               <div class="shopping-wrapper">
                 <div class="shopping-body">
-                  <Card
-                      v-for="item in productsInBasket"
-                      :key="item.id"
-                      :info="item"
-                  />
+                  <Card v-for="item in productsInBasket" :key="item.id" :info="item" />
                 </div>
               </div>
             </a-col>
-            <a-col
-                :lg="6"
-                :md="12"
-                :sm="12"
-                :xs="24"
-            >
+            <a-col :lg="6" :md="12" :sm="12" :xs="24">
               <div class="shopping-sidebar">
-                <a-button>Buyurtma</a-button>
+                <a-button>{{ $t('shopping.order') }}</a-button>
                 <ul>
                   <li>
-                    <b>Jami miqdor:</b>
+                    <b>{{ $t('shopping.amount') }}:</b>
                     <b>{{ sumFormatter(totalSum) }} UZS</b>
                   </li>
                   <li>
-                    <span>Chegirma:</span>
+                    <span>{{ $t('shopping.sale') }}:</span>
                     <small>
                       <template v-if="totalSale">
                         -{{ sumFormatter(totalSale) }}
@@ -70,7 +53,7 @@
                       UZS</small>
                   </li>
                   <li>
-                    <span>Mahsulotlar soni:</span>
+                    <span>{{ $t('shopping.amountProducts') }}:</span>
                     <span>{{ sumFormatter(totalProductsAmount) }} ta</span>
                   </li>
                 </ul>
@@ -84,8 +67,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
-import {sumFormatter} from "@/utils/helper";
+import { mapGetters } from 'vuex';
+import { sumFormatter } from "@/utils/helper";
 
 export default {
   components: {

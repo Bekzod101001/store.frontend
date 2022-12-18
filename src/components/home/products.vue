@@ -47,20 +47,20 @@ export default {
         list: [
           {
             id: 1,
-            title: "Tavsiya etilganlar"
+            title: this.$t('home.recommended')
           },
           {
             id: 2,
-            title: "Yangi mahsulotlar"
+            title: this.$t('home.newItem')
           },
           {
             id: 3,
-            title: "Chegirmalar"
+            title: this.$t('home.sale')
           },
         ],
         active: {
           id: 1,
-          title: "Tavsiya etilganlar"
+          title: this.$t('home.recommended')
         }
       }
     }
