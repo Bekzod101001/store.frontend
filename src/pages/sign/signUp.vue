@@ -48,6 +48,7 @@ import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.
 import AppInputEmail from "@/components/ui/appInputEmail/appInputEmail.vue";
 import AppInput from "@/components/ui/appInput/appInput.vue";
 import AppInputPhone from "@/components/ui/appInputPhone/appInputPhone.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: "signIn",
@@ -63,6 +64,9 @@ export default {
     },
     isLoading: false
   }),
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  },
   methods: {
     signUp() {
       this.isLoading = true;
@@ -80,6 +84,9 @@ export default {
           this.isLoading = false
         })
     }
+  },
+  beforeMount() {
+    if(this.isLoggedIn) this.$router.push({name: 'home'})
   }
 }
 </script>

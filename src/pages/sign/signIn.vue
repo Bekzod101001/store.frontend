@@ -38,6 +38,7 @@
 <script>
 import AppInputEmail from "@/components/ui/appInputEmail/appInputEmail.vue";
 import AppInputPassword from "@/components/ui/appInputPassword/appInputPassword.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: "signIn",
@@ -50,6 +51,9 @@ export default {
     isLoading: false,
     isRememberMeActive: false
   }),
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  },
   methods: {
     signIn() {
       this.isLoading = true;
@@ -66,6 +70,9 @@ export default {
           this.isLoading = false
         })
     }
+  },
+  beforeMount() {
+    if(this.isLoggedIn) this.$router.push({name: 'home'})
   }
 }
 </script>

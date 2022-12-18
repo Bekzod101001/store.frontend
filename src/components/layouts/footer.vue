@@ -1,18 +1,40 @@
 <template>
-  <footer class="footer" data-aos="fade-down" data-aos-duration="300" data-aos-delay="500">
+  <footer
+      class="footer"
+      data-aos="fade-down"
+      data-aos-duration="300"
+      data-aos-delay="500"
+  >
     <div class="container">
       <div class="footer-wrapper">
-        <a-row type="flex" :gutter="[{ lg: 8, sm: 16, xs: 16 }, { lg: 8, sm: 16, xs: 16 }]" justify="center">
-          <a-col :lg="6" :md="8" :sm="24" :xs="24">
+        <a-row
+            type="flex"
+            :gutter="[{ lg: 8, sm: 16, xs: 16 }, { lg: 8, sm: 16, xs: 16 }]"
+            justify="center"
+        >
+          <a-col
+              :lg="6"
+              :md="8"
+              :sm="24"
+              :xs="24"
+          >
             <div class="footer-logo">
-              <img src="@/assets/images/logo-2.svg" alt="logo">
+              <img
+                  :src="about.logo"
+                  alt="logo"
+              >
               <span>
                 <i class="icon-branch"></i>
-                {{ $t('home.action') }}
+                {{ about.slogan }}
               </span>
             </div>
           </a-col>
-          <a-col :lg="6" :md="8" :sm="12" :xs="24">
+          <a-col
+              :lg="6"
+              :md="8"
+              :sm="12"
+              :xs="24"
+          >
             <div class="footer-menu">
               <ul>
                 <li>
@@ -29,7 +51,12 @@
               </ul>
             </div>
           </a-col>
-          <a-col :lg="6" :md="8" :sm="12" :xs="24">
+          <a-col
+              :lg="6"
+              :md="8"
+              :sm="12"
+              :xs="24"
+          >
             <div class="footer-menu">
               <ul>
                 <li>
@@ -42,7 +69,12 @@
               </ul>
             </div>
           </a-col>
-          <a-col :lg="6" :md="24" :sm="24" :xs="18">
+          <a-col
+              :lg="6"
+              :md="24"
+              :sm="24"
+              :xs="18"
+          >
             <div class="footer-contact">
               <ul>
                 <li>
@@ -55,8 +87,15 @@
                 </li>
 
                 <li>
-                  <a v-for="(item, index) in socialProfiles" :key="index" :href="item.url">
-                    <img :src="item.icon" alt="">
+                  <a
+                      v-for="(item, index) in socialProfiles"
+                      :key="index"
+                      :href="item.url"
+                  >
+                    <img
+                        :src="item.icon"
+                        alt=""
+                    >
                   </a>
                 </li>
               </ul>
@@ -75,8 +114,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { clearFormatNumber } from "@/utils/helper";
+import {mapGetters} from "vuex";
+import {clearFormatNumber} from "@/utils/helper";
 
 export default {
   data: () => ({
@@ -84,7 +123,8 @@ export default {
   }),
   computed: {
     ...mapGetters('contacts', ['contacts']),
-    ...mapGetters('socialProfiles', ['socialProfiles'])
+    ...mapGetters('socialProfiles', ['socialProfiles']),
+    ...mapGetters('about', ['about']),
   },
   methods: {
     clearFormatNumber

@@ -35,7 +35,9 @@
             </a-col>
             <a-col :lg="6" :md="12" :sm="12" :xs="24">
               <div class="shopping-sidebar">
-                <a-button>{{ $t('shopping.order') }}</a-button>
+                <a-button v-if="isLoggedIn">
+                  {{ $t('shopping.order') }}
+                </a-button>
                 <ul>
                   <li>
                     <b>{{ $t('shopping.amount') }}:</b>
@@ -74,12 +76,9 @@ export default {
   components: {
     Card: () => import("@/components/cards/shopping")
   },
-  data() {
-    return {}
-
-  },
   computed: {
     ...mapGetters("basket", ["totalSum", "totalSale", "totalProductsAmount", "productsInBasket"]),
+    ...mapGetters('auth', ['isLoggedIn'])
   },
   methods: {
     sumFormatter,

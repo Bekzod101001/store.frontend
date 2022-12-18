@@ -1,15 +1,24 @@
 <template>
-  <router-link :to="{
+  <router-link
+      :to="{
     name: 'productsId',
     params: {
       id: product.id
     }
-  }" class="card vertical">
+  }"
+      class="card vertical"
+  >
     <div class="card-tags">
-      <span v-if="product.discount_percent" :class="{ discount: product.discount_percent }">
+      <span
+          v-if="product.discount_percent"
+          :class="{ discount: product.discount_percent }"
+      >
         {{ product.discount_percent }} %
       </span>
-      <span v-if="product.type" :class="product.type">
+      <span
+          v-if="product.type"
+          :class="product.type"
+      >
         {{ computedType }}
       </span>
     </div>
@@ -25,25 +34,41 @@
     <div class="card-info">
       <h3>{{ product.name }}</h3>
       <h4 v-if="product.category?.data">
-        <i class="icon-document" />
+        <i class="icon-document"/>
         {{ product.category.data.attributes.name }}
       </h4>
       <span>
         {{ sumFormatter(product.price) }} {{ $t('sum') }}
-        <small v-if="product.oldPrice">{{ product.oldPrice }} {{ $t('sum') }}</small>
+        <small v-if="product.oldPrice">
+          {{ product.oldPrice }} {{ $t('sum') }}
+        </small>
       </span>
       <!-- small chegirma uchun. -->
     </div>
     <div class="card-action">
-      <a-button block v-if="(!product.amount)" @click.prevent="addToBasket()">
+      <a-button
+          block
+          v-if="(!product.amount)"
+          @click.prevent="addToBasket()"
+      >
         {{ $t('card.addBasket') }}
       </a-button>
-      <button class="card-action-universal" @click.prevent v-else>
-        <i class="icon-minus" @click.prevent="changeAmount('minus')" />
+      <button
+          class="card-action-universal"
+          @click.prevent
+          v-else
+      >
+        <i
+            class="icon-minus"
+            @click.prevent="changeAmount('minus')"
+        />
 
         <span> {{ product.amount }}</span>
 
-        <i class="icon-plus" @click.prevent="changeAmount('plus')" />
+        <i
+            class="icon-plus"
+            @click.prevent="changeAmount('plus')"
+        />
       </button>
     </div>
   </router-link>
@@ -53,7 +78,7 @@
 import {sumFormatter} from "@/utils/helper";
 import {mapMutations} from "vuex";
 
-export default  {
+export default {
   props: {
     info: {
       type: Object,
@@ -70,15 +95,14 @@ export default  {
     ...mapMutations('basket', ['setProduct', 'setAmount']),
 
     addToBasket() {
-      if(!this.product.amount) this.product.amount++
+      if (!this.product.amount) this.product.amount++
       this.setProduct(this.product)
     },
 
-    changeAmount (operation) {
+    changeAmount(operation) {
       if (operation === 'minus') {
-        if(this.product.amount) this.product.amount--
-      }
-      else if (operation === 'plus') {
+        if (this.product.amount) this.product.amount--
+      } else if (operation === 'plus') {
         this.product.amount++
       }
 
@@ -97,7 +121,7 @@ export default  {
   },
   mounted() {
     this.product = {...this.product, ...this.info}
-    if(!Object.keys(this.product).includes('amount')) {
+    if (!Object.keys(this.product).includes('amount')) {
       this.product.amount = 0
     }
   }

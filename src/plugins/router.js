@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Home from '@/pages'
+
 Vue.use(VueRouter)
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/pages')
+        component: Home
     },
     {
         path: '/products',
@@ -59,18 +61,18 @@ const routes = [
         name: 'Sign Up',
         component: () => import('@/pages/sign/signUp.vue')
     },
-  {
-    path: '/account',
-    name: 'Account',
-    component: () => import('@/pages/account'),
-    children: [
-      {
-        path: '/orders',
-        name: 'AccountOrders',
-        component: () => import('@/pages/account/orders.vue')
-      }
-    ]
-  },
+    {
+        path: '/account',
+        name: 'Account',
+        component: () => import('@/pages/account'),
+        children: [
+            {
+                path: '/orders',
+                name: 'AccountOrders',
+                component: () => import('@/pages/account/orders.vue')
+            }
+        ]
+    },
 ]
 
 const router = new VueRouter({

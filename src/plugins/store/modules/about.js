@@ -7,7 +7,9 @@ const state = () => ({
 
 const actions = {
     async getAbout (context) {
-        const {data} = await api.about.get()
+        const {data} = await api.about.get({
+            populate: 'logo'
+        })
         context.commit('setAbout', data.data.attributes)
     }
 }
@@ -15,6 +17,7 @@ const actions = {
 const mutations = {
     setAbout (state, payload) {
         state.about = payload
+        state.about.logo = process.env.VUE_APP_BASE_URL + state.about.logo.data.attributes.url
     }
 }
 

@@ -1,5 +1,8 @@
 <template>
-  <div class="pages products-detail">
+  <div
+      v-if="computedProduct.id"
+      class="pages products-detail"
+  >
     <div class="container">
       <div class="pages-wrapper">
         <div class="pages-breadcrumbs">
@@ -7,99 +10,110 @@
             <li>
               <i class="icon-home"></i>
               <router-link to="/">
-                {{ $t('products.menus.main') }}
+                {{ computedProduct.category }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
               <router-link to="/">
-                {{ $t('products.menus.books') }}
-              </router-link>
-            </li>
-            <li>
-              <i class="icon-angle-right"></i>
-
-              <router-link to="/">
-                {{ $t('products.menus.religion') }}
-              </router-link>
-            </li>
-            <li>
-              <i class="icon-angle-right"></i>
-              <router-link to="/">
-                {{ $t('products.menus.fiqh') }}
-              </router-link>
-            </li>
-            <li>
-              <i class="icon-angle-right"></i>
-              <router-link to="/">
-                {{ detail.title }}
+                {{ computedProduct.name }}
               </router-link>
             </li>
           </ul>
         </div>
-        <div class="products-detail-header">
-          <h2>{{ detail.title }}</h2>
 
-          {{detail.reviews}}
+        <div class="products-detail-header">
+          <h2>{{ computedProduct.title }}</h2>
+
           <div
-              v-if="detail.reviews.length"
+              v-if="computedProduct.reviews?.length"
               class="products-detail-header-bottom"
           >
             <div class="products-detail-header-bottom-mark">
-              <Mark :value="3" />
-              <span>{{ detail.mark }}</span>
+              <Mark :value="3"/>
+              <span>{{ computedProduct.mark }}</span>
             </div>
             <div class="products-detail-header-bottom-comment">
-              <i class="icon-comment" />
-              <span>{{ $t('title.commentsCount', { num: 32 }) }}</span>
+              <i class="icon-comment"/>
+              <span>{{ $t('title.commentsCount', {num: 32}) }}</span>
             </div>
           </div>
         </div>
         <div class="products-detail-body">
           <div class="products-detail-body-tab">
             <div class="products-detail-body-tab-items">
-              <ul v-if="detail.images">
-                <li v-for="(image, index) in detail.images" :key="index" @click="onClickTab(index)">
-                  <img :src="image" :alt="detail.title">
+              <ul v-if="computedProduct.images">
+                <li
+                    v-for="(image, index) in computedProduct.images"
+                    :key="index"
+                    @click="onClickTab(index)"
+                >
+                  <img
+                      :src="image"
+                      :alt="computedProduct.title"
+                  >
                 </li>
               </ul>
             </div>
             <div class="products-detail-body-tab-image">
-              <img v-if="detail.images" :src="detail.images[activeImageIndex]" :alt="detail.title">
+              <img
+                  v-if="computedProduct.images"
+                  :src="computedProduct.images[activeImageIndex]"
+                  :alt="computedProduct.title"
+              >
             </div>
           </div>
           <div class="products-detail-body-info">
             <div class="products-detail-body-info-header">
-              <small>{{ sumFormatter(detail.oldPrice) }} {{ $t('sum') }}</small>
-              <b>{{ sumFormatter(detail.price) }} {{ $t('sum') }}</b>
-              <span :class="{ 'red': !detail.in_stock }">
-                <i class="icon-shop" />
-                {{ computedStock }}
-              </span>
-              <a-row type="flex" :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]">
+              <small v-if="computedProduct.oldPrice">{{ sumFormatter(computedProduct.oldPrice) }} {{ $t('sum') }}</small>
+              <b>{{ sumFormatter(computedProduct.price) }} {{ $t('sum') }}</b>
+              <span :class="{ 'red': !computedProduct.in_stock }">
+                        <i class="icon-shop"/>
+                        {{ computedStock }}
+                      </span>
+              <a-row
+                  type="flex"
+                  :gutter="[{ xl: 20, xs: 16, sm: 16 }, 0]"
+              >
                 <a-col span="24">
-                  <a-button @click="addToBasket" v-if="(detail.amount === 0)">
+                  <a-button
+                      v-if="(computedProduct.amount === 0)"
+                      @click="addToBasket"
+                      :disabled="!computedProduct.in_stock"
+                  >
                     {{ $t('button.addCart') }}
                   </a-button>
-                  <button class="btn-calculating" v-else>
-                    <i class="icon-minus" @click.prevent="changeAmount('minus')" />
+                  <button
+                      class="btn-calculating"
+                      v-else
+                  >
+                    <i
+                        class="icon-minus"
+                        @click.prevent="changeAmount('minus')"
+                    />
 
-                    <span> {{ detail.amount }} </span>
+                    <span> {{ computedProduct.amount }} </span>
 
-                    <i class="icon-plus" @click.prevent="changeAmount('plus')" />
+                    <i
+                        class="icon-plus"
+                        @click.prevent="changeAmount('plus')"
+                    />
                   </button>
                 </a-col>
               </a-row>
             </div>
             <ul>
-              <li v-for="property in detail.dynamic_properties" :key="property.id">
+              <li
+                  v-for="property in computedProduct.dynamic_properties"
+                  :key="property.id"
+              >
                 <small>{{ property.key }}</small>
                 <i></i>
                 <span>{{ property.value }}</span>
               </li>
             </ul>
             <h3>{{ $t('products.detail.title') }}</h3>
-            <p>{{ detail.small_description }}</p>
+            <p>{{ computedProduct.small_description }}</p>
           </div>
         </div>
         <div class="products-detail-recommend">
@@ -110,54 +124,64 @@
               </div>
           </div> -->
           <swiper :options="recommendOptions">
-            <swiper-slide v-for="item in recommendList" :key="item.id">
-              <ProductCard :info="item" />
+            <swiper-slide
+                v-for="item in recommendList"
+                :key="item.id"
+            >
+              <ProductCard :info="item"/>
             </swiper-slide>
           </swiper>
         </div>
         <div class="products-detail-about">
           <h2>Tavsif</h2>
-          <p>{{ detail.description }}</p>
+          <p>{{ computedProduct.description }}</p>
         </div>
         <div class="products-detail-comment">
-          <a-row type="flex" :gutter="[{ xl: 24, sm: 16, xs: 16 }, { lg: 0, sm: 16, xs: 16 }]">
-            <a-col :xl="18" :lg="16" :sm="24" :xs="24">
+          <a-row
+              type="flex"
+              :gutter="[{ xl: 24, sm: 16, xs: 16 }, { lg: 0, sm: 16, xs: 16 }]"
+          >
+            <a-col
+                :xl="18"
+                :lg="16"
+                :sm="24"
+                :xs="24"
+            >
               <div class="products-detail-comment-left">
                 <h2>
                   {{ $t('products.detail.comment') }}
                 </h2>
-                <ul v-if="detail?.reviews?.length">
+                <ul v-if="computedProduct.reviews?.length">
                   <li
-                      v-for="(review, index) in detail.reviews"
+                      v-for="(review, index) in computedProduct.reviews"
                       :key="index"
                   >
                     <div class="products-detail-comment-left-header">
                       <h3>{{ review.name }}</h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
-                      <Mark :value="review.rating" />
+                      <!--                      <Mark :value="review.rating"/>-->
                     </div>
                     <div class="products-detail-comment-left-body">
                       <p>{{ review.comment }}</p>
                     </div>
                   </li>
                 </ul>
-                <i>Izohlar yo'q</i>
+                <i v-else>Izohlar yo'q</i>
               </div>
             </a-col>
             <a-col
-                v-if="detail.reviews.length"
                 :xl="6"
                 :lg="8"
                 :xs="24"
                 :sm="24"
             >
-            <a-col :xl="6" :lg="8" :xs="24" :sm="24">
-              <div class="products-detail-comment-right">
+              <div
+                  v-if="computedProduct.reviews?.length"
+                  class="products-detail-comment-right"
+              >
                 <div class="products-detail-comment-right-header">
                   <Mark :value="computedTotalAverageStars"/>
-                  <span>{{computedTotalAverageStars}}/5</span>
-                  <Mark :mark="4" />
-                  <span>4/5</span>
+                  <span>{{ computedTotalAverageStars }}/5</span>
                 </div>
                 <ul>
                   <li
@@ -165,47 +189,16 @@
                       :key="index"
                   >
                     <small>{{ 5 - index }} yulduz</small>
-                  <li>
-                    <small>5 {{ $t('products.detail.stars') }}</small>
                     <i>
                       <span :style="{width: 100 / maxStarValue * item + '%'}"/>
                     </i>
-                    <small>41</small>
-                  </li>
-                  <li>
-                    <small>4 {{ $t('products.detail.stars') }}</small>
-                    <i>
-                      <span></span>
-
-                    </i>
-                    <small>0</small>
-                  </li>
-                  <li>
-                    <small>3 {{ $t('products.detail.stars') }}</small>
-                    <i>
-                      <span></span>
-
-                    </i>
-                    <small>0</small>
-                  </li>
-                  <li>
-                    <small>2 {{ $t('products.detail.stars') }}</small>
-                    <i>
-                      <span></span>
-
-                    </i>
-                    <small>0</small>
-                  </li>
-                  <li>
-                    <small>1 {{ $t('products.detail.stars') }}</small>
-                    <i>
-                      <span></span>
-
-                    </i>
-                    <small>0</small>
+                    <small>{{ item }}</small>
                   </li>
                 </ul>
-                <a-button @click="showModal">
+                <a-button
+                    v-if="isLoggedIn"
+                    @click="showModal"
+                >
                   <i class="icon-comment"></i>
                   {{ $t('products.detail.commenting') }}
                 </a-button>
@@ -215,20 +208,34 @@
         </div>
       </div>
     </div>
-    <a-modal class="mark-modal" title="Izoh qoldirish" :visible="visible" :confirm-loading="confirmLoading"
-      :footer="null" @cancel="handleCancel">
+    <a-modal
+        class="mark-modal"
+        title="Izoh qoldirish"
+        :visible="visible"
+        :confirm-loading="confirmLoading"
+        :footer="null"
+        @cancel="handleCancel"
+    >
       <template #closeIcon>
         <i class="icon-close"></i>
       </template>
       <div class="mark-modal-body">
         <div class="mark-modal-mark">
-          <span>{{$t('products.detail.rating')}}:</span>
-          <Mark v-model="newReview.rating" />
+          <span>{{ $t('products.detail.rating') }}:</span>
+          <Mark v-model="newReview.rating"/>
         </div>
         <a-form-item label="Izoh:">
-          <a-textarea v-model="newReview.comment" placeholder="Izoh qoldiring" />
+          <a-textarea
+              v-model="newReview.comment"
+              placeholder="Izoh qoldiring"
+          />
         </a-form-item>
-        <a-button @click="handleOk">{{$t('products.detail.sending')}}</a-button>
+        <a-button
+            @click="handleOk"
+            :loading="confirmLoading"
+        >
+          {{ $t('products.detail.sending') }}
+        </a-button>
       </div>
     </a-modal>
   </div>
@@ -298,34 +305,35 @@ export default {
       },
       maxStarValue: 0,
       isLoaded: false,
+      isReviewSubmitBtnLoading: false
     }
   },
   computed: {
     ...mapGetters("products", ["recommendList"]),
     ...mapGetters('basket', ['productsInBasket']),
-    ...mapGetters('auth', ['userID']),
+    ...mapGetters('auth', ['userID', 'isLoggedIn']),
     ...mapState('preloader', ['isPreloaderActive']),
 
     computedStock() {
-      return this.detail.in_stock ? 'Sotuvda mavjud' : 'Sotuvda mavjud emas'
+      return this.computedProduct.in_stock ? 'Sotuvda mavjud' : 'Sotuvda mavjud emas'
     },
 
-    computedTotalStars () {
-      if(!this.detail || !this.detail.reviews) return 0
+    computedTotalStars() {
+      if (!this.computedProduct.reviews) return 0
       let totalStars = 0
-      this.detail.reviews.map(item => {
+      this.computedProduct.reviews.map(item => {
         totalStars += item.rating
       })
       return totalStars
     },
 
-    computedTotalAverageStars () {
-      if(!this.detail || !this.detail.reviews) return 0
-      return Math.round(this.computedTotalStars / this.detail.reviews.length)
+    computedTotalAverageStars() {
+      if (!this.computedProduct.reviews) return 0
+      return Math.round(this.computedTotalStars / this.computedProduct.reviews.length)
     },
 
-    computedStarsList () {
-      if(!this.detail.reviews?.length) return 0
+    computedStarsList() {
+      if (!this.computedProduct.reviews) return 0
       return [
         this.calculateEqualRatings(1),
         this.calculateEqualRatings(2),
@@ -333,6 +341,45 @@ export default {
         this.calculateEqualRatings(4),
         this.calculateEqualRatings(5),
       ].reverse()
+    },
+
+    computedProduct() {
+      if (!this.detail.id) return {}
+
+      const newProd = {
+        id: this.detail.id,
+        amount: 0,
+        ...this.detail.attributes
+      }
+
+      const images = strapiFileUrlRetriever(this.detail, 'images')
+      newProd.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+
+      newProd.category = newProd.category.data.attributes.name
+
+      this.productsInBasket.filter(item => {
+        if (item.id === newProd.id) newProd.amount = item.amount
+      })
+
+      if (newProd.discount_percent) {
+        newProd.oldPrice = newProd.price
+        newProd.discount = newProd.oldPrice / 100 * newProd.discount_percent
+        newProd.price = newProd.oldPrice - newProd.discount
+      }
+
+      const dataReviews = newProd.reviews.data;
+      if (dataReviews.length > 0) {
+        newProd.reviews = dataReviews.map(item => {
+          return {
+            id: item.id,
+            ...item.attributes
+          }
+        })
+      } else {
+        newProd.reviews = [];
+      }
+
+      return newProd
     }
   },
   methods: {
@@ -348,90 +395,61 @@ export default {
       this.visible = true;
     },
     async handleOk() {
-      this.ModalText = 'The modal will be closed after two seconds';
+      if(!this.newReview.comment) return this.$message.error('Fill field')
       this.confirmLoading = true;
       this.newReview.user = String(this.userID)
       this.newReview.product = this.$route.params.id
-      await api.reviews.post({ data: this.newReview })
-        .then(({ data }) => {
-          Object.keys(data.data.attributes).forEach(key => {
-            data[key] = data.data.attributes[key]
-          })
-          delete data.data
-          data.name = 'Ваш отзыв'
+      await api.reviews.post({data: this.newReview})
+          .then(({data}) => {
+            Object.keys(data.data.attributes).forEach(key => {
+              data[key] = data.data.attributes[key]
+            })
+            delete data.data
+            data.name = 'Ваш отзыв'
 
-          this.reviews.unshift(data)
-        })
-        .finally(() => {
-          this.visible = false;
-          this.confirmLoading = false;
-        })
+            this.reviews.unshift(data)
+          })
+          .finally(() => {
+            this.visible = false;
+            this.confirmLoading = false;
+          })
     },
     handleCancel() {
       this.visible = false;
     },
 
     addToBasket() {
-      if (!this.detail.amount) this.detail.amount++
-      this.setProduct(this.detail)
+      if (!this.computedProduct.amount) this.computedProduct.amount++
+      this.setProduct(this.computedProduct)
     },
 
     changeAmount(operation) {
       if (operation === 'minus') {
-        if (this.detail.amount) this.detail.amount--
-      }
-      else if (operation === 'plus') {
-        this.detail.amount++
+        if (this.computedProduct.amount) this.computedProduct.amount--
+      } else if (operation === 'plus') {
+        this.computedProduct.amount++
       }
 
       this.setAmount({
-        id: this.detail.id,
-        amount: this.detail.amount
+        id: this.computedProduct.id,
+        amount: this.computedProduct.amount
       })
     },
 
     async getProduct() {
-      await api.products.getSingle(this.$route.params.id, {
+      const {data} = await api.products.getSingle(this.$route.params.id, {
         populate: ['images', 'category', 'dynamic_properties', 'reviews']
-      }).then(({data}) => {
-        this.detail = {...this.detail, ...data.data.attributes}
-
-        const images = strapiFileUrlRetriever(data.data, 'images')
-        this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
-        this.detail.id = data.data.id
-
-        this.productsInBasket.filter(item => {
-          if(item.id === data.data.id) this.detail.amount = item.amount
-        })
-
-        if(this.detail.discount_percent) {
-          this.detail.oldPrice = this.detail.price
-          this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
-          this.detail.price = this.detail.oldPrice - this.detail.discount
-        }
-
-        const dataReviews = data.data.attributes.reviews.data;
-        if(dataReviews.length > 0) {
-          this.detail.reviews = dataReviews.map(item => {
-            return {
-              id: item.id,
-              ...item.attributes
-            }
-          })
-        }else {
-          this.detail.reviews = [];
-        }
-        console.log(this.detail);
       })
+      this.detail = data.data
     },
 
-    calculateEqualRatings (val) {
+    calculateEqualRatings(val) {
       let totalSum = 0
-      this.detail.reviews.filter(item => {
+      this.computedProduct.reviews.filter(item => {
         if (item.rating === +val) totalSum++
       })
 
-      if(this.maxStarValue < totalSum) this.maxStarValue = totalSum
+      if (this.maxStarValue < totalSum) this.maxStarValue = totalSum
 
       return totalSum
     },

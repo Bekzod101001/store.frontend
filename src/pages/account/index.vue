@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "signIn",
   data: () => ({
@@ -40,6 +42,9 @@ export default {
     openKeys: [],
     isRememberMeActive: false
   }),
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  },
   methods: {
     signIn() {
       this.$store.dispatch('auth/signIn', this.credentials)
@@ -49,6 +54,9 @@ export default {
       this.$store.commit('auth/setUser', null);
       this.$router.push({ name: 'home' });
     }
+  },
+  beforeMount() {
+    if(!this.isLoggedIn) this.$router.push({name: 'home'})
   }
 }
 </script>
