@@ -1,5 +1,5 @@
 import api from "@/api";
-import {strapiRetriever} from "@/utils/helper";
+import {strapiFileUrlRetriever} from "@/utils/helper";
 const state = () => ({
     socialProfiles: ''
 })
@@ -16,7 +16,7 @@ const actions = {
 const mutations = {
     setSocialProfiles (state, payload) {
         state.socialProfiles = payload.map(item => {
-            const icon = process.env.VUE_APP_BASE_URL + strapiRetriever(item, 'icon')
+            const icon = process.env.VUE_APP_BASE_URL + strapiFileUrlRetriever(item, 'icon')
             item = item.attributes
             item.icon = icon
             return item

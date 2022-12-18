@@ -39,7 +39,12 @@
         </div>
         <div class="products-detail-header">
           <h2>{{ detail.title }}</h2>
-          <div class="products-detail-header-bottom">
+
+          {{detail.reviews}}
+          <div
+              v-if="detail.reviews.length"
+              class="products-detail-header-bottom"
+          >
             <div class="products-detail-header-bottom-mark">
               <Mark :value="3" />
               <span>{{ detail.mark }}</span>
@@ -121,8 +126,11 @@
                 <h2>
                   {{ $t('products.detail.comment') }}
                 </h2>
-                <ul>
-                  <li v-for="(review, index) in reviews" :key="index">
+                <ul v-if="detail?.reviews?.length">
+                  <li
+                      v-for="(review, index) in detail.reviews"
+                      :key="index"
+                  >
                     <div class="products-detail-comment-left-header">
                       <h3>{{ review.name }}</h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
@@ -133,19 +141,34 @@
                     </div>
                   </li>
                 </ul>
+                <i>Izohlar yo'q</i>
               </div>
             </a-col>
+            <a-col
+                v-if="detail.reviews.length"
+                :xl="6"
+                :lg="8"
+                :xs="24"
+                :sm="24"
+            >
             <a-col :xl="6" :lg="8" :xs="24" :sm="24">
               <div class="products-detail-comment-right">
                 <div class="products-detail-comment-right-header">
+                  <Mark :value="computedTotalAverageStars"/>
+                  <span>{{computedTotalAverageStars}}/5</span>
                   <Mark :mark="4" />
                   <span>4/5</span>
                 </div>
                 <ul>
+                  <li
+                      v-for="(item, index) in computedStarsList"
+                      :key="index"
+                  >
+                    <small>{{ 5 - index }} yulduz</small>
                   <li>
                     <small>5 {{ $t('products.detail.stars') }}</small>
                     <i>
-                      <span style="width: 100%"></span>
+                      <span :style="{width: 100 / maxStarValue * item + '%'}"/>
                     </i>
                     <small>41</small>
                   </li>
@@ -212,15 +235,14 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import {mapGetters, mapMutations, mapState} from 'vuex';
 import api from "@/api";
-import { dateFormatter, strapiRetriever, sumFormatter } from "@/utils/helper";
+import {dateFormatter, strapiFileUrlRetriever, sumFormatter} from "@/utils/helper";
+import Mark from '@/components/custom/mark'
+import ProductCard from '@/components/cards/vertical'
 
 export default {
-  components: {
-    Mark: () => import('@/components/custom/mark'),
-    ProductCard: () => import('@/components/cards/vertical')
-  },
+  components: {Mark, ProductCard},
   data() {
     return {
       visible: false,
@@ -270,27 +292,47 @@ export default {
         amount: 0
       },
       activeImageIndex: 0,
-      reviews: [
-        {
-          name: 'Mansur_Alimovich',
-          createdAt: '',
-          rating: 2,
-          comment: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid debitis doloremque doloribus ea esse, fuga ipsa laudantium maxime neque odit quas quia recusandae rem sapiente tempore voluptatibus voluptatum! Quaerat, voluptate.'
-        }
-      ],
       newReview: {
         rating: 0,
         comment: ''
-      }
+      },
+      maxStarValue: 0,
+      isLoaded: false,
     }
   },
   computed: {
     ...mapGetters("products", ["recommendList"]),
     ...mapGetters('basket', ['productsInBasket']),
     ...mapGetters('auth', ['userID']),
+    ...mapState('preloader', ['isPreloaderActive']),
 
     computedStock() {
       return this.detail.in_stock ? 'Sotuvda mavjud' : 'Sotuvda mavjud emas'
+    },
+
+    computedTotalStars () {
+      if(!this.detail || !this.detail.reviews) return 0
+      let totalStars = 0
+      this.detail.reviews.map(item => {
+        totalStars += item.rating
+      })
+      return totalStars
+    },
+
+    computedTotalAverageStars () {
+      if(!this.detail || !this.detail.reviews) return 0
+      return Math.round(this.computedTotalStars / this.detail.reviews.length)
+    },
+
+    computedStarsList () {
+      if(!this.detail.reviews?.length) return 0
+      return [
+        this.calculateEqualRatings(1),
+        this.calculateEqualRatings(2),
+        this.calculateEqualRatings(3),
+        this.calculateEqualRatings(4),
+        this.calculateEqualRatings(5),
+      ].reverse()
     }
   },
   methods: {
@@ -308,7 +350,7 @@ export default {
     async handleOk() {
       this.ModalText = 'The modal will be closed after two seconds';
       this.confirmLoading = true;
-      this.newReview.author = this.userID
+      this.newReview.user = String(this.userID)
       this.newReview.product = this.$route.params.id
       await api.reviews.post({ data: this.newReview })
         .then(({ data }) => {
@@ -349,33 +391,59 @@ export default {
     },
 
     async getProduct() {
-      const { data } = await api.products.getSingle(this.$route.params.id, {
+      await api.products.getSingle(this.$route.params.id, {
         populate: ['images', 'category', 'dynamic_properties', 'reviews']
-      })
-      Object.keys(data.data.attributes).forEach(key => {
-        this.detail[key] = data.data.attributes[key]
-      })
-      delete this.detail.attributes
+      }).then(({data}) => {
+        this.detail = {...this.detail, ...data.data.attributes}
 
-      const images = strapiRetriever(data.data, 'images')
-      this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
-      this.detail.id = data.data.id
-      this.productsInBasket.filter(item => {
-        if (item.id === data.data.id) this.detail.amount = item.amount
+        const images = strapiFileUrlRetriever(data.data, 'images')
+        this.detail.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+        this.detail.id = data.data.id
+
+        this.productsInBasket.filter(item => {
+          if(item.id === data.data.id) this.detail.amount = item.amount
+        })
+
+        if(this.detail.discount_percent) {
+          this.detail.oldPrice = this.detail.price
+          this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
+          this.detail.price = this.detail.oldPrice - this.detail.discount
+        }
+
+        const dataReviews = data.data.attributes.reviews.data;
+        if(dataReviews.length > 0) {
+          this.detail.reviews = dataReviews.map(item => {
+            return {
+              id: item.id,
+              ...item.attributes
+            }
+          })
+        }else {
+          this.detail.reviews = [];
+        }
+        console.log(this.detail);
+      })
+    },
+
+    calculateEqualRatings (val) {
+      let totalSum = 0
+      this.detail.reviews.filter(item => {
+        if (item.rating === +val) totalSum++
       })
 
-      if (this.detail.discount_percent) {
-        this.detail.oldPrice = JSON.parse(JSON.stringify(this.detail.price))
-        this.detail.discount = this.detail.oldPrice / 100 * this.detail.discount_percent
-        this.detail.price = this.detail.oldPrice - this.detail.discount
-      }
+      if(this.maxStarValue < totalSum) this.maxStarValue = totalSum
+
+      return totalSum
     },
 
     dateFormatter
   },
   mounted() {
     this.setPreloader(true)
-    this.getProduct().finally(() => this.setPreloader(false))
+    this.getProduct().finally(() => {
+      this.setPreloader(false)
+      this.isLoaded = true;
+    })
   }
 }
 </script>

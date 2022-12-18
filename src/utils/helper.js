@@ -21,7 +21,7 @@ export function clearFormatNumber (val) {
         .replaceAll('-', '')
 }
 
-export function strapiRetriever (obj, key) {
+export function strapiFileUrlRetriever (obj, key) {
     if(Array.isArray(obj.attributes[key].data)) {
         return obj.attributes[key].data.map(item => {
             item = item.attributes.url

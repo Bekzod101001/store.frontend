@@ -971,6 +971,7 @@
                     }
 
                     p {
+                        word-break: break-all;
                         @include text-style-18(500, #484848)
                     }
                 }
@@ -1038,11 +1039,9 @@
                                 display: block;
                                 width: 0;
                                 border-radius: 8px;
-
                             }
 
                         }
-
                     }
                 }
 

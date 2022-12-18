@@ -13,13 +13,19 @@
         {{ computedType }}
       </span>
     </div>
-    <div class="card-image">
-      <img :src="product.images[0]" :alt="product.name" />
+    <div
+        v-if="product.images"
+        class="card-image"
+    >
+      <img
+          :src="product.images[0]"
+          :alt="product.name"
+      />
     </div>
     <div class="card-info">
       <h3>{{ product.name }}</h3>
-      <h4 v-if="product.category">
-        <i class="icon-document"></i>
+      <h4 v-if="product.category?.data">
+        <i class="icon-document" />
         {{ product.category.data.attributes.name }}
       </h4>
       <span>
@@ -44,18 +50,56 @@
 </template>
 
 <script>
-import productCardMixin from "@/mixins/productCardMixin";
-import { sumFormatter } from "@/utils/helper";
+import {sumFormatter} from "@/utils/helper";
+import {mapMutations} from "vuex";
 
-export default {
+export default  {
+  props: {
+    info: {
+      type: Object,
+      default: () => ({})
+    },
+  },
+  data: () => ({
+    product: {
+      id: null,
+      amount: 0
+    }
+  }),
   methods: {
+    ...mapMutations('basket', ['setProduct', 'setAmount']),
+
+    addToBasket() {
+      if(!this.product.amount) this.product.amount++
+      this.setProduct(this.product)
+    },
+
+    changeAmount (operation) {
+      if (operation === 'minus') {
+        if(this.product.amount) this.product.amount--
+      }
+      else if (operation === 'plus') {
+        this.product.amount++
+      }
+
+      this.setAmount({
+        id: this.product.id,
+        amount: this.product.amount
+      })
+    },
+
     sumFormatter,
   },
-  mixins: [productCardMixin],
   computed: {
     computedType() {
       return this.product.type == 'popular' ? 'Mashxur' : this.product.type == 'new' ? 'Yangi' : ''
     },
+  },
+  mounted() {
+    this.product = {...this.product, ...this.info}
+    if(!Object.keys(this.product).includes('amount')) {
+      this.product.amount = 0
+    }
   }
 }
 </script>
