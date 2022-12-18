@@ -157,9 +157,9 @@
                       :key="index"
                   >
                     <div class="products-detail-comment-left-header">
-                      <h3>{{ review.name }}</h3>
+                      <h3>{{ review.user.data.attributes.firstName }} {{ review.user.data.attributes.lastName }}</h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
-                      <!--                      <Mark :value="review.rating"/>-->
+                      <Mark :value="review.rating"/>
                     </div>
                     <div class="products-detail-comment-left-body">
                       <p>{{ review.comment }}</p>
@@ -438,7 +438,7 @@ export default {
 
     async getProduct() {
       const {data} = await api.products.getSingle(this.$route.params.id, {
-        populate: ['images', 'category', 'dynamic_properties', 'reviews']
+        populate: ['images', 'category', 'dynamic_properties', 'reviews.user']
       })
       this.detail = data.data
     },
