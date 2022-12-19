@@ -20,7 +20,7 @@ const uz = {
   },
   order: {
     detail: {
-      title: "buyurtma haqida ma'lumot",
+      title: "Buyurtma haqida ma'lumot",
       created: "Yaratilgan vaqti",
     },
   },

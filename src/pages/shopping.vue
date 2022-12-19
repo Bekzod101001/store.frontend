@@ -94,13 +94,9 @@ export default {
     sumFormatter,
 
     async makeOrder () {
-      const Cart = this.productsInBasket.map(item => {
+      const carts = this.productsInBasket.map(item => {
         item = {
-          product: {
-            data: {
-              id: item.id
-            }
-          },
+          product: item.id,
           amount: item.amount
         }
         return item
@@ -112,12 +108,8 @@ export default {
           data: {
             comment: '',
             total_price: this.totalSum,
-            Cart,
-            user: {
-              data: {
-                id: this.userID,
-              }
-            },
+            carts,
+            user: this.userID
           }
         })
 

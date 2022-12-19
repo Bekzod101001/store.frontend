@@ -12,9 +12,11 @@
             </li>
             <li>
               <i class="icon-angle-right"></i>
-              <router-link :to="{
+              <router-link
+                  :to="{
                 name: 'products'
-              }">
+              }"
+              >
                 {{ $t('products.menus.product') }}
               </router-link>
             </li>
@@ -28,51 +30,36 @@
         </div>
         <div class="products-wrapper">
           <div class="products-filter">
-            <a-collapse v-model="activeKeys" expandIconPosition="right" :accordion="true">
-              <template #expandIcon>
-                <div class="products-filter-arrow">
-                  <i class="icon-angle-collapse-down"></i>
-                </div>
-              </template>
-              <a-collapse-panel key="1" header="Narx">
-                <a-row type="flex" :gutter="[16, 16]">
-                  <a-col :sm="24" :xs="24">
-                    <label for="">{{ $t('products.filter.from') }}</label>
-                    <a-input />
-                  </a-col>
-                  <a-col :sm="24" :xs="24">
-                    <label for="">{{ $t('products.filter.to') }}</label>
-                    <a-input />
-                  </a-col>
-                </a-row>
-              </a-collapse-panel>
-              <a-collapse-panel key="2" header="Muallif">
-                <div class="products-filter-checkbox">
-                  <a-checkbox>
-                    Imom Gʻazzoliy
-                  </a-checkbox>
-                  <a-checkbox>
-                    Mubashshir Ahmad
-                  </a-checkbox>
-                  <a-checkbox>
-                    Ibrohim Muhammad Ali
-                  </a-checkbox>
-                  <a-checkbox>
-                    Amina Shenlik oʻgʻli
-                  </a-checkbox>
-                  <a-checkbox>
-                    Doktor Oiz Qarniy
-                  </a-checkbox>
-                </div>
-              </a-collapse-panel>
-            </a-collapse>
+            <h2>Narxi</h2>
+            <a-row
+                type="flex"
+                :gutter="[16, 16]"
+            >
+              <a-col
+                  :sm="24"
+                  :xs="24"
+              >
+                <label for="">{{ $t('products.filter.from') }}</label>
+                <a-input/>
+              </a-col>
+              <a-col
+                  :sm="24"
+                  :xs="24"
+              >
+                <label for="">{{ $t('products.filter.to') }}</label>
+                <a-input/>
+              </a-col>
+            </a-row>
           </div>
           <div class="products-list">
             <div class="products-list-header">
               <div class="products-list-header-filter">
                 <a-dropdown placement="bottomCenter">
                   <a-button>{{ $t('products.filter.byPrice') }}<i class="icon-angle-down"></i></a-button>
-                  <div class="dropdown-options" slot="overlay">
+                  <div
+                      class="dropdown-options"
+                      slot="overlay"
+                  >
                     <ul>
                       <li>
                         <span>{{ $t('products.filter.high') }}</span>
@@ -90,7 +77,10 @@
                     <span>20</span>
                     <i class="icon-angle-down"></i>
                   </a-button>
-                  <div class="dropdown-options" slot="overlay">
+                  <div
+                      class="dropdown-options"
+                      slot="overlay"
+                  >
                     <ul>
                       <li>
                         <span>10</span>
@@ -113,21 +103,42 @@
               </div>
             </div>
             <div class="products-list-body">
-              <a-row type="flex" :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]">
+              <a-row
+                  type="flex"
+                  :gutter="[{ xl: 24, sm: 16, xs: 16 }, { xl: 24, sm: 16, xs: 16 }]"
+              >
                 <template v-if="layout == 'vertical'">
-                  <a-col v-for="item in products.data" :key="item.id" :xxl="6" :xl="8" :md="12" :sm="12" :xs="24">
-                    <ProductCardVertical :info="item" />
+                  <a-col
+                      v-for="item in computedProducts"
+                      :key="item.id"
+                      :xxl="6"
+                      :xl="8"
+                      :md="12"
+                      :sm="12"
+                      :xs="24"
+                  >
+                    <ProductCardVertical :info="item"/>
                   </a-col>
                 </template>
                 <template v-else>
-                  <a-col v-for="item in products.data" :key="item.id" :xxl="12" :xs="24" :sm="24">
-                    <ProductCardHorizontal :info="item" />
+                  <a-col
+                      v-for="item in computedProducts"
+                      :key="item.id"
+                      :xxl="12"
+                      :xs="24"
+                      :sm="24"
+                  >
+                    <ProductCardHorizontal :info="item"/>
                   </a-col>
                 </template>
               </a-row>
             </div>
             <div class="pages-pagination products-list-pagination">
-              <Pagination :page="products.meta.pagination.page" :count="products.meta.pagination.pageCount" />
+              <Pagination
+                  v-if="products.meta"
+                  :page="products.meta.pagination.page"
+                  :count="products.meta.pagination.pageCount"
+              />
             </div>
           </div>
         </div>
@@ -137,7 +148,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import api from "@/api";
+import {strapiFileUrlRetriever} from "@/utils/helper";
+import {mapGetters} from "vuex";
 
 export default {
   components: {
@@ -233,11 +246,54 @@ export default {
 
           ]
         },
-      }
+      },
+      products: {}
     }
   },
   computed: {
-    ...mapGetters("products", ["products"])
+    ...mapGetters('basket', ['productsInBasket']),
+
+    computedProducts() {
+      if (!this.products.data) return []
+
+      const modifiedObj = this.products.data.map(item => {
+        const images = strapiFileUrlRetriever(item, 'images')
+        item = {
+          id: item.id,
+          ...item.attributes
+        }
+        item.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
+        delete item.attributes
+
+        if(item.discount_percent) {
+          item.oldPrice = JSON.parse(JSON.stringify(item.price))
+          item.discount = item.oldPrice / 100 * item.discount_percent
+          item.price = item.oldPrice - item.discount
+        }
+
+        const foundItem = this.productsInBasket.find(i => i.id === item.id)
+        if(foundItem) {
+           item.amount = foundItem.amount
+        } else {
+          item.amount = 0
+        }
+
+        return item
+      })
+
+      return modifiedObj
+    }
+  },
+  methods: {
+    async getProducts() {
+      const {data} = await api.products.get({
+        populate: ['images', 'category']
+      })
+      this.products = data
+    }
+  },
+  mounted() {
+    this.getProducts()
   }
 }
 </script>

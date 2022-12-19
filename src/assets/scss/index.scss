@@ -261,14 +261,41 @@
       padding: 10px 15px;
 
       &__title {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
       }
+    }
+
+    p{
+      margin-bottom: 5px;
     }
   }
 
   &__table {
     flex-grow: 1;
+    height: fit-content;
+
+    td, th {
+      padding: 0 10px;
+    }
+
+    th {
+      padding: 10px;
+    }
+
+    td {
+      padding: 5px 10px;
+
+      &:first-child {
+        min-width: 200px;
+        max-width: 200px;
+      }
+
+      &:nth-child(2) {
+        min-width: 100px;
+        max-width: 100px;
+      }
+    }
   }
 }
 

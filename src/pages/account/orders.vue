@@ -1,38 +1,50 @@
 <template>
-  <div class="pages">
+  <div
+      class="pages"
+      v-if="pageLoaded"
+  >
     <div class="orders__row">
       <div
-          v-for="(order, index) in orders"
+          v-for="(order, index) in computedOrders"
           :key="index"
           class="orders__item"
       >
         <div class="orders__item__details">
-          <h3 class="orders__item__details__title">{{ $t('order.detail.title') }}</h3>
+          <h2 class="orders__item__details__title">
+            {{ $t('order.detail.title') }}
+          </h2>
           <p>
             <strong>{{ $t('order.detail.created') }}:</strong>
-            {{ dateFormatter(new Date()) }}
+            {{ dateFormatter(order.createdAt) }}
+          </p>
+          <p>
+            <strong>total price:</strong>
+            {{ order.total_price }}
           </p>
         </div>
-        <a-table
-            :columns="columns"
-            :dataSource="order.items"
-            :pagination="false"
-            class="orders__table"
-        >
-          <a-table-column
-              key="name"
-              title="name"
-              data-index="name"
+        <table class="orders__table">
+          <thead>
+          <tr>
+            <th
+                v-for="(column, columnIndex) in columns"
+                :key="columnIndex"
+            >
+              {{ column }}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="(item, itemIndex) in order.carts"
+              :key="itemIndex"
           >
-            <template slot-scope="text, record">
-          <span>
-            <a>{{ $t('title.action') }} 一 {{ record.name }}</a>
-            <a-divider type="vertical"/>
-            <a>{{ $t('button.delete') }}</a>
-          </span>
-            </template>
-          </a-table-column>
-        </a-table>
+            <td>{{ item.product.data.attributes.name }}</td>
+            <td>{{ item.product.data.attributes.author }}</td>
+            <td>{{ sumFormatter(item.product.data.attributes.price) }}</td>
+            <td>{{ item.amount }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -41,34 +53,18 @@
 <script>
 
 import api from "@/api";
-import {mapGetters} from "vuex";
-import {dateFormatter} from "@/utils/helper";
+import {mapGetters, mapMutations} from "vuex";
+import {dateFormatter, sumFormatter} from "@/utils/helper";
 
 export default {
   name: "accountOrders",
   data: () => ({
-    orders: [
-      {
-        items: [
-          {
-            key: '1',
-            name: 'Mike',
-            age: 32,
-            address: '10 Downing Street',
-          },
-          {
-            key: '2',
-            name: 'John',
-            age: 42,
-            address: '10 Downing Street',
-          },
-        ]
-      }
-    ],
+    orders: {},
     credentials: {
       email: '',
       password: ''
     },
+    pageLoaded: false,
     isRememberMeActive: false
   }),
   computed: {
@@ -76,34 +72,39 @@ export default {
 
     columns() {
       return [
-        {
-          title: this.$t('title.name'),
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: this.$t('title.age'),
-          dataIndex: 'age',
-          key: 'age',
-        },
-        {
-          title: this.$t('title.address'),
-          dataIndex: 'address',
-          key: 'address',
-        },
+        'Kitob nomi',
+        'Avtor',
+        'Narxi',
+        'Soni',
       ]
+    },
+
+    computedOrders() {
+      if (!this.orders.data) return []
+      const modified = []
+      this.orders.data.map(item => {
+        modified.push({
+          id: item.id,
+          ...item.attributes
+        })
+      })
+      console.log(modified)
+      return modified
     }
   },
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+
+    sumFormatter,
     dateFormatter,
 
     signIn() {
       this.$store.dispatch('auth/signIn', this.credentials)
     },
 
-    async getOrders () {
-      await api.order.get({
-        populate: 'carts.product',
+    async getOrders() {
+      const {data} = await api.order.get({
+        populate: ['carts.product'],
         filters: {
           user: {
             id: {
@@ -112,10 +113,17 @@ export default {
           }
         }
       })
+
+      this.orders = data
+      this.pageLoaded = true
     }
   },
   mounted() {
+    this.setPreloader(true)
     this.getOrders()
+        .finally(() => {
+          this.setPreloader(false)
+        })
   }
 }
 </script>

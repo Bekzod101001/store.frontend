@@ -30,12 +30,11 @@
               class="products-detail-header-bottom"
           >
             <div class="products-detail-header-bottom-mark">
-              <Mark :value="3"/>
-              <span>{{ computedProduct.mark }}</span>
+              <Mark :value="computedTotalAverageStars"/>
             </div>
             <div class="products-detail-header-bottom-comment">
               <i class="icon-comment"/>
-              <span>{{ $t('title.commentsCount', {num: 32}) }}</span>
+              <span>{{ $t('title.commentsCount', {num: computedProduct.reviews.length}) }}</span>
             </div>
           </div>
         </div>
