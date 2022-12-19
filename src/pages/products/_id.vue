@@ -156,7 +156,7 @@
                       :key="index"
                   >
                     <div class="products-detail-comment-left-header">
-                      <h3>{{ review.user.data.attributes.firstName }} {{ review.user.data.attributes.lastName }}</h3>
+                      <h3>{{ review.user?.data?.attributes?.firstName }} {{ review.user?.data?.attributes?.lastName }}</h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
                       <Mark :value="review.rating"/>
                     </div>
@@ -175,14 +175,15 @@
                 :sm="24"
             >
               <div
-                  v-if="computedProduct.reviews?.length"
                   class="products-detail-comment-right"
               >
-                <div class="products-detail-comment-right-header">
+                <div
+                    v-if="computedProduct.reviews?.length"
+                    class="products-detail-comment-right-header">
                   <Mark :value="computedTotalAverageStars"/>
                   <span>{{ computedTotalAverageStars }}/5</span>
                 </div>
-                <ul>
+                <ul v-if="computedProduct.reviews?.length">
                   <li
                       v-for="(item, index) in computedStarsList"
                       :key="index"
@@ -400,13 +401,8 @@ export default {
       this.newReview.product = this.$route.params.id
       await api.reviews.post({data: this.newReview})
           .then(({data}) => {
-            Object.keys(data.data.attributes).forEach(key => {
-              data[key] = data.data.attributes[key]
-            })
-            delete data.data
-            data.name = 'Ваш отзыв'
-
-            this.reviews.unshift(data)
+            data.data.user.attributes.firstName = 'Ваш отзыв'
+            this.detail.attributes.reviews.data.unshift(data.data)
           })
           .finally(() => {
             this.visible = false;
