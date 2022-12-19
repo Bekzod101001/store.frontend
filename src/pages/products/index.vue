@@ -40,16 +40,23 @@
                   :xs="24"
               >
                 <label for="">{{ $t('products.filter.from') }}</label>
-                <a-input/>
+                <a-input v-model="filter.price.min"/>
               </a-col>
               <a-col
                   :sm="24"
                   :xs="24"
               >
                 <label for="">{{ $t('products.filter.to') }}</label>
-                <a-input/>
+                <a-input v-model="filter.price.max"/>
               </a-col>
             </a-row>
+<!--            <a-button-->
+<!--                block-->
+<!--                style="margin-top: 15px"-->
+<!--                @click="filterProducts"-->
+<!--            >-->
+<!--              Filtrlash-->
+<!--            </a-button>-->
           </div>
           <div class="products-list">
             <div class="products-list-header">
@@ -164,88 +171,7 @@ export default {
       activeKeys: [],
       activeKeysInside: [],
       filter: {
-        menu: {
-          id: 2,
-          title: this.$t('products.menus.books'),
-          link: "/",
-          icon: 'menu2',
-          child: [
-            {
-              id: 1,
-              title: this.$t('products.menus.artist'),
-              link: "/"
-            },
-            {
-              id: 2,
-              title: this.$t('products.menus.religion'),
-              link: "/",
-              child: [
-                {
-                  id: 1,
-                  title: this.$t('products.menus.fiqh'),
-                  link: "/"
-                },
-                {
-                  id: 2,
-                  title: this.$t('products.menus.aqeed'),
-                  link: "/"
-                },
-                {
-                  id: 3,
-                  title: this.$t('products.menus.siyrat'),
-                  link: "/"
-                },
-                {
-                  id: 4,
-                  title: this.$t('products.menus.companions'),
-                  link: "/"
-                },
-                {
-                  id: 5,
-                  title: this.$t('products.menus.hadith'),
-                  link: "/"
-                },
-                {
-                  id: 6,
-                  title: this.$t('products.menus.dua'),
-                  link: "/"
-                },
-                {
-                  id: 7,
-                  title: this.$t('products.menus.mental'),
-                  link: "/"
-                },
-                {
-                  id: 8,
-                  title: this.$t('products.menus.class'),
-                  link: "/"
-                },
-
-              ]
-            },
-            {
-              id: 3,
-              title: this.$t('products.menus.business'),
-              link: "/"
-            },
-            {
-              id: 4,
-              title: this.$t('products.menus.kids'),
-              link: "/"
-            },
-            {
-              id: 5,
-              title: this.$t('products.menus.business'),
-              link: "/"
-            },
-            {
-              id: 6,
-              title: this.$t('products.menus.foreign'),
-              link: "/"
-            },
-
-          ]
-        },
+        price: {}
       },
       products: {}
     }
@@ -287,9 +213,19 @@ export default {
   methods: {
     async getProducts() {
       const {data} = await api.products.get({
-        populate: ['images', 'category']
+        populate: ['images', 'category'],
+        // filters: {
+        //   price: {
+        //     $lt: this.filter.price?.max ? this.filter.price?.max : '',
+        //     $gt: this.filter.price?.min ? this.filter.price?.min : ''
+        //   }
+        // }
       })
       this.products = data
+    },
+
+    filterProducts () {
+
     }
   },
   mounted() {
