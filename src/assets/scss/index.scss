@@ -304,3 +304,9 @@
 .swiper-slide {
   height: unset;
 }
+
+.ant-btn {
+  &:disabled {
+    background-color: $black8!important;
+  }
+}
