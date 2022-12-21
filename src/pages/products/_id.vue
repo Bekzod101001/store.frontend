@@ -127,7 +127,10 @@
                 v-for="item in recommendList"
                 :key="item.id"
             >
-              <ProductCard :info="item"/>
+              <ProductCard
+                  :info="item"
+                  class="swiper-slider__card"
+              />
             </swiper-slide>
           </swiper>
         </div>
@@ -156,7 +159,10 @@
                       :key="index"
                   >
                     <div class="products-detail-comment-left-header">
-                      <h3>{{ review.user?.data?.attributes?.firstName }} {{ review.user?.data?.attributes?.lastName }}</h3>
+                      <h3>
+                        {{ review.user?.data?.attributes?.firstName }}
+                        {{ review.user?.data?.attributes?.lastName }}
+                      </h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
                       <Mark :value="review.rating"/>
                     </div>
@@ -264,7 +270,7 @@ export default {
         loop: true,
         autoplay: {
           delay: 2500,
-          disableOnInteraction: false
+          disableOnInteraction: true
         },
         // spaceBetween: 24,
         breakpoints: {
@@ -401,8 +407,18 @@ export default {
       this.newReview.product = this.$route.params.id
       await api.reviews.post({data: this.newReview})
           .then(({data}) => {
-            data.data.user.attributes.firstName = 'Ваш отзыв'
-            this.detail.attributes.reviews.data.unshift(data.data)
+            const modifiedObj = JSON.parse(JSON.stringify(data.data))
+            modifiedObj.attributes = {
+              ...modifiedObj.attributes,
+              user: {
+                data: {
+                  attributes: {
+                    firstName: 'Ваш отзыв'
+                  }
+                }
+              }
+            }
+            this.detail.attributes.reviews.data.unshift(modifiedObj)
           })
           .finally(() => {
             this.visible = false;
@@ -433,7 +449,8 @@ export default {
 
     async getProduct() {
       const {data} = await api.products.getSingle(this.$route.params.id, {
-        populate: ['images', 'category', 'dynamic_properties', 'reviews.user']
+        populate: ['images', 'category', 'dynamic_properties', 'reviews.user'],
+        sort: ['reviews.createdAt:desc']
       })
       this.detail = data.data
     },

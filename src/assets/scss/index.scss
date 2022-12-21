@@ -300,3 +300,7 @@
 }
 
 @import "home", "layouts", "pages", "cards", 'custom';
+
+.swiper-slide {
+  height: unset;
+}

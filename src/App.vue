@@ -26,7 +26,7 @@ export default {
     Footer: () => import('@/components/layouts/footer'),
   },
   data: () => ({
-    basicPreloader: false,
+    basicPreloader: true,
     categories: []
   }),
   computed: {

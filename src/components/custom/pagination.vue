@@ -9,15 +9,16 @@
         <i class="icon-angle-pagination-right"/>
       </button>
       <template v-for="item in allPages">
-        <button
+        <a-button
             v-if="item == 1 || item == allPages || (+currentPage - 1 <= item && +currentPage + 1 >= item)"
             :key="item"
-            :disabled="currentPage == item"
+            :disabled="currentPage == item || loading"
             :class="['pagination-item', {active: currentPage == item} ]"
+            :loading="loading && currentPage == item"
             @click="clickBtn(item)"
         >
-          {{item }}
-        </button>
+          {{ item }}
+        </a-button>
         <button
             v-else-if="(currentPage + 1 < item && currentPage + 2 >= item) || (currentPage - 1 > item && currentPage - 2 <= item)"
             class="pagination-item"
@@ -62,6 +63,10 @@ export default {
     countLimit: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

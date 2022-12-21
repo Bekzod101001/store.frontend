@@ -50,28 +50,33 @@
                 <a-input v-model="filter.price.max"/>
               </a-col>
             </a-row>
-<!--            <a-button-->
-<!--                block-->
-<!--                style="margin-top: 15px"-->
-<!--                @click="filterProducts"-->
-<!--            >-->
-<!--              Filtrlash-->
-<!--            </a-button>-->
+            <a-button
+                block
+                style="margin-top: 15px"
+                :disabled="isProductsLoading"
+                :loading="isFiltering"
+                @click="filterProducts"
+            >
+              Filtrlash
+            </a-button>
           </div>
           <div class="products-list">
             <div class="products-list-header">
               <div class="products-list-header-filter">
                 <a-dropdown placement="bottomCenter">
-                  <a-button>{{ $t('products.filter.byPrice') }}<i class="icon-angle-down"></i></a-button>
+                  <a-button>
+                    {{ $t('products.filter.byPrice') }}
+                    <i class="icon-angle-down" />
+                  </a-button>
                   <div
                       class="dropdown-options"
                       slot="overlay"
                   >
                     <ul>
-                      <li>
+                      <li @click="changeSortBy('DESC')">
                         <span>{{ $t('products.filter.high') }}</span>
                       </li>
-                      <li>
+                      <li @click="changeSortBy('ASC')">
                         <span>{{ $t('products.filter.low') }}</span>
                       </li>
                     </ul>
@@ -80,8 +85,10 @@
               </div>
               <div class="products-list-header-count">
                 <a-dropdown placement="bottomCenter">
-                  <a-button>
-                    <span>20</span>
+                  <a-button
+                      :disabled="isProductsLoading"
+                  >
+                    <span>{{ pagination.pageSize }}</span>
                     <i class="icon-angle-down"></i>
                   </a-button>
                   <div
@@ -89,17 +96,12 @@
                       slot="overlay"
                   >
                     <ul>
-                      <li>
-                        <span>10</span>
-                      </li>
-                      <li>
-                        <span>20</span>
-                      </li>
-                      <li>
-                        <span>30</span>
-                      </li>
-                      <li>
-                        <span>40</span>
+                      <li
+                          v-for="perPage in perPages"
+                          :key="perPage"
+                          @click="changePerPage(perPage)"
+                      >
+                        <span>{{ perPage }}</span>
                       </li>
                       <li>
                         <span>{{ $t('products.button.amount') }}</span>
@@ -109,6 +111,7 @@
                 </a-dropdown>
               </div>
             </div>
+            <progress-linear v-if="isProductsLoading" />
             <div class="products-list-body">
               <a-row
                   type="flex"
@@ -145,6 +148,8 @@
                   v-if="products.meta"
                   :page="products.meta.pagination.page"
                   :count="products.meta.pagination.pageCount"
+                  :loading="isProductsLoading"
+                  @paginate="changePage"
               />
             </div>
           </div>
@@ -158,9 +163,11 @@
 import api from "@/api";
 import {strapiFileUrlRetriever} from "@/utils/helper";
 import {mapGetters} from "vuex";
+import ProgressLinear from "@/components/ui/progressLinear/progressLinear.vue";
 
 export default {
   components: {
+    ProgressLinear,
     ProductCardVertical: () => import('@/components/cards/vertical'),
     ProductCardHorizontal: () => import('@/components/cards/horizontal'),
     Pagination: () => import('@/components/custom/pagination')
@@ -173,7 +180,15 @@ export default {
       filter: {
         price: {}
       },
-      products: {}
+      isFiltering: false,
+      products: {},
+      sortBy: '',
+      perPages: [10, 20, 30],
+      pagination: {
+        pageSize: 10,
+        page: 1
+      },
+      isProductsLoading: false
     }
   },
   computed: {
@@ -191,15 +206,15 @@ export default {
         item.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
         delete item.attributes
 
-        if(item.discount_percent) {
+        if (item.discount_percent) {
           item.oldPrice = JSON.parse(JSON.stringify(item.price))
           item.discount = item.oldPrice / 100 * item.discount_percent
           item.price = item.oldPrice - item.discount
         }
 
         const foundItem = this.productsInBasket.find(i => i.id === item.id)
-        if(foundItem) {
-           item.amount = foundItem.amount
+        if (foundItem) {
+          item.amount = foundItem.amount
         } else {
           item.amount = 0
         }
@@ -212,20 +227,52 @@ export default {
   },
   methods: {
     async getProducts() {
-      const {data} = await api.products.get({
-        populate: ['images', 'category'],
-        // filters: {
-        //   price: {
-        //     $lt: this.filter.price?.max ? this.filter.price?.max : '',
-        //     $gt: this.filter.price?.min ? this.filter.price?.min : ''
-        //   }
-        // }
-      })
-      this.products = data
+      this.isProductsLoading = true
+
+      try {
+        const {data} = await api.products.get({
+          populate: ['images', 'category'],
+          filters: {
+            price: {
+              $lte: this.filter.price?.max ? this.filter.price?.max : null,
+              $gte: this.filter.price?.min ? this.filter.price?.min : null
+            },
+            name: {
+              $contains: this.$route.query.search ?? null
+            }
+          },
+          sort: {
+            price: this.sortBy ? this.sortBy : null
+          },
+          pagination: this.pagination
+        })
+        this.products = data
+      } catch (e) {
+        this.$message.error(e.message)
+      }
+
+      this.isProductsLoading = false
     },
 
-    filterProducts () {
+    async filterProducts() {
+      this.isFiltering = true
+      await this.getProducts()
+      this.isFiltering = false
+    },
 
+    changeSortBy (value) {
+      this.sortBy = value
+      this.getProducts()
+    },
+
+    changePerPage(value) {
+      this.pagination.pageSize = +value
+      this.getProducts()
+    },
+
+    changePage(newPage) {
+      this.pagination.page = newPage
+      this.getProducts()
     }
   },
   mounted() {

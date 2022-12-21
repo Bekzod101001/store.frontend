@@ -238,6 +238,9 @@
 
         &-info {
             margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
 
             h3 {
                 @include text-style-20(700, $black1);
@@ -281,6 +284,7 @@
             span {
                 @include text-style-20(700, $black1);
                 @include flex-center;
+                margin-top: auto;
 
                 @include devices(xs) {
                     font-size: 14px;

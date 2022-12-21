@@ -23,7 +23,6 @@
             padding: 16px;
             border: 1px solid $black6;
             border-radius: 4px;
-            margin-bottom: 24px;
 
             @include devices(lg) {
                 padding-bottom: 16px;
@@ -188,6 +187,7 @@
         }
 
         &-body {
+            margin-top: 24px;
             margin-bottom: 30px;
         }
     }

@@ -1,11 +1,11 @@
 <template>
   <router-link
       :to="{
-    name: 'productsId',
-    params: {
-      id: product.id
-    }
-  }"
+        name: 'productsId',
+        params: {
+          id: product.id
+        }
+      }"
       class="card vertical"
   >
     <div class="card-tags">

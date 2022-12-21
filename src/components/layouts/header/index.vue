@@ -105,10 +105,17 @@
               <i class="icon-search"></i>
               <input
                   type="text"
+                  v-model="searchingProduct"
                   placeholder="Mahsulotlar bo‘ylab izlash"
+                  @keydown.enter="searchProduct"
               >
             </div>
-            <a-button class="header-middle-search-submit">{{ $t('button.search') }}</a-button>
+            <a-button
+                class="header-middle-search-submit"
+                @click="searchProduct"
+            >
+              {{ $t('button.search') }}
+            </a-button>
           </div>
           <router-link
               class="header-middle-shop"
@@ -198,7 +205,8 @@ export default {
         img: require('@/assets/images/en.png')
       }
     },
-    activeLang: localStorage.getItem('lang')
+    activeLang: localStorage.getItem('lang'),
+    searchingProduct: ''
   }),
   computed: {
     ...mapState("auth", ["authUser"]),
@@ -232,6 +240,15 @@ export default {
       i18n.locale = key
       localStorage.setItem('lang', key)
       location.reload()
+    },
+
+    searchProduct () {
+      this.$router.push({
+        name: 'products',
+        query: {
+          search: this.searchingProduct
+        }
+      })
     },
 
     sumFormatter,
