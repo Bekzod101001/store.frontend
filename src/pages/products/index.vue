@@ -25,7 +25,7 @@
         <div class="pages-title">
           <h2>
             {{ $t('products.title') }}
-            <span>(124)</span>
+            <span>({{computedProducts.length}})</span>
           </h2>
         </div>
         <div class="products-wrapper">
@@ -40,14 +40,20 @@
                   :xs="24"
               >
                 <label for="">{{ $t('products.filter.from') }}</label>
-                <a-input v-model="filter.price.min"/>
+                <a-input
+                    type="number"
+                    v-model.number="filter.price.min"
+                />
               </a-col>
               <a-col
                   :sm="24"
                   :xs="24"
               >
                 <label for="">{{ $t('products.filter.to') }}</label>
-                <a-input v-model="filter.price.max"/>
+                <a-input
+                    type="number"
+                    v-model.number="filter.price.max"
+                />
               </a-col>
             </a-row>
             <a-button

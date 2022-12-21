@@ -12,18 +12,18 @@ const routes = [
         component: Home
     },
     {
-        path: '/products',
-        name: 'products',
+        path: '/categories',
+        name: 'Category Index',
         component: () => import('@/pages/products')
     },
     {
-        path: '/products/:categoryId',
-        name: 'categoryId',
+        path: '/categories/:categoryId',
+        name: 'Category Single',
         component: () => import('@/pages/products')
     },
     {
-        path: '/products/:categoryId/:productId',
-        name: 'productsId',
+        path: '/categories/:categoryId/products/:productId',
+        name: 'Product Single',
         component: () => import('@/pages/products/_id')
     },
     {

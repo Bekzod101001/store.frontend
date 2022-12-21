@@ -52,7 +52,10 @@ export default {
         }
       })
       this.categories = data.data.map(item => {
-        item = item.attributes
+        item = {
+          id: item.id,
+          ...item.attributes,
+        }
         if (item.categories) {
           item.categories = item.categories.data.map(category => {
             category = {

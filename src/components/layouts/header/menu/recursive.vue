@@ -16,7 +16,7 @@
     <router-link
         v-else
         :to="{
-          name: 'categoryId',
+          name: 'Category Single',
           params: {
             categoryId: menu.id
           }

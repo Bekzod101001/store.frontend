@@ -17,6 +17,7 @@ const ru = {
     publisher: "Издатель",
     author: "Автор",
     year: "Год",
+    totalPrice: 'Итоговая цена'
   },
   order: {
     detail: {
@@ -133,5 +134,10 @@ const ru = {
     phone: "Телефон",
   },
   sum: "сум",
+  productName: 'Название',
+  amount: 'Кол.во',
+  price: "Цена",
+  yourReview: "Ваш отзыв",
+  fill: "Заполните пустые поля"
 };
 export default ru;

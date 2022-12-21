@@ -9,12 +9,14 @@
           <ul>
             <li>
               <i class="icon-home"></i>
-              <router-link :to="{
-                name: 'categoryId',
+              <router-link
+                  :to="{
+                name: 'Category Single',
                 params: {
                   categoryId: computedProduct.category.id
                 }
-              }">
+              }"
+              >
                 {{ computedProduct.category.name }}
               </router-link>
             </li>
@@ -69,7 +71,10 @@
           </div>
           <div class="products-detail-body-info">
             <div class="products-detail-body-info-header">
-              <small v-if="computedProduct.oldPrice">{{ sumFormatter(computedProduct.oldPrice) }} {{ $t('sum') }}</small>
+              <h2>{{computedProduct.name}}</h2>
+              <small v-if="computedProduct.oldPrice">
+                {{ sumFormatter(computedProduct.oldPrice) }} {{ $t('sum') }}
+              </small>
               <b>{{ sumFormatter(computedProduct.price) }} {{ $t('sum') }}</b>
               <span :class="{ 'red': !computedProduct.in_stock }">
                         <i class="icon-shop"/>
@@ -190,7 +195,8 @@
               >
                 <div
                     v-if="computedProduct.reviews?.length"
-                    class="products-detail-comment-right-header">
+                    class="products-detail-comment-right-header"
+                >
                   <Mark :value="computedTotalAverageStars"/>
                   <span>{{ computedTotalAverageStars }}/5</span>
                 </div>
@@ -409,7 +415,7 @@ export default {
       this.visible = true;
     },
     async handleOk() {
-      if(!this.newReview.comment) return this.$message.error('Fill field')
+      if (!this.newReview.comment) return this.$message.error(this.$t('fill'))
       this.confirmLoading = true;
       this.newReview.user = String(this.userID)
       this.newReview.product = this.$route.params.productId
@@ -421,7 +427,7 @@ export default {
               user: {
                 data: {
                   attributes: {
-                    firstName: 'Ваш отзыв'
+                    firstName: this.$t('yourReview')
                   }
                 }
               }

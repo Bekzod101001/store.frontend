@@ -5,8 +5,15 @@ export function sumFormatter (val) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-export function dateFormatter (val) {
+export function dateFormatter (val, withTime = false) {
     if(!val) return
+
+    if (withTime) {
+        let date = val.split('.')[0].replace('T', ' ')
+
+        return date
+    }
+
     const date = new Date(val)
     const day = date.getDate()
     const month = date.getMonth() + 1

@@ -8,7 +8,7 @@
     </div>
     <div class="card-info">
       <router-link :to="{
-          name: 'productsId',
+          name: 'Product Single',
           params: {
             categoryId: product.category?.data?.id,
             productId: product.id

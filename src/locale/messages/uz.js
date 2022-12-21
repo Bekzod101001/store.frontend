@@ -17,6 +17,7 @@ const uz = {
     publisher: "Nashriyot",
     author: "Muallif",
     year: "Yil",
+    totalPrice: 'Jami'
   },
   order: {
     detail: {
@@ -133,5 +134,10 @@ const uz = {
     searchIn: "Mahsulotlar bo‘ylab izlash",
   },
   sum: "so'm",
+  productName: 'Mahsulot nomi',
+  amount: 'Soni',
+  price: "Narxi",
+  yourReview: "Sizning izohingiz",
+  fill: "Bo'sh qatorlarni to'ldiring"
 };
 export default uz;

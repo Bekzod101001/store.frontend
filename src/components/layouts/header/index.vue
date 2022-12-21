@@ -94,7 +94,14 @@
                       v-for="(category, index) in computedCategoriesWithoutSub"
                       :key="index"
                   >
-                    <router-link to="/products">
+                    <router-link
+                        :to="{
+                          name: 'Category Single',
+                          params: {
+                            categoryId: category.id
+                          }
+                        }"
+                    >
                       {{ category.name }}
                     </router-link>
                   </li>
@@ -216,9 +223,7 @@ export default {
     ...mapGetters('about', ['about']),
 
     computedCategoriesWithSub() {
-      return this.categories.filter(category => {
-        return category.categories.length
-      })
+      return this.categories.filter(category => category.categories.length)
     },
 
     computedCategoriesWithoutSub() {

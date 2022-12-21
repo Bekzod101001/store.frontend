@@ -15,11 +15,11 @@
           </h2>
           <p>
             <strong>{{ $t('order.detail.created') }}:</strong>
-            {{ dateFormatter(order.createdAt) }}
+            {{ dateFormatter(order.createdAt, true) }}
           </p>
           <p>
-            <strong>total price:</strong>
-            {{ order.total_price }}
+            <strong>{{ $t('title.totalPrice') }}:</strong>
+            {{ sumFormatter(order.total_price) }}
           </p>
         </div>
         <table class="orders__table">
@@ -40,8 +40,9 @@
           >
             <td>{{ item.product.data.attributes.name }}</td>
             <td>{{ item.product.data.attributes.author }}</td>
-            <td>{{ sumFormatter(item.product.data.attributes.price) }}</td>
             <td>{{ item.amount }}</td>
+            <td>{{ sumFormatter(item.product.data.attributes.price) }}</td>
+            <td>{{ calculateDiscount(item.product.data.attributes.price, item.product.data.attributes.discount_percent) }}</td>
           </tr>
           </tbody>
         </table>
@@ -72,10 +73,11 @@ export default {
 
     columns() {
       return [
-        'Kitob nomi',
-        'Avtor',
-        'Narxi',
-        'Soni',
+        this.$t('productName'),
+        this.$t('title.author'),
+        this.$t('amount'),
+        this.$t('price'),
+        this.$t('shopping.sale'),
       ]
     },
 
@@ -88,7 +90,6 @@ export default {
           ...item.attributes
         })
       })
-      console.log(modified)
       return modified
     }
   },
@@ -100,6 +101,14 @@ export default {
 
     signIn() {
       this.$store.dispatch('auth/signIn', this.credentials)
+    },
+
+    calculateDiscount(price, percent) {
+      if (percent) {
+        const discount = price / 100 * percent
+        return this.sumFormatter(price - discount)
+      }
+      return '-'
     },
 
     async getOrders() {
