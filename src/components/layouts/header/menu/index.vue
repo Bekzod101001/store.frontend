@@ -1,7 +1,11 @@
 <template>
   <div class="header-bottom-menu">
     <ul>
-      <Recursive v-for="item in list" :menu="item" :key="item.id" />
+      <Recursive
+          v-for="item in list"
+          :menu="item"
+          :key="item.id"
+      />
       <li>
         <router-link to="/partners">{{ $t('navigation.partners') }}</router-link>
       </li>

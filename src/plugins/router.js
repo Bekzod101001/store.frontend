@@ -17,7 +17,12 @@ const routes = [
         component: () => import('@/pages/products')
     },
     {
-        path: '/products/:id',
+        path: '/products/:categoryId',
+        name: 'categoryId',
+        component: () => import('@/pages/products')
+    },
+    {
+        path: '/products/:categoryId/:productId',
         name: 'productsId',
         component: () => import('@/pages/products/_id')
     },

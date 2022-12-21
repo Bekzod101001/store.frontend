@@ -239,7 +239,8 @@ export default {
             },
             name: {
               $contains: this.$route.query.search ?? null
-            }
+            },
+            category: this.$route.params.categoryId ? this.$route.params.categoryId : null
           },
           sort: {
             price: this.sortBy ? this.sortBy : null

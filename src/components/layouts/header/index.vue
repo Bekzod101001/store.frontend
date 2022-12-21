@@ -216,7 +216,9 @@ export default {
     ...mapGetters('about', ['about']),
 
     computedCategoriesWithSub() {
-      return this.categories.filter(category => category.categories.length)
+      return this.categories.filter(category => {
+        return category.categories.length
+      })
     },
 
     computedCategoriesWithoutSub() {

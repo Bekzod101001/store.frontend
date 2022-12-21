@@ -9,8 +9,13 @@
           <ul>
             <li>
               <i class="icon-home"></i>
-              <router-link to="/">
-                {{ computedProduct.category }}
+              <router-link :to="{
+                name: 'categoryId',
+                params: {
+                  categoryId: computedProduct.category.id
+                }
+              }">
+                {{ computedProduct.category.name }}
               </router-link>
             </li>
             <li>
@@ -361,7 +366,10 @@ export default {
       const images = strapiFileUrlRetriever(this.detail, 'images')
       newProd.images = images.map(image => process.env.VUE_APP_BASE_URL + image)
 
-      newProd.category = newProd.category.data.attributes.name
+      newProd.category = {
+        id: newProd.category.data.id,
+        name: newProd.category.data.attributes.name
+      }
 
       this.productsInBasket.filter(item => {
         if (item.id === newProd.id) newProd.amount = item.amount
@@ -404,7 +412,7 @@ export default {
       if(!this.newReview.comment) return this.$message.error('Fill field')
       this.confirmLoading = true;
       this.newReview.user = String(this.userID)
-      this.newReview.product = this.$route.params.id
+      this.newReview.product = this.$route.params.productId
       await api.reviews.post({data: this.newReview})
           .then(({data}) => {
             const modifiedObj = JSON.parse(JSON.stringify(data.data))
@@ -448,7 +456,7 @@ export default {
     },
 
     async getProduct() {
-      const {data} = await api.products.getSingle(this.$route.params.id, {
+      const {data} = await api.products.getSingle(this.$route.params.productId, {
         populate: ['images', 'category', 'dynamic_properties', 'reviews.user'],
         sort: ['reviews.createdAt:desc']
       })

@@ -15,7 +15,12 @@
     </template>
     <router-link
         v-else
-        to="/products"
+        :to="{
+          name: 'categoryId',
+          params: {
+            categoryId: menu.id
+          }
+        }"
     >
       {{ menu.name }}
     </router-link>

@@ -3,7 +3,8 @@
       :to="{
         name: 'productsId',
         params: {
-          id: product.id
+          categoryId: product?.category?.data?.id,
+          productId: product.id
         }
       }"
       class="card vertical"

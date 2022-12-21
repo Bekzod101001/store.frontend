@@ -55,7 +55,10 @@ export default {
         item = item.attributes
         if (item.categories) {
           item.categories = item.categories.data.map(category => {
-            category = category.attributes
+            category = {
+              id: category.id,
+              ...category.attributes
+            }
             return category
           })
         }
