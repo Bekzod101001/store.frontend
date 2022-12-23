@@ -1,9 +1,10 @@
 <template>
   <router-link
+      v-if="product?.category?.data?.id"
       :to="{
         name: 'Product Single',
         params: {
-          categoryId: product?.category?.data?.id,
+          categoryId: product.category.data.id,
           productId: product.id
         }
       }"
