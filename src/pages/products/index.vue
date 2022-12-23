@@ -30,7 +30,7 @@
         </div>
         <div class="products-wrapper">
           <div class="products-filter">
-            <h2>Narxi</h2>
+            <h2>{{ $t('price') }}</h2>
             <a-row
                 type="flex"
                 :gutter="[16, 16]"
@@ -56,6 +56,13 @@
                 />
               </a-col>
             </a-row>
+            <h2>{{ $t('productName') }}</h2>
+            <div>
+              <a-input
+                  type="text"
+                  v-model="filter.search"
+              />
+            </div>
             <a-button
                 block
                 style="margin-top: 15px"
@@ -244,7 +251,7 @@ export default {
               $gte: this.filter.price?.min ? this.filter.price?.min : null
             },
             name: {
-              $contains: this.$route.query.search ?? null
+              $contains: this.$route.query.search ? this.$route.query.search : this.filter.search ? this.filter.search : null
             },
             category: this.$route.params.categoryId ? this.$route.params.categoryId : null
           },

@@ -1,5 +1,10 @@
 <template>
-  <section class="useful" data-aos="fade-down" data-aos-duration="300" data-aos-delay="500">
+  <section
+      class="useful"
+      data-aos="fade-down"
+      data-aos-duration="300"
+      data-aos-delay="500"
+  >
     <div class="container">
       <div class="useful-wrapper">
         <div class="useful-header">
@@ -7,9 +12,18 @@
         </div>
         <div class="useful-body">
           <swiper :options="usefulOptions">
-            <swiper-slide v-for="item in projects" :key="item.id">
-              <a href="#!" class="useful-body-card">
-                <img :src="item.image" alt="useful">
+            <swiper-slide
+                v-for="item in projects"
+                :key="item.id"
+            >
+              <a
+                  :href="item.attributes.url"
+                  class="useful-body-card"
+              >
+                <img
+                    :src="item.image"
+                    alt="useful"
+                >
               </a>
             </swiper-slide>
           </swiper>

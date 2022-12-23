@@ -33,6 +33,7 @@
 <script>
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
 import api from "@/api";
+import {mapMutations} from "vuex";
 
 export default {
   components: { VueMarkdown },
@@ -40,6 +41,8 @@ export default {
     termsAndOffer: ''
   }),
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+
     async getTermsAndOffer() {
       const { data } = await api.offers.get()
       this.termsAndOffer = data.data.attributes.full_text
@@ -47,7 +50,8 @@ export default {
   },
   mounted() {
     this.setPreloader(true)
-    this.getTermsAndOffer().finally(() => this.setPreloader(false))
+    this.getTermsAndOffer()
+        .finally(() => this.setPreloader(false))
   }
 }
 </script>

@@ -81,33 +81,33 @@
             </router-link>
           </div>
           <div class="header-middle-search">
-            <a-dropdown placement="bottomLeft">
-              <a-button class="header-middle-search-filter">
-                {{ $t('products.button.amount') }} <i class="icon-angle-down"/>
-              </a-button>
-              <div
-                  class="dropdown-options"
-                  slot="overlay"
-              >
-                <ul>
-                  <li
-                      v-for="(category, index) in computedCategoriesWithoutSub"
-                      :key="index"
-                  >
-                    <router-link
-                        :to="{
-                          name: 'Category Single',
-                          params: {
-                            categoryId: category.id
-                          }
-                        }"
-                    >
-                      {{ category.name }}
-                    </router-link>
-                  </li>
-                </ul>
-              </div>
-            </a-dropdown>
+<!--            <a-dropdown placement="bottomLeft">-->
+<!--              <a-button class="header-middle-search-filter">-->
+<!--                {{ $t('products.button.amount') }} <i class="icon-angle-down"/>-->
+<!--              </a-button>-->
+<!--              <div-->
+<!--                  class="dropdown-options"-->
+<!--                  slot="overlay"-->
+<!--              >-->
+<!--                <ul>-->
+<!--                  <li-->
+<!--                      v-for="(category, index) in computedCategoriesWithoutSub"-->
+<!--                      :key="index"-->
+<!--                  >-->
+<!--                    <router-link-->
+<!--                        :to="{-->
+<!--                          name: 'Category Single',-->
+<!--                          params: {-->
+<!--                            categoryId: category.id-->
+<!--                          }-->
+<!--                        }"-->
+<!--                    >-->
+<!--                      {{ category.name }}-->
+<!--                    </router-link>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--            </a-dropdown>-->
             <div class="header-middle-search-input">
               <i class="icon-search"></i>
               <input
@@ -175,7 +175,7 @@
     </div>
     <MobileMenu
         :class="{ active: isActiveMobile }"
-        :list="list"
+        :list="[...computedCategoriesWithSub, ...computedCategoriesWithoutSub]"
         :onClickMobile="onClickMobile"
     />
     <!-- <div class="menu-full-layer" :class="{ active: isActiveFull }"></div> -->
@@ -251,7 +251,7 @@ export default {
 
     searchProduct () {
       this.$router.push({
-        name: 'products',
+        name: 'Category Index',
         query: {
           search: this.searchingProduct
         }

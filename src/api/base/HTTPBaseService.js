@@ -4,7 +4,10 @@ import i18n from "@/i18n";
 const onRequest = (config) => {
     const accessToken = localStorage.getItem('accessToken')
     if (accessToken) config.headers.Authorization = 'Bearer ' + accessToken
-    config.headers['Accept-Language'] = i18n.locale
+    config.params = {
+        ...config.params,
+        locale: i18n.locale
+    }
     config.headers.Accept = 'application/json'
 
     return config

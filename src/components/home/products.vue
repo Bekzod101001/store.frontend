@@ -9,9 +9,10 @@
             data-aos-delay="600"
         >
           <a-button
-              :class="{'active': tab.active?.id === item.id}"
               v-for="item in tab.list"
               :key="item.id"
+              :class="{'active': tab.active?.id === item.id}"
+              :loading="tab.active?.id === item.id && isProductsLoading"
               @click="onClickTab(item)"
           >
             {{ item.title }}
@@ -62,8 +63,12 @@ export default {
             title: this.$t('home.sale')
           },
         ],
-        active: null
-      }
+        active: {
+          id: IS_RECOMMENDED,
+          title: this.$t('home.recommended')
+        }
+      },
+      isProductsLoading: false
     }
   },
   computed: {
@@ -78,7 +83,7 @@ export default {
     },
 
     async getProducts() {
-      // this.isProductsLoading = true
+      this.isProductsLoading = true
 
       try {
         const {data} = await api.products.get({
@@ -89,6 +94,9 @@ export default {
             discount_percent: {
               $gt: this.tab.active?.id === DISCOUNT ? 0 : null
             }
+          },
+          pagination: {
+            pageSize: 6
           }
         })
         this.setProducts(data)
@@ -96,7 +104,7 @@ export default {
         this.$message.error(e.message)
       }
 
-      // this.isProductsLoading = false
+      this.isProductsLoading = false
     },
   },
   mounted() {

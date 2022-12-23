@@ -39,7 +39,7 @@
                         <span>{{ partner.workdays }}</span>
                       </li>
                       <li>
-                        <small> <i class="icon-pin"></i>{{ $t('contact.address') }}:</small>
+                        <small> <i class="icon-pin"></i>{{ $t('title.address') }}:</small>
                         <span>{{ partner.address }}</span>
                       </li>
                       <li>
@@ -77,7 +77,7 @@
 <script>
 import api from "@/api";
 import { clearFormatNumber } from "@/utils/helper";
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   data: () => ({
@@ -88,6 +88,8 @@ export default {
     ...mapGetters('contacts', ['contacts'])
   },
   methods: {
+    ...mapMutations('preloader', ['setPreloader']),
+
     clearFormatNumber,
     async getPartners() {
       const { data } = await api.partners.get()
