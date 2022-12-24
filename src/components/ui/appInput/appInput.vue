@@ -20,6 +20,7 @@
         v-v-maska
         :data-maska="maska"
         class="app-input__input"
+        :inputmode="inputmode"
     >
   </div>
 </template>
@@ -43,7 +44,8 @@ export default {
     required: {
       type: Boolean,
       default: false
-    }
+    },
+    inputmode: String
   },
   data: () => ({
     randomID: Math.floor(Math.random() * 99999)

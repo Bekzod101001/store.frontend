@@ -5,20 +5,26 @@
         <template v-if="!isLoggedIn">
           <h4>{{ $t('signUp.auth') }}</h4>
           <a-space>
-            <a-button class="menu-mobile-register__btn menu-mobile-register__btn--sign-in">
-              {{$t('signUp.title') }}
+            <a-button
+                class="menu-mobile-register__btn menu-mobile-register__btn--sign-in"
+                @click="changeRoute('Sign Up')"
+            >
+              {{ $t('signUp.title') }}
             </a-button>
-            <a-button class="menu-mobile-register__btn">{{ $t('button.enter') }}</a-button>
+            <a-button
+                class="menu-mobile-register__btn"
+                @click="changeRoute('Sign In')"
+            >
+              {{ $t('button.enter') }}
+            </a-button>
           </a-space>
         </template>
-        <template>
+        <template v-else>
           <a-button
               class="menu-mobile-register__btn menu-mobile-register__btn--sign-in"
-              @click="$router.push({
-                name: 'Account'
-              })"
+              @click="changeRoute('Account')"
           >
-            <i class="icon-user" />
+            <i class="icon-user"/>
             {{ authUser?.firstName }}
           </a-button>
         </template>
@@ -159,6 +165,19 @@ export default {
   computed: {
     ...mapState("auth", ["authUser"]),
     ...mapGetters('auth', ['isLoggedIn'])
+  },
+  methods: {
+    changeRoute (name) {
+      if(this.$route.name === name) return
+
+      this.$router.push({name})
+      this.$emit('close')
+    }
+  },
+  watch: {
+    '$route'() {
+      this.$emit('close')
+    }
   }
 }
 </script>

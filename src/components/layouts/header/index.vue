@@ -166,7 +166,7 @@
         <div class="header-bottom-wrapper">
           <Menu
               v-if="categories"
-              :list="computedCategoriesWithSub"
+              :list="[...computedCategoriesWithSub, ...computedCategoriesWithoutSub]"
               @onClickFull="onClickFull"
               :isActiveFull="isActiveFull"
           />
@@ -177,6 +177,7 @@
         :class="{ active: isActiveMobile }"
         :list="[...computedCategoriesWithSub, ...computedCategoriesWithoutSub]"
         :onClickMobile="onClickMobile"
+        @close="isActiveMobile = false"
     />
     <!-- <div class="menu-full-layer" :class="{ active: isActiveFull }"></div> -->
   </header>

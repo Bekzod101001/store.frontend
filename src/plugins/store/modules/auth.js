@@ -35,7 +35,7 @@ const mutations = {
 
 const getters = {
     isLoggedIn: state => !!state.authUser,
-    userID: state => state.authUser.id
+    userID: state => state.authUser?.id
 }
 
 export default {

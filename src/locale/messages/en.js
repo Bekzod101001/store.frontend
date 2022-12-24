@@ -138,6 +138,14 @@ const en = {
     amount: 'Amount',
     price: "Price",
     yourReview: "Your review",
-    fill: "Fill in the empty fields"
+    fill: "Fill in the empty fields",
+    success: {
+        addedToCard: "Your order has been successfully received",
+        deleted: "Deleted successfully"
+    },
+    error: {
+        credentials: 'Invalid identifier or password',
+        loginTaken: "Email or Username are already taken"
+    }
 }
 export default en

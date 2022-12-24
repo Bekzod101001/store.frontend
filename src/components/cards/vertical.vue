@@ -40,10 +40,10 @@
         {{ product.category.data.attributes.name }}
       </h4>
       <span>
-        {{ sumFormatter(product.price) }} {{ $t('sum') }}
         <small v-if="product.oldPrice">
           {{ product.oldPrice }} {{ $t('sum') }}
         </small>
+        {{ sumFormatter(product.price) }} {{ $t('sum') }}
       </span>
       <!-- small chegirma uchun. -->
     </div>

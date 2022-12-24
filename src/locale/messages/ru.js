@@ -138,6 +138,14 @@ const ru = {
   amount: 'Кол.во',
   price: "Цена",
   yourReview: "Ваш отзыв",
-  fill: "Заполните пустые поля"
+  fill: "Заполните пустые поля",
+  success: {
+    addedToCard: "Ваш заказ успешно принят",
+    deleted: "Удалено успешно"
+  },
+  error: {
+    credentials: 'Неверный идентификатор или пароль',
+    loginTaken: "Электронная почта или имя пользователя уже заняты"
+  }
 };
 export default ru;

@@ -6,13 +6,15 @@
           <ul>
             <li>
               <i class="icon-home"></i>
-              <router-link to="/">
+              <router-link :to="{
+                name: 'home'
+              }">
                 {{ $t('navigation.main') }}
               </router-link>
             </li>
             <li>
               <i class="icon-angle-right"></i>
-              <router-link to="/">
+              <router-link to="">
                 {{ $t('navigation.basket') }}
               </router-link>
             </li>
@@ -36,7 +38,7 @@
             <a-col :lg="6" :md="12" :sm="12" :xs="24">
               <div class="shopping-sidebar">
                 <a-button
-                    v-if="isLoggedIn"
+                    v-if="isLoggedIn && totalProductsAmount"
                     :loading="isOrderLoading"
                     @click="makeOrder"
                 >
@@ -115,8 +117,8 @@ export default {
 
         this.clearBasket()
         this.isOrderLoading = false
-        this.$message.success('Ваш заказ успешно принят')
-        this.$router.push({name: 'AccountOrders'})
+        this.$message.success(this.$t('success.addedToCard'))
+        await this.$router.push({name: 'AccountOrders'})
       }
       catch (e) {
         console.log(e)

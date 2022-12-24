@@ -12,12 +12,8 @@
             </li>
             <li>
               <i class="icon-angle-right"></i>
-              <router-link
-                  :to="{
-                name: 'products'
-              }"
-              >
-                {{ $t('products.menus.product') }}
+              <router-link to="">
+                {{ computedProducts.length ? computedProducts[0].category.data.attributes.name : $t('products.menus.product') }}
               </router-link>
             </li>
           </ul>
@@ -30,38 +26,42 @@
         </div>
         <div class="products-wrapper">
           <div class="products-filter">
-            <h2>{{ $t('price') }}</h2>
-            <a-row
-                type="flex"
-                :gutter="[16, 16]"
-            >
-              <a-col
-                  :sm="24"
-                  :xs="24"
+            <div class="products-filter__item">
+              <h2>{{ $t('price') }}</h2>
+              <a-row
+                  type="flex"
+                  :gutter="[16, 16]"
               >
-                <label for="">{{ $t('products.filter.from') }}</label>
+                <a-col
+                    :sm="24"
+                    :xs="24"
+                >
+                  <label for="">{{ $t('products.filter.from') }}</label>
+                  <a-input
+                      type="number"
+                      v-model.number="filter.price.min"
+                  />
+                </a-col>
+                <a-col
+                    :sm="24"
+                    :xs="24"
+                >
+                  <label for="">{{ $t('products.filter.to') }}</label>
+                  <a-input
+                      type="number"
+                      v-model.number="filter.price.max"
+                  />
+                </a-col>
+              </a-row>
+            </div>
+            <div class="products-filter__item">
+              <h2>{{ $t('productName') }}</h2>
+              <div>
                 <a-input
-                    type="number"
-                    v-model.number="filter.price.min"
+                    type="text"
+                    v-model="filter.search"
                 />
-              </a-col>
-              <a-col
-                  :sm="24"
-                  :xs="24"
-              >
-                <label for="">{{ $t('products.filter.to') }}</label>
-                <a-input
-                    type="number"
-                    v-model.number="filter.price.max"
-                />
-              </a-col>
-            </a-row>
-            <h2>{{ $t('productName') }}</h2>
-            <div>
-              <a-input
-                  type="text"
-                  v-model="filter.search"
-              />
+              </div>
             </div>
             <a-button
                 block

@@ -136,3 +136,7 @@
 .icon-youtube:before {
   content: "\e924";
 }
+
+.icon-bin:before {
+  content: "\e9ac";
+}

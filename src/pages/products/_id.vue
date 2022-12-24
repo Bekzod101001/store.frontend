@@ -167,11 +167,23 @@
                   <li
                       v-for="(review, index) in computedProduct.reviews"
                       :key="index"
+                      :class="{'products-detail-comment-left__your-review': userID ? +userID === +review.user.data.id : false}"
                   >
                     <div class="products-detail-comment-left-header">
                       <h3>
-                        {{ review.user?.data?.attributes?.firstName }}
-                        {{ review.user?.data?.attributes?.lastName }}
+                        <template v-if="userID ? +userID === +review.user.data.id : false">
+                          {{ $t('yourReview') }}
+
+                          <a-button
+                              @click.prevent="deleteReview(review.id, index)"
+                          >
+                            {{ $t('card.delete') }}
+                          </a-button>
+                        </template>
+                        <template v-else>
+                          {{ review.user?.data?.attributes?.firstName }}
+                          {{ review.user?.data?.attributes?.lastName }}
+                        </template>
                       </h3>
                       <span>{{ dateFormatter(review.createdAt) }}</span>
                       <Mark :value="review.rating"/>
@@ -213,7 +225,7 @@
                   </li>
                 </ul>
                 <a-button
-                    v-if="isLoggedIn"
+                    v-if="canLeaveReview"
                     @click="showModal"
                 >
                   <i class="icon-comment"></i>
@@ -400,6 +412,17 @@ export default {
       }
 
       return newProd
+    },
+
+    canLeaveReview () {
+      if(!this.isLoggedIn) return
+      let result = true
+
+      this.computedProduct.reviews.filter(item => {
+        if(item.user.data.id === this.userID) result = false
+      })
+
+      return result
     }
   },
   methods: {
@@ -407,13 +430,16 @@ export default {
     ...mapMutations('preloader', ['setPreloader']),
 
     sumFormatter,
+    dateFormatter,
 
     onClickTab(index) {
       this.activeImageIndex = index;
     },
+
     showModal() {
       this.visible = true;
     },
+
     async handleOk() {
       if (!this.newReview.comment) return this.$message.error(this.$t('fill'))
       this.confirmLoading = true;
@@ -426,6 +452,7 @@ export default {
               ...modifiedObj.attributes,
               user: {
                 data: {
+                  id: this.userID,
                   attributes: {
                     firstName: this.$t('yourReview')
                   }
@@ -439,6 +466,7 @@ export default {
             this.confirmLoading = false;
           })
     },
+
     handleCancel() {
       this.visible = false;
     },
@@ -469,6 +497,17 @@ export default {
       this.detail = data.data
     },
 
+    async deleteReview (id, index) {
+      try {
+        await api.reviews.delete(id)
+        this.$message.success(this.$t('success.deleted'))
+        this.detail.attributes.reviews.data.splice(index, 1)
+      }
+      catch (e) {
+        this.$message.error(e.message)
+      }
+    },
+
     calculateEqualRatings(val) {
       let totalSum = 0
       this.computedProduct.reviews.filter(item => {
@@ -478,9 +517,7 @@ export default {
       if (this.maxStarValue < totalSum) this.maxStarValue = totalSum
 
       return totalSum
-    },
-
-    dateFormatter
+    }
   },
   mounted() {
     this.setPreloader(true)

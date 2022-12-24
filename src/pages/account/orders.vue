@@ -38,8 +38,17 @@
               v-for="(item, itemIndex) in order.carts"
               :key="itemIndex"
           >
-            <td>{{ item.product.data.attributes.name }}</td>
-            <td>{{ item.product.data.attributes.author }}</td>
+            <td>
+              <router-link :to="{
+                name: 'Product Single',
+                params: {
+                  categoryId: item.product.data.attributes.category.data.id,
+                  productId: item.product.data.id
+                }
+              }">
+                {{ item.product.data.attributes.name }}
+              </router-link>
+            </td>
             <td>{{ item.amount }}</td>
             <td>{{ sumFormatter(item.product.data.attributes.price) }}</td>
             <td>{{ calculateDiscount(item.product.data.attributes.price, item.product.data.attributes.discount_percent) }}</td>
@@ -74,7 +83,6 @@ export default {
     columns() {
       return [
         this.$t('productName'),
-        this.$t('title.author'),
         this.$t('amount'),
         this.$t('price'),
         this.$t('shopping.sale'),
@@ -113,7 +121,7 @@ export default {
 
     async getOrders() {
       const {data} = await api.order.get({
-        populate: ['carts.product'],
+        populate: ['carts.product.category'],
         filters: {
           user: {
             id: {

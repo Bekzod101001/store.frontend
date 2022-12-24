@@ -1,6 +1,6 @@
 const uz = {
   button: {
-    delete: "O'chirmoq",
+    delete: "O'chirish",
     addCart: "Savatga qo‘shish",
     enter: "Kirish",
     search: "Izlash",
@@ -138,6 +138,14 @@ const uz = {
   amount: 'Soni',
   price: "Narxi",
   yourReview: "Sizning izohingiz",
-  fill: "Bo'sh qatorlarni to'ldiring"
+  fill: "Bo'sh qatorlarni to'ldiring",
+  success: {
+    addedToCard: "Buyurtmangiz qabul qilindi",
+    deleted: "Muvaffaqiyatli o'chirildi"
+  },
+  error: {
+    credentials: "Noto'g'ri identifikator yoki parol",
+    loginTaken: "Elektron pochta yoki foydalanuvchi nomi band"
+  }
 };
 export default uz;

@@ -63,7 +63,7 @@ export default {
         })
         .catch((error) => {
           if (error.response.data.error.message === 'Invalid identifier or password') {
-            this.$message.error('Invalid identifier or password')
+            this.$message.error(this.$t('error.credentials'))
           }
         })
         .finally(() => {

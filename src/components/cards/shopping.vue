@@ -1,5 +1,8 @@
 <template>
-  <div class="card shopping">
+  <div
+      v-if="product.id"
+      class="card shopping"
+  >
     <div class="card-image">
       <img
           :src="product.images[0]"
@@ -10,7 +13,7 @@
       <router-link :to="{
           name: 'Product Single',
           params: {
-            categoryId: product.category?.data?.id,
+            categoryId: product.category.id,
             productId: product.id
           }
         }"
@@ -24,11 +27,11 @@
       </a-button>
     </div>
     <div class="card-price">
-      <span>{{ sumFormatter(product.price) }} {{ $t('sum') }}</span>
       <small v-if="product.oldPrice">
         <s>{{ sumFormatter(product.oldPrice) }} {{ $t('sum') }}</s>
         <b v-if="product.discount_percent">{{ product.discount_percent }}%</b>
       </small>
+      <span>{{ sumFormatter(product.price) }} {{ $t('sum') }}</span>
     </div>
     <div
         class="card-action"

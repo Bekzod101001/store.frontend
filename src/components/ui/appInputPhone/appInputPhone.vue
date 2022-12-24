@@ -1,5 +1,10 @@
 <template>
-  <app-input v-model="formattedValue" maska="+998 ## ### ## ##" required>
+  <app-input
+      v-model="formattedValue"
+      maska="+998 ## ### ## ##"
+      inputmode="numeric"
+      required
+  >
     <template #label>
       {{ $t('home.phone') }}
     </template>
@@ -11,7 +16,7 @@ import AppInput from "@/components/ui/appInput/appInput.vue";
 
 export default {
   name: "appInputPhone",
-  components: { AppInput },
+  components: {AppInput},
   props: {
     value: String
   },

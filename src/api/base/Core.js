@@ -17,4 +17,8 @@ export class Core {
     post (body) {
         return this._axios.post(this.url, body)
     }
+
+    delete (id) {
+        return this._axios.delete(this.url + '/' + id)
+    }
 }
