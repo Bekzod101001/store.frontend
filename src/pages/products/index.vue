@@ -78,7 +78,7 @@
               <div class="products-list-header-filter">
                 <a-dropdown placement="bottomCenter">
                   <a-button>
-                    {{ $t('products.filter.byPrice') }}
+                    {{ sortBy && sortBy === 'DESC' ? $t('products.filter.high') : sortBy === 'ASC' ? $t('products.filter.low') : $t('products.filter.byPrice') }}
                     <i class="icon-angle-down" />
                   </a-button>
                   <div
